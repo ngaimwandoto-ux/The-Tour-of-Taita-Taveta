@@ -3,130 +3,447 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Voi Riders — Tour of Taita Taveta</title>
+<title>Tour of Taita Taveta — Attitude Meets Altitude</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
   <div class="nav-inner">
-    <div class="brand"><span style="background:var(--paper);display:inline-flex;align-items:center;padding:2px;border-radius:3px;"><img src="../logo-taita-taveta.jpg" alt="Taita Taveta logo" style="height:34px;width:auto;display:block;border-radius:2px;"></span> Tour of Taita&nbsp;Taveta</div>
+    <div class="brand"><span style="background:var(--paper);display:inline-flex;align-items:center;padding:2px;border-radius:3px;"><img src="logo-taita-taveta.jpg" alt="Taita Taveta logo" style="height:34px;width:auto;display:block;border-radius:2px;"></span> Tour of Taita&nbsp;Taveta</div>
     <nav class="links">
-      <a href="../index.html#home">Home</a>
-      <a href="../index.html#ecosystem">All teams</a>
-      <a href="../index.html#tickets">Register</a>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#training-centre">Centre</a>
+      <a href="#legs">Legs</a>
+      <div class="nav-dropdown">
+        <a href="#ecosystem">Directory</a>
+        <div class="nav-dropdown-menu">
+          <a href="#ecosystem">Tour Events</a>
+          <a href="#ecosystem">Teams</a>
+          <a href="#ecosystem">Sponsors</a>
+          <a href="#ecosystem">Supporters</a>
+          <a href="#ecosystem">Partners</a>
+          <a href="#ecosystem">Advertisers</a>
+          <a href="#ecosystem">Volunteers</a>
+        </div>
+      </div>
+      <a href="#tickets">Register</a>
+      <a href="#gallery">Gallery</a>
     </nav>
+  </div>
+  <div style="display:flex;justify-content:center;padding-bottom:0.6rem;">
+    <div style="background:var(--olive);color:var(--cream);font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;padding:0.35rem 1.4rem;transform:skewX(-18deg);border:1px solid var(--olive-lt);">
+      <span style="display:inline-block;transform:skewX(18deg);">EDITION 01 · SEPT 2026</span>
+    </div>
   </div>
 </header>
 
-<section class="region-hero">
-  <a class="back" href="../index.html#ecosystem">&larr; All teams</a>
-  <img class="region-logo" src="logo-voi-riders.png" alt="Voi Riders team logo" onerror="this.style.display='none'">
-  <h1>Voi Riders</h1>
-  <div class="meta">Based in Voi &nbsp;·&nbsp; Example team page — placeholder content</div>
+<section id="home" class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="eyebrow">Inaugural Edition · Taita Taveta County</span>
+      <h1>Attitude<br>meets<br><span class="accent">Altitude</span></h1>
+      <p class="lede">A premium mountain-biking event built for riders and their host communities alike — scenic climbs, Taita and Taveta culture along the route, and a course designed to leave the hills exactly as it found them.</p>
+      <div class="cta-row">
+        <a href="#tickets" class="btn btn-primary">Register to ride</a>
+        <a href="#about" class="btn btn-ghost">What is this event</a>
+      </div>
+    </div>
+    <div class="frame"><span>Route photo — add image/hero-route.jpg</span></div>
+  </div>
+  <div class="route-strip">
+    <svg class="elevation" viewBox="0 0 1180 70" preserveAspectRatio="none" aria-hidden="true">
+      <path class="fill" d="M0,70 L0,52 L100,26 L200,44 L310,14 L440,40 L570,18 L710,48 L840,22 L960,42 L1080,16 L1180,34 L1180,70 Z"/>
+      <path class="line" d="M0,52 L100,26 L200,44 L310,14 L440,40 L570,18 L710,48 L840,22 L960,42 L1080,16 L1180,34"/>
+      <circle cx="310" cy="14" r="4"/>
+      <circle cx="1080" cy="16" r="4"/>
+    </svg>
+  </div>
 </section>
-
-<main>
-
-  <section id="roster">
-    <div class="section-head">
-      <span class="eyebrow">The Team</span>
-      <h2>Roster</h2>
-      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Riders racing under the Voi Riders banner across the Tour. Placeholder names below — real rosters get added once teams register properly through TTTT accounts.</p>
-    </div>
-    <div class="camp-grid">
-      <div class="camp-card"><h3>Rider Name</h3><p>Elite · Men</p></div>
-      <div class="camp-card"><h3>Rider Name</h3><p>Elite · Women</p></div>
-      <div class="camp-card"><h3>Rider Name</h3><p>Amateur · Men</p></div>
-      <div class="camp-card"><h3>Rider Name</h3><p>Amateur · Women</p></div>
-    </div>
-  </section>
-
-  <section id="transparency">
-    <div class="section-head">
-      <span class="eyebrow">Transparency</span>
-      <h2>What's come in for this team</h2>
-      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Totals below reflect money logged through TTTT's own paybill infrastructure only — not self-reported figures. Currently zero because this is a placeholder team page; totals will update automatically once real transactions flow through.</p>
-    </div>
-  </section>
-
-</main>
 
 <div class="stat-bar">
   <div class="stat-bar-inner">
-    <div class="stat"><span class="num">KES 0</span><span class="label">Sponsorship</span></div>
-    <div class="stat"><span class="num">KES 0</span><span class="label">Support</span></div>
-    <div class="stat"><span class="num">KES 0</span><span class="label">Partnership</span></div>
-    <div class="stat"><span class="num">KES 0</span><span class="label">Advertising</span></div>
+    <div class="stat"><span class="num">128</span><span class="label">Riders registered</span></div>
+    <div class="stat"><span class="num">3</span><span class="label">Ticket tiers</span></div>
+    <div class="stat"><span class="num">01</span><span class="label">Edition number</span></div>
+    <div class="stat"><span class="num">0g</span><span class="label">Carbon-neutral goal</span></div>
   </div>
 </div>
 
 <main>
 
-  <section id="fund-team">
+  <section id="about">
     <div class="section-head">
-      <span class="eyebrow">Back This Team</span>
-      <h2>Support, sponsor, partner, or advertise with Voi Riders</h2>
-      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Same three-way distinction as the Tour itself: sponsorship is commercial with deliverables, support is a donation with no conditions, and partnership is mutually beneficial. Advertising is straightforward inventory.</p>
+      <span class="eyebrow">What We Are</span>
+      <h2>A ride built on the terrain and the people of Taita Taveta</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">The inaugural mountain-biking tour in Taita Taveta County, run as six legs across the county's hilly regions on long weekends through 2026–2027 — for cycling enthusiasts who want breathtaking routes fused with the culture of the Taita and Taveta people, with rider safety as the non-negotiable.</p>
+    </div>
+    <div class="prose-grid">
+      <div class="prose-card"><h3>Description</h3><p>Rubber meets terrain across the hilly county, immersing riders in scenic, breathtaking views and the culture of the Taita Taveta people along the way.</p></div>
+      <div class="prose-card"><h3>Goal</h3><p>An eco-friendly, professionally organised sporting event that showcases the region's cultural wealth in a safe, ecologically sustainable manner.</p></div>
+      <div class="prose-card"><h3>Value proposition</h3><p>A professional cycling event working toward carbon neutrality, infused with local culture, with cyclist safety on and off the trail treated as central to a positive impression on the host community.</p></div>
+      <div class="prose-card"><h3>Theme</h3><p>Cycling for the promotion of culture, environmental conservation, eco-tourism, and the safety of cyclists on Kenyan roads.</p></div>
+    </div>
+  </section>
+
+  <section id="training-centre">
+    <div class="section-head">
+      <span class="eyebrow">The Long Game</span>
+      <h2>Building toward a permanent home for altitude training</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Beyond the six legs, the Tour exists to help build a permanent high-altitude training centre spanning Taita Taveta's hills — open to multiple sports, with mountain biking as the founding focus. Every leg, every sponsor, every rider is part of getting there.</p>
+    </div>
+    <div class="prose-grid">
+      <div class="prose-card"><h3>800m – 2500m</h3><p>The elevation range the centre will span across Taita Taveta's hill ranges — enough vertical variety for genuine altitude conditioning, not a single fixed-height facility.</p></div>
+      <div class="prose-card"><h3>Multi-sport, MTB-first</h3><p>Built to serve multiple sports long-term, but mountain biking is the founding discipline and the reason the Tour exists in its current form.</p></div>
+      <div class="prose-card"><h3>Funded by the Tour</h3><p>Sponsorship, support, and partnership revenue from every leg feeds toward this — the Tour is the vehicle, the centre is the destination.</p></div>
+      <div class="prose-card"><h3>County-wide</h3><p>Not tied to a single leg location — the centre draws on terrain across the region the six legs already cover.</p></div>
+    </div>
+  </section>
+
+  <section id="legs">
+    <div class="section-head">
+      <span class="eyebrow">The Calendar</span>
+      <h2>Six legs, six hill ranges</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Each leg lands on a long weekend where a Kenyan public holiday lines up with the work calendar, so riders travelling from Nairobi or Mombasa get a full weekend without burning leave days. Dates below are our current plan — confirm before booking travel.</p>
+    </div>
+    <div class="legs-list">
+      <a class="leg" href="Regions/sagalla.html">
+        <span class="num">01</span>
+        <div><div class="region">Sagalla</div><div class="when">Sat 10 – Mon 12 Oct 2026 · Mazingira Day weekend</div></div>
+        <span class="status confirmed">Date confirmed</span>
+      </a>
+      <a class="leg" href="Regions/vuria-wusi.html">
+        <span class="num">02</span>
+        <div><div class="region">Vuria / Wusi</div><div class="when">Sat 12 – Mon 14 Dec 2026 · Jamhuri Day weekend</div></div>
+        <span class="status confirmed">Date confirmed</span>
+      </a>
+      <a class="leg" href="Regions/bura.html">
+        <span class="num">03</span>
+        <div><div class="region">Bura</div><div class="when">Fri 26 – Mon 29 Mar 2027 · Easter weekend</div></div>
+        <span class="status confirmed">Date confirmed</span>
+      </a>
+      <a class="leg" href="Regions/kasighau.html">
+        <span class="num">04</span>
+        <div><div class="region">Kasighau</div><div class="when">Sat 1 – Mon 3 May 2027 · Labour Day weekend</div></div>
+        <span class="status confirmed">Date confirmed</span>
+      </a>
+      <a class="leg" href="Regions/mbololo-ronge.html">
+        <span class="num">05</span>
+        <div><div class="region">Mbololo / Ronge</div><div class="when">Weekend to be set · mid–2027</div></div>
+        <span class="status tentative">Date pending</span>
+      </a>
+      <a class="leg" href="Regions/mbale.html">
+        <span class="num">06</span>
+        <div><div class="region">Mbale</div><div class="when">Weekend to be set · late 2027</div></div>
+        <span class="status tentative">Date pending</span>
+      </a>
+    </div>
+    <p class="legs-note">Legs 5 and 6 are pencilled in around Kenya's remaining 2027 public holidays (Idd-ul-Fitr, Eid-ul-Adha, Madaraka Day, Mazingira Day) — these shift slightly each year on lunar sightings or gazette notice, so we'll lock exact dates closer to the time.</p>
+
+    <div class="county-map" role="img" aria-label="Map of Taita Taveta with a pin for each leg's start location">
+      <a class="pin" href="Regions/sagalla.html" style="top:38%;left:62%;"><span class="pin-dot"></span><span class="pin-label">Sagalla</span></a>
+      <a class="pin" href="Regions/vuria-wusi.html" style="top:28%;left:30%;"><span class="pin-dot"></span><span class="pin-label">Vuria/Wusi</span></a>
+      <a class="pin" href="Regions/bura.html" style="top:55%;left:48%;"><span class="pin-dot"></span><span class="pin-label">Bura</span></a>
+      <a class="pin" href="Regions/kasighau.html" style="top:70%;left:68%;"><span class="pin-dot"></span><span class="pin-label">Kasighau</span></a>
+      <a class="pin" href="Regions/mbololo-ronge.html" style="top:22%;left:55%;"><span class="pin-dot"></span><span class="pin-label">Mbololo/Ronge</span></a>
+      <a class="pin" href="Regions/mbale.html" style="top:45%;left:20%;"><span class="pin-dot"></span><span class="pin-label">Mbale</span></a>
+    </div>
+    <p class="map-note">Placeholder county map — pin positions are approximate. Pending a real Google Maps integration (needs a Maps API key); for now, click a pin to open that leg's page.</p>
+  </section>
+
+  <section id="tickets">
+    <div class="section-head">
+      <span class="eyebrow">Register</span>
+      <h2>Reserve your place on the start line</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Pick your category, enter your details, and confirm by M-Pesa. You'll get an SMS/email confirmation once payment clears. Entry fees below are placeholders — final pricing is still being set.</p>
+    </div>
+
+    <div class="ticket-wrap">
+      <div class="tiers" id="tier-list">
+        <div class="tier active" data-value="elite" data-price="3000" data-label="Elite">
+          <div class="jersey"></div>
+          <div class="body"><div><div class="name">Elite</div><div class="desc">Pro &amp; semi-pro racers</div></div><div class="price">KES 3,000</div></div>
+        </div>
+        <div class="tier" data-value="amateur" data-price="1500" data-label="Amateur">
+          <div class="jersey"></div>
+          <div class="body"><div><div class="name">Amateur</div><div class="desc">Enthusiasts building toward semi-pro</div></div><div class="price">KES 1,500</div></div>
+        </div>
+        <div class="tier" data-value="open" data-price="500" data-label="Open">
+          <div class="jersey"></div>
+          <div class="body"><div><div class="name">Open</div><div class="desc">Any bike, any local rider — just show up and ride</div></div><div class="price">KES 500</div></div>
+        </div>
+        <p class="fine-print">Entry fees for Elite and Amateur feed the Tour's prize pool for that category. Open entries fund local participation, not the prize pool — <a href="#" id="kids-toggle" style="color:var(--accent-deep);text-decoration:underline;">registering a child instead? Kids' races are free →</a></p>
+      </div>
+
+      <form id="registration-form" novalidate>
+        <div class="field"><label for="name">Full name</label><input type="text" id="name" name="name" required></div>
+        <div class="field"><label for="email">Email address</label><input type="email" id="email" name="email" required></div>
+        <div class="field"><label for="phone">M-Pesa phone number</label><input type="tel" id="phone" name="phone" placeholder="07XXXXXXXX" pattern="^0[71][0-9]{8}$" required></div>
+        <div class="field">
+          <label for="gender">Racing as</label>
+          <select id="gender" name="gender" required>
+            <option value="Women">Women</option>
+            <option value="Men">Men</option>
+          </select>
+        </div>
+        <div class="field" id="kids-field" style="display:none;">
+          <label for="kids-note">Child's age</label>
+          <input type="number" id="kids-note" name="kidsAge" min="4" max="15" placeholder="e.g. 9">
+        </div>
+        <div class="field">
+          <label for="leg">Which leg?</label>
+          <select id="leg" name="leg" required>
+            <option value="Sagalla">Leg 01 · Sagalla · 10–12 Oct 2026</option>
+            <option value="Vuria/Wusi">Leg 02 · Vuria/Wusi · 12–14 Dec 2026</option>
+            <option value="Bura">Leg 03 · Bura · 26–29 Mar 2027</option>
+            <option value="Kasighau">Leg 04 · Kasighau · 1–3 May 2027</option>
+            <option value="Mbololo/Ronge">Leg 05 · Mbololo/Ronge · date TBD</option>
+            <option value="Mbale">Leg 06 · Mbale · date TBD</option>
+          </select>
+        </div>
+        <input type="hidden" id="ticket" name="ticket" value="elite">
+        <div class="amount-line"><span>Selected category</span><span id="tier-echo">Elite</span></div>
+        <div class="amount-line"><span>Amount due</span><span id="amount-echo">KES 3,000</span></div>
+        <button type="submit" class="submit" id="submit-btn">Pay via M-Pesa</button>
+        <div class="status-msg" id="status-msg"></div>
+      </form>
+    </div>
+
+    <p class="counter-line">Total registered riders so far: <b id="ticket-counter">128</b></p>
+  </section>
+
+  <section id="gallery">
+    <div class="section-head">
+      <span class="eyebrow">Gallery</span>
+      <h2>From the course and the community</h2>
+    </div>
+    <div class="gallery-grid">
+      <figure><div class="ph"><span>image/cyclists-trail.jpg</span></div><figcaption>Cyclists on the trail</figcaption></figure>
+      <figure><div class="ph"><span>image/taita-hills.jpg</span></div><figcaption>Taita Hills scenic view</figcaption></figure>
+      <figure><div class="ph"><span>image/cultural-dancers.jpg</span></div><figcaption>Cultural performances</figcaption></figure>
+      <figure><div class="ph"><span>image/awards.jpg</span></div><figcaption>Awards ceremony</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="ecosystem">
+    <div class="section-head">
+      <span class="eyebrow">The Ecosystem</span>
+      <h2>Everyone behind the Tour</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">The Tour runs on several different kinds of relationship, and they aren't interchangeable: sponsors trade commercially for deliverables, supporters give because they believe in it, partners build something mutually beneficial with us, and advertisers buy inventory outright. Volunteers give their time, and the Tour couldn't run without them.</p>
     </div>
 
     <div class="eco-group">
-      <div class="eco-group-head"><h3>Support the Team</h3></div>
-      <p class="eco-group-note">No conditions — back Voi Riders because you believe in them. Same gemstone tiers as the Tour: Tsavorite, Ruby, Green Garnet, Spinel, Rhodolite.</p>
+      <div class="eco-group-head"><h3>Tour Events</h3></div>
+      <p class="eco-group-note">Each leg runs its own event page, its own logo, and its own local ecosystem — click through to see any leg in full.</p>
       <div class="tile-grid">
-        <a class="tile add-tile" href="#">+ Support this team</a>
+        <a class="tile event-tile" href="Regions/sagalla.html"><span class="leg-name">Sagalla</span><span class="leg-date">Leg 01 · Oct 2026</span></a>
+        <a class="tile event-tile" href="Regions/vuria-wusi.html"><span class="leg-name">Vuria / Wusi</span><span class="leg-date">Leg 02 · Dec 2026</span></a>
+        <a class="tile event-tile" href="Regions/bura.html"><span class="leg-name">Bura</span><span class="leg-date">Leg 03 · Mar 2027</span></a>
+        <a class="tile event-tile" href="Regions/kasighau.html"><span class="leg-name">Kasighau</span><span class="leg-date">Leg 04 · May 2027</span></a>
+        <a class="tile event-tile" href="Regions/mbololo-ronge.html"><span class="leg-name">Mbololo / Ronge</span><span class="leg-date">Leg 05 · TBD</span></a>
+        <a class="tile event-tile" href="Regions/mbale.html"><span class="leg-name">Mbale</span><span class="leg-date">Leg 06 · TBD</span></a>
       </div>
     </div>
 
     <div class="eco-group">
-      <div class="eco-group-head"><h3>Sponsor the Team</h3></div>
-      <p class="eco-group-note">Commercial packages with deliverables — kit branding, event presence, media mentions.</p>
+      <div class="eco-group-head"><h3>Teams</h3><a href="#" style="font-size:0.78rem;font-family:'IBM Plex Mono',monospace;color:var(--accent-deep);">Register a team →</a></div>
+      <p class="eco-group-note">Every team gets its own TTTT page — roster, results, and its own Support/Sponsor/Partner/Advertise tiles, funded the same way the Tour is.</p>
       <div class="tile-grid">
-        <a class="tile add-tile" href="#">+ Sponsor this team</a>
+        <a class="tile event-tile" href="Teams/voi-riders.html"><span class="leg-name">Voi Riders</span><span class="leg-date">Example team page</span></a>
+        <a class="tile add-tile" href="#">+ Register your team</a>
       </div>
     </div>
 
     <div class="eco-group">
-      <div class="eco-group-head"><h3>Partner with the Team</h3></div>
-      <p class="eco-group-note">Mutually beneficial arrangements — equipment, training access, local business tie-ins.</p>
+      <div class="eco-group-head"><h3>Sponsors</h3><a href="#" style="font-size:0.78rem;font-family:'IBM Plex Mono',monospace;color:var(--accent-deep);">Become a sponsor →</a></div>
+      <p class="eco-group-note">Commercial partners across Tour Sponsor, Route Sponsor, Award Sponsor, Transport &amp; Logistics, Food, Accommodation, Technical, Media, and Digital Media packages — with deliverables attached to each.</p>
       <div class="tile-grid">
-        <a class="tile add-tile" href="#">+ Partner with this team</a>
+        <div class="tile"><span>your-logo-1.png</span></div>
+        <div class="tile"><span>your-logo-2.png</span></div>
+        <div class="tile"><span>your-logo-3.png</span></div>
+        <a class="tile add-tile" href="#">+ Add sponsor</a>
       </div>
     </div>
 
     <div class="eco-group">
-      <div class="eco-group-head"><h3>Advertise with the Team</h3></div>
-      <p class="eco-group-note">Purely commercial — kit space, team vehicle branding, social media placements.</p>
+      <div class="eco-group-head"><h3>Supporters</h3><a href="#" style="font-size:0.78rem;font-family:'IBM Plex Mono',monospace;color:var(--accent-deep);">Become a supporter →</a></div>
+      <p class="eco-group-note">No commercial conditions — supporters give because they believe in the Tour, across five tiers: Tsavorite, Ruby, Green Garnet, Spinel, Rhodolite.</p>
+      <div class="tile-grid">
+        <div class="tile"><span>your-logo-1.png</span></div>
+        <div class="tile"><span>your-logo-2.png</span></div>
+        <a class="tile add-tile" href="#">+ Add supporter</a>
+      </div>
+    </div>
+
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Partners</h3><a href="#" style="font-size:0.78rem;font-family:'IBM Plex Mono',monospace;color:var(--accent-deep);">Partner with us →</a></div>
+      <p class="eco-group-note">Mutually beneficial relationships — some commercial angle, but built to work both ways. Includes tourism operators, conservancies, and trail/activity businesses at each leg location.</p>
+      <div class="tile-grid">
+        <div class="tile"><span>your-logo-1.png</span></div>
+        <a class="tile add-tile" href="#">+ Add partner</a>
+      </div>
+    </div>
+
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Advertisers</h3><a href="#" style="font-size:0.78rem;font-family:'IBM Plex Mono',monospace;color:var(--accent-deep);">Advertise with us →</a></div>
+      <p class="eco-group-note">Purely commercial inventory — teardrop banners, roadside banners, LED screens, media walls, start/finish banners, and more, at Tour and leg level.</p>
       <div class="tile-grid">
         <a class="tile add-tile" href="#">+ Advertising packages</a>
       </div>
     </div>
 
-    <p class="legs-note" style="margin-top:1.5rem;">Payment routing: once this team completes verification, their M-Pesa paybill will display here for direct, logged transfers — the same rails used for Tour registration. Not yet wired up; this is a placeholder team page.</p>
-  </section>
-
-  <section id="standings">
-    <div class="section-head">
-      <span class="eyebrow">Leaderboard</span>
-      <h2>Tour standing</h2>
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Volunteers</h3><a href="#" style="font-size:0.78rem;font-family:'IBM Plex Mono',monospace;color:var(--accent-deep);">Become a volunteer →</a></div>
+      <p class="eco-group-note">Not a peripheral role — volunteers are a critical block behind conservation, culture &amp; dance, local history, security, and race-day execution at every leg. Each gets a TTTT account of their own.</p>
+      <div class="tile-grid">
+        <div class="tile"><span>Conservation</span></div>
+        <div class="tile"><span>Culture &amp; Dance</span></div>
+        <div class="tile"><span>History Guides</span></div>
+        <div class="tile"><span>Security</span></div>
+        <div class="tile"><span>Race-Day Logistics</span></div>
+        <a class="tile add-tile" href="#">+ Sign up to volunteer</a>
+      </div>
     </div>
-    <table class="leaderboard">
-      <thead><tr><th>Pos</th><th>Rider</th><th>Category</th><th>Cumulative time</th></tr></thead>
-      <tbody>
-        <tr><td colspan="4" style="text-align:center;color:rgba(20,20,20,0.5);padding:1.2rem;">No results yet — standings populate automatically once leg timing data comes in.</td></tr>
-      </tbody>
-    </table>
-    <p class="leaderboard-note">Team result = sum of each rider's completion time per leg, cumulative across the Tour. Best Team award per leg uses the same logic for that leg only.</p>
   </section>
 
 </main>
+
+<div class="sponsor-strip">
+  <div class="sponsor-inner">
+    <span class="eyebrow">Follow Us</span>
+    <div class="social-row">
+      <a href="#" aria-label="Facebook" title="Facebook">f</a>
+      <a href="#" aria-label="X / Twitter" title="X">X</a>
+      <a href="#" aria-label="Instagram" title="Instagram">◎</a>
+      <a href="#" aria-label="TikTok" title="TikTok">♪</a>
+      <a href="#" aria-label="WhatsApp" title="WhatsApp">✆</a>
+    </div>
+  </div>
+</div>
 
 <footer>
   <p><strong>Tour of Taita Taveta</strong> — Attitude meets Altitude.</p>
   <p>&copy; 2026 Tour of Taita Taveta. All rights reserved.</p>
 </footer>
+
+<script>
+  const tiers = document.querySelectorAll('.tier');
+  const ticketField = document.getElementById('ticket');
+  const tierEcho = document.getElementById('tier-echo');
+  const amountEcho = document.getElementById('amount-echo');
+  const kidsToggle = document.getElementById('kids-toggle');
+  const kidsField = document.getElementById('kids-field');
+  let isKidsEntry = false;
+
+  tiers.forEach(t => {
+    t.addEventListener('click', () => {
+      tiers.forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      ticketField.value = t.dataset.value;
+      tierEcho.textContent = t.dataset.label;
+      amountEcho.textContent = 'KES ' + Number(t.dataset.price).toLocaleString();
+      if (isKidsEntry) exitKidsMode();
+    });
+  });
+
+  function enterKidsMode(){
+    isKidsEntry = true;
+    tiers.forEach(x => x.classList.remove('active'));
+    document.querySelector('.tier[data-value="open"]').classList.add('active');
+    ticketField.value = 'open-kids';
+    tierEcho.textContent = 'Open — Kids (free)';
+    amountEcho.textContent = 'KES 0 — FREE';
+    kidsField.style.display = 'block';
+    document.getElementById('kids-note').required = true;
+    submitBtn.textContent = 'Register — free entry';
+  }
+  function exitKidsMode(){
+    isKidsEntry = false;
+    kidsField.style.display = 'none';
+    document.getElementById('kids-note').required = false;
+    submitBtn.textContent = 'Pay via M-Pesa';
+  }
+  kidsToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (isKidsEntry) exitKidsMode(); else enterKidsMode();
+  });
+
+  const form = document.getElementById('registration-form');
+  const statusEl = document.getElementById('status-msg');
+  const submitBtn = document.getElementById('submit-btn');
+  const counterEl = document.getElementById('ticket-counter');
+
+  function showStatus(kind, text){
+    statusEl.className = 'status-msg show ' + kind;
+    statusEl.textContent = text;
+  }
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const activeTier = document.querySelector('.tier.active');
+
+    if(!/^0[71][0-9]{8}$/.test(form.phone.value.trim())){
+      showStatus('error', 'Enter a valid Safaricom number, e.g. 0712345678.');
+      return;
+    }
+
+    // --- Free kids entry: no M-Pesa call, just a local confirmation for now ---
+    // NOTE: this does not yet write to any durable storage — there's no
+    // database behind the site yet, so free entries aren't recorded
+    // anywhere durable until the real accounts/registry system is built.
+    if (isKidsEntry) {
+      if (!form.kidsAge.value) {
+        showStatus('error', "Add the child's age to complete a free kids' entry.");
+        return;
+      }
+      showStatus('success', `${form.name.value.trim()} is registered free for the Open kids' race at ${form.leg.value}. See you on race day!`);
+      counterEl.textContent = (parseInt(counterEl.textContent, 10) + 1).toString();
+      form.reset();
+      exitKidsMode();
+      return;
+    }
+
+    const payload = {
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim(),
+      ticket: ticketField.value,
+      gender: form.gender.value,
+      leg: form.leg.value,
+      amount: Number(activeTier.dataset.price)
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending M-Pesa prompt…';
+    showStatus('info', 'Check your phone — an M-Pesa PIN prompt is on its way.');
+
+    try {
+      const res = await fetch('mpesa-stk.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if(!res.ok) throw new Error('Server returned ' + res.status);
+      const data = await res.json();
+
+      if (data.ResponseCode === '0' || data.ResponseCode === 0) {
+        showStatus('success', 'Prompt sent! Enter your M-Pesa PIN on your phone to complete registration.');
+        counterEl.textContent = (parseInt(counterEl.textContent, 10) + 1).toString();
+        form.reset();
+      } else {
+        showStatus('error', data.ResponseDescription || 'Payment could not be started. Please try again.');
+      }
+    } catch (err) {
+      showStatus('error', 'Could not reach the payment server. This form needs the PHP backend deployed on a live host — see mpesa-stk.php.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = isKidsEntry ? 'Register — free entry' : 'Pay via M-Pesa';
+    }
+  });
+</script>
 
 </body>
 </html>
