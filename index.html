@@ -19,7 +19,7 @@
       <a href="#training-centre">Centre</a>
       <a href="#legs">Legs</a>
       <div class="nav-dropdown">
-        <a href="#ecosystem">Directory</a>
+        <button type="button" class="nav-dropdown-trigger" onclick="this.parentElement.classList.toggle('open')" aria-expanded="false">Directory</button>
         <div class="nav-dropdown-menu">
           <a href="#ecosystem">Tour Events</a>
           <a href="#ecosystem">Teams</a>
@@ -27,6 +27,7 @@
           <a href="#ecosystem">Supporters</a>
           <a href="#ecosystem">Partners</a>
           <a href="#ecosystem">Advertisers</a>
+          <a href="#ecosystem">Media</a>
           <a href="#ecosystem">Volunteers</a>
         </div>
       </div>
@@ -296,6 +297,16 @@
     </div>
 
     <div class="eco-group">
+      <div class="eco-group-head"><h3>Media</h3><a href="#" style="font-size:0.78rem;font-family:'IBM Plex Mono',monospace;color:var(--accent-deep);">Register as media →</a></div>
+      <p class="eco-group-note">Local and personal digital media brands — bloggers, videographers, podcasters, social pages — covering the Tour. Open a TTTT media account to get accreditation, share coverage, and build a following through the Tour's audience.</p>
+      <div class="tile-grid">
+        <div class="tile"><span>your-brand-1.png</span></div>
+        <div class="tile"><span>your-brand-2.png</span></div>
+        <a class="tile add-tile" href="#">+ Register as media</a>
+      </div>
+    </div>
+
+    <div class="eco-group">
       <div class="eco-group-head"><h3>Volunteers</h3><a href="#" style="font-size:0.78rem;font-family:'IBM Plex Mono',monospace;color:var(--accent-deep);">Become a volunteer →</a></div>
       <p class="eco-group-note">Not a peripheral role — volunteers are a critical block behind conservation, culture &amp; dance, local history, security, and race-day execution at every leg. Each gets a TTTT account of their own.</p>
       <div class="tile-grid">
@@ -330,6 +341,18 @@
 </footer>
 
 <script>
+  // Directory dropdown: close when tapping anywhere outside it
+  document.addEventListener('click', function(e){
+    document.querySelectorAll('.nav-dropdown.open').forEach(function(dd){
+      if (!dd.contains(e.target)) dd.classList.remove('open');
+    });
+  });
+  // close it after tapping a link inside, since these are same-page anchors
+  document.querySelectorAll('.nav-dropdown-menu a').forEach(function(a){
+    a.addEventListener('click', function(){
+      a.closest('.nav-dropdown').classList.remove('open');
+    });
+  });
   const tiers = document.querySelectorAll('.tier');
   const ticketField = document.getElementById('ticket');
   const tierEcho = document.getElementById('tier-echo');
