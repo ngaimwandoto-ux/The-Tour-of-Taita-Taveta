@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mbololo / Ronge Leg — Tour of Taita Taveta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <div class="brand"><span style="background:var(--paper);display:inline-flex;align-items:center;padding:2px;border-radius:3px;"><img src="../logo-taita-taveta.jpg" alt="Taita Taveta logo" style="height:34px;width:auto;display:block;border-radius:2px;"></span> Tour of Taita&nbsp;Taveta</div>
+    <nav class="links">
+      <a href="../index.html#home">Home</a>
+      <a href="../index.html#legs">Legs</a>
+      <a href="../index.html#tickets">Register</a>
+    </nav>
+  </div>
+</header>
+
+<section class="region-hero">
+  <a class="back" href="../index.html#legs">&larr; All six legs</a>
+  <img class="region-logo" src="logo-mbololo-ronge.png" alt="Mbololo / Ronge leg logo" onerror="this.style.display='none'">
+  <h1>Leg 05 · Mbololo / Ronge</h1>
+  <div class="meta">Weekend to be set · mid-2027 &nbsp;·&nbsp; <span class="status tentative" style="display:inline-block;padding:0.2rem 0.6rem;border-radius:2px;">Date pending</span></div>
+</section>
+
+<main>
+  <section id="route">
+    <div class="section-head">
+      <span class="eyebrow">The Route</span>
+      <h2>Course &amp; profile</h2>
+    </div>
+    <div class="route-strip" style="border:2px solid var(--ink);">
+      <svg class="elevation" viewBox="0 0 1180 70" preserveAspectRatio="none" aria-hidden="true">
+        <path class="fill" d="M0,70 L0,52 L100,26 L200,44 L310,14 L440,40 L570,18 L710,48 L840,22 L960,42 L1080,16 L1180,34 L1180,70 Z"/>
+        <path class="line" d="M0,52 L100,26 L200,44 L310,14 L440,40 L570,18 L710,48 L840,22 L960,42 L1080,16 L1180,34"/>
+      </svg>
+    </div>
+    <div class="route-note">Provisional route linking Mbololo Forest's forest-guard station with the Ronge ridge. Route maps for this leg are finalised and reconfirmed with the county and local conservancies before each edition — check back closer to race day for the exact GPX file and road closures.</div>
+  </section>
+
+  <section id="tourism">
+    <div class="section-head">
+      <span class="eyebrow">Tourism & Culture</span>
+      <h2>What there is to see</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Beyond the finish line, Mbololo / Ronge has its own reasons to linger.</p>
+    </div>
+    <div class="info-grid">
+      <div class="info-card"><h3>Mbololo Forest</h3><p>The highest peak of its massif at roughly 2,209m, and one of the richest birdwatching sites in the Taita Hills.</p></div>
+      <div class="info-card"><h3>Ronge ridge</h3><p>A quieter, less-visited forest-guard station area on the same conservation network as Mbololo and Ngangao.</p></div>
+    </div>
+  </section>
+
+  <section id="conservation">
+    <div class="section-head">
+      <span class="eyebrow">Conservation</span>
+      <h2>Why the terrain is protected</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Every leg of the tour runs through land under active conservation — here's what that looks like locally.</p>
+    </div>
+    <div class="info-grid">
+      <div class="info-card"><h3>Endemic bird habitat</h3><p>Mbololo is critical habitat for the Taita Thrush and Taita Apalis — two bird species found nowhere else on Earth, both flagship species for the Eastern Arc Mountains biodiversity hotspot.</p></div>
+      <div class="info-card"><h3>Forest guard network</h3><p>Mbololo and Ronge are both staffed Kenya Forest Service stations, part of the coordinated patrol network protecting the Taita Hills' remaining forest fragments.</p></div>
+    </div>
+  </section>
+
+  <section id="visit">
+    <div class="section-head">
+      <span class="eyebrow">Visit &amp; Support</span>
+      <h2>Pay a site visitation fee</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Entry fees support the local conservancies and community sites that host this leg. Pick a site and pay by M-Pesa — the same STK push flow as race registration.</p>
+    </div>
+    <div class="visit-wrap">
+      <div class="visit-list" id="visit-list">
+        <div class="visit-item active" data-fee="400" data-name="Mbololo Forest guided birding walk"><div><div class="name">Mbololo Forest guided birding walk</div></div><div class="fee">KES 400</div></div>
+      </div>
+      <form id="visit-form" novalidate>
+        <div class="field"><label for="vname">Full name</label><input type="text" id="vname" name="vname" required></div>
+        <div class="field"><label for="vphone">M-Pesa phone number</label><input type="tel" id="vphone" name="vphone" placeholder="07XXXXXXXX" pattern="^0[71][0-9]{8}$" required></div>
+        <div class="amount-line"><span>Site</span><span id="visit-site-echo">Mbololo Forest guided birding walk</span></div>
+        <div class="amount-line"><span>Fee due</span><span id="visit-fee-echo">KES 400</span></div>
+        <button type="submit" class="submit" id="visit-submit-btn">Pay visitation fee</button>
+        <div class="status-msg" id="visit-status-msg"></div>
+      </form>
+    </div>
+  </section>
+
+  <section id="camps">
+    <div class="section-head">
+      <span class="eyebrow">On the Ground</span>
+      <h2>Camps &amp; villages</h2>
+    </div>
+    <div class="camp-grid">
+      <div class="camp-card"><h3>Athletes' camp — Voi</h3><p>Mbololo ward sits within Voi sub-county, so riders base out of Voi town as with the Sagalla leg.</p></div>
+      <div class="camp-card"><h3>Fan village — forest trailhead</h3><p>A small spectator area at the Mbololo forest-guard station gate.</p></div>
+    </div>
+  </section>
+
+  <section id="leaderboard">
+    <div class="section-head">
+      <span class="eyebrow">Results</span>
+      <h2>Leaderboard</h2>
+    </div>
+    <table class="leaderboard">
+      <thead><tr><th>Pos</th><th>Rider</th><th>Team / Club</th><th>Time</th></tr></thead>
+      <tbody>
+        <tr><td class="pos">—</td><td>Results not yet published</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p class="leaderboard-note">Full standings go up here within 48 hours of race day.</p>
+  </section>
+
+  <section id="gallery">
+    <div class="section-head">
+      <span class="eyebrow">Gallery</span>
+      <h2>Race day &amp; awards</h2>
+    </div>
+    <div class="gallery-grid">
+      <figure><div class="ph"><span>image/mbololo-forest.jpg</span></div><figcaption>Mbololo forest trail</figcaption></figure>
+      <figure><div class="ph"><span>image/mbololo-birds.jpg</span></div><figcaption>Birdwatching en route</figcaption></figure>
+      <figure><div class="ph"><span>image/mbololo-awards.jpg</span></div><figcaption>Awards ceremony (placeholder)</figcaption></figure>
+      <figure><div class="ph"><span>image/mbololo-village.jpg</span></div><figcaption>Fan village (placeholder)</figcaption></figure>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p><strong>Tour of Taita Taveta</strong> — Attitude meets Altitude.</p>
+  <p>&copy; 2026 Tour of Taita Taveta. All rights reserved.</p>
+</footer>
+
+<script>
+  const visitItems = document.querySelectorAll('.visit-item');
+  const siteEcho = document.getElementById('visit-site-echo');
+  const feeEcho = document.getElementById('visit-fee-echo');
+  visitItems.forEach(it => {
+    it.addEventListener('click', () => {
+      visitItems.forEach(x => x.classList.remove('active'));
+      it.classList.add('active');
+      siteEcho.textContent = it.dataset.name;
+      feeEcho.textContent = 'KES ' + Number(it.dataset.fee).toLocaleString();
+    });
+  });
+
+  const vform = document.getElementById('visit-form');
+  const vstatus = document.getElementById('visit-status-msg');
+  const vbtn = document.getElementById('visit-submit-btn');
+
+  function showVStatus(kind, text){
+    vstatus.className = 'status-msg show ' + kind;
+    vstatus.textContent = text;
+  }
+
+  vform.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const activeSite = document.querySelector('.visit-item.active');
+    const payload = {
+      name: vform.vname.value.trim(),
+      email: '',
+      phone: vform.vphone.value.trim(),
+      ticket: activeSite.dataset.name,
+      leg: document.title,
+      amount: Number(activeSite.dataset.fee)
+    };
+    if(!/^0[71][0-9]{8}$/.test(payload.phone)){
+      showVStatus('error', 'Enter a valid Safaricom number, e.g. 0712345678.');
+      return;
+    }
+    vbtn.disabled = true;
+    vbtn.textContent = 'Sending M-Pesa prompt…';
+    showVStatus('info', 'Check your phone for the M-Pesa PIN prompt.');
+    try {
+      const res = await fetch('../visit-payment.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if(!res.ok) throw new Error('Server returned ' + res.status);
+      const data = await res.json();
+      if (data.ResponseCode === '0' || data.ResponseCode === 0) {
+        showVStatus('success', 'Prompt sent! Enter your M-Pesa PIN to complete payment.');
+        vform.reset();
+      } else {
+        showVStatus('error', data.ResponseDescription || 'Payment could not be started.');
+      }
+    } catch (err) {
+      showVStatus('error', 'Could not reach the payment server — deploy visit-payment.php on a live PHP host first.');
+    } finally {
+      vbtn.disabled = false;
+      vbtn.textContent = 'Pay visitation fee';
+    }
+  });
+</script>
+
+</body>
+</html>

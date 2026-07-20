@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vuria / Wusi Leg — Tour of Taita Taveta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <div class="brand"><span style="background:var(--paper);display:inline-flex;align-items:center;padding:2px;border-radius:3px;"><img src="../logo-taita-taveta.jpg" alt="Taita Taveta logo" style="height:34px;width:auto;display:block;border-radius:2px;"></span> Tour of Taita&nbsp;Taveta</div>
+    <nav class="links">
+      <a href="../index.html#home">Home</a>
+      <a href="../index.html#legs">Legs</a>
+      <a href="../index.html#tickets">Register</a>
+    </nav>
+  </div>
+</header>
+
+<section class="region-hero">
+  <a class="back" href="../index.html#legs">&larr; All six legs</a>
+  <img class="region-logo" src="logo-vuria-wusi.png" alt="Vuria / Wusi leg logo" onerror="this.style.display='none'">
+  <h1>Leg 02 · Vuria / Wusi</h1>
+  <div class="meta">Sat 12 – Mon 14 Dec 2026 &nbsp;·&nbsp; <span class="status confirmed" style="display:inline-block;padding:0.2rem 0.6rem;border-radius:2px;">Date confirmed</span></div>
+</section>
+
+<main>
+  <section id="route">
+    <div class="section-head">
+      <span class="eyebrow">The Route</span>
+      <h2>Course &amp; profile</h2>
+    </div>
+    <div class="route-strip" style="border:2px solid var(--ink);">
+      <svg class="elevation" viewBox="0 0 1180 70" preserveAspectRatio="none" aria-hidden="true">
+        <path class="fill" d="M0,70 L0,52 L100,26 L200,44 L310,14 L440,40 L570,18 L710,48 L840,22 L960,42 L1080,16 L1180,34 L1180,70 Z"/>
+        <path class="line" d="M0,52 L100,26 L200,44 L310,14 L440,40 L570,18 L710,48 L840,22 L960,42 L1080,16 L1180,34"/>
+      </svg>
+    </div>
+    <div class="route-note">This leg tops out near Vuria Peak, the county's highest point at 2,228m, reached via Wundanyi and Mwanda. Route maps for this leg are finalised and reconfirmed with the county and local conservancies before each edition — check back closer to race day for the exact GPX file and road closures.</div>
+  </section>
+
+  <section id="tourism">
+    <div class="section-head">
+      <span class="eyebrow">Tourism & Culture</span>
+      <h2>What there is to see</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Beyond the finish line, Vuria / Wusi has its own reasons to linger.</p>
+    </div>
+    <div class="info-grid">
+      <div class="info-card"><h3>Vuria Peak</h3><p>The highest point in Taita Taveta County at 2,228m, with a bare rock-ledge summit offering a 360° viewing deck — Kenya Forest Service permits camping at the top.</p></div>
+      <div class="info-card"><h3>Wusi / Kishamba villages</h3><p>Terraced hillside farms and one of the distinct Dawida dialect communities, reached along the Wundanyi–Mwanda road.</p></div>
+    </div>
+  </section>
+
+  <section id="conservation">
+    <div class="section-head">
+      <span class="eyebrow">Conservation</span>
+      <h2>Why the terrain is protected</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Every leg of the tour runs through land under active conservation — here's what that looks like locally.</p>
+    </div>
+    <div class="info-grid">
+      <div class="info-card"><h3>Vuria montane forest remnant</h3><p>A heavily logged but recovering ~51-hectare forest patch below the summit, managed by the Kenya Forest Service as part of ongoing restoration efforts.</p></div>
+      <div class="info-card"><h3>Ridge water catchment</h3><p>Vuria's slopes feed several of the springs that supply the lower Taita Hills — a working example of hilltop forest as water infrastructure.</p></div>
+    </div>
+  </section>
+
+  <section id="visit">
+    <div class="section-head">
+      <span class="eyebrow">Visit &amp; Support</span>
+      <h2>Pay a site visitation fee</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Entry fees support the local conservancies and community sites that host this leg. Pick a site and pay by M-Pesa — the same STK push flow as race registration.</p>
+    </div>
+    <div class="visit-wrap">
+      <div class="visit-list" id="visit-list">
+        <div class="visit-item active" data-fee="300" data-name="Vuria summit hike & camping permit"><div><div class="name">Vuria summit hike & camping permit</div></div><div class="fee">KES 300</div></div>
+      </div>
+      <form id="visit-form" novalidate>
+        <div class="field"><label for="vname">Full name</label><input type="text" id="vname" name="vname" required></div>
+        <div class="field"><label for="vphone">M-Pesa phone number</label><input type="tel" id="vphone" name="vphone" placeholder="07XXXXXXXX" pattern="^0[71][0-9]{8}$" required></div>
+        <div class="amount-line"><span>Site</span><span id="visit-site-echo">Vuria summit hike & camping permit</span></div>
+        <div class="amount-line"><span>Fee due</span><span id="visit-fee-echo">KES 300</span></div>
+        <button type="submit" class="submit" id="visit-submit-btn">Pay visitation fee</button>
+        <div class="status-msg" id="visit-status-msg"></div>
+      </form>
+    </div>
+  </section>
+
+  <section id="camps">
+    <div class="section-head">
+      <span class="eyebrow">On the Ground</span>
+      <h2>Camps &amp; villages</h2>
+    </div>
+    <div class="camp-grid">
+      <div class="camp-card"><h3>Athletes' camp — Wundanyi</h3><p>Riders base out of Wundanyi town, the county's administrative seat, with local guesthouses and hotels absorbing overflow.</p></div>
+      <div class="camp-card"><h3>Fan village — Mwanda trailhead</h3><p>The traditional launch point for the Vuria hike becomes race-day central for spectators and vendors.</p></div>
+    </div>
+  </section>
+
+  <section id="leaderboard">
+    <div class="section-head">
+      <span class="eyebrow">Results</span>
+      <h2>Leaderboard</h2>
+    </div>
+    <table class="leaderboard">
+      <thead><tr><th>Pos</th><th>Rider</th><th>Team / Club</th><th>Time</th></tr></thead>
+      <tbody>
+        <tr><td class="pos">—</td><td>Results not yet published</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p class="leaderboard-note">Full standings go up here within 48 hours of race day.</p>
+  </section>
+
+  <section id="gallery">
+    <div class="section-head">
+      <span class="eyebrow">Gallery</span>
+      <h2>Race day &amp; awards</h2>
+    </div>
+    <div class="gallery-grid">
+      <figure><div class="ph"><span>image/vuria-ridge.jpg</span></div><figcaption>Climbing the Vuria ridge</figcaption></figure>
+      <figure><div class="ph"><span>image/vuria-summit.jpg</span></div><figcaption>360° summit views</figcaption></figure>
+      <figure><div class="ph"><span>image/vuria-awards.jpg</span></div><figcaption>Awards ceremony</figcaption></figure>
+      <figure><div class="ph"><span>image/vuria-camp.jpg</span></div><figcaption>Fan village at Mwanda</figcaption></figure>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p><strong>Tour of Taita Taveta</strong> — Attitude meets Altitude.</p>
+  <p>&copy; 2026 Tour of Taita Taveta. All rights reserved.</p>
+</footer>
+
+<script>
+  const visitItems = document.querySelectorAll('.visit-item');
+  const siteEcho = document.getElementById('visit-site-echo');
+  const feeEcho = document.getElementById('visit-fee-echo');
+  visitItems.forEach(it => {
+    it.addEventListener('click', () => {
+      visitItems.forEach(x => x.classList.remove('active'));
+      it.classList.add('active');
+      siteEcho.textContent = it.dataset.name;
+      feeEcho.textContent = 'KES ' + Number(it.dataset.fee).toLocaleString();
+    });
+  });
+
+  const vform = document.getElementById('visit-form');
+  const vstatus = document.getElementById('visit-status-msg');
+  const vbtn = document.getElementById('visit-submit-btn');
+
+  function showVStatus(kind, text){
+    vstatus.className = 'status-msg show ' + kind;
+    vstatus.textContent = text;
+  }
+
+  vform.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const activeSite = document.querySelector('.visit-item.active');
+    const payload = {
+      name: vform.vname.value.trim(),
+      email: '',
+      phone: vform.vphone.value.trim(),
+      ticket: activeSite.dataset.name,
+      leg: document.title,
+      amount: Number(activeSite.dataset.fee)
+    };
+    if(!/^0[71][0-9]{8}$/.test(payload.phone)){
+      showVStatus('error', 'Enter a valid Safaricom number, e.g. 0712345678.');
+      return;
+    }
+    vbtn.disabled = true;
+    vbtn.textContent = 'Sending M-Pesa prompt…';
+    showVStatus('info', 'Check your phone for the M-Pesa PIN prompt.');
+    try {
+      const res = await fetch('../visit-payment.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if(!res.ok) throw new Error('Server returned ' + res.status);
+      const data = await res.json();
+      if (data.ResponseCode === '0' || data.ResponseCode === 0) {
+        showVStatus('success', 'Prompt sent! Enter your M-Pesa PIN to complete payment.');
+        vform.reset();
+      } else {
+        showVStatus('error', data.ResponseDescription || 'Payment could not be started.');
+      }
+    } catch (err) {
+      showVStatus('error', 'Could not reach the payment server — deploy visit-payment.php on a live PHP host first.');
+    } finally {
+      vbtn.disabled = false;
+      vbtn.textContent = 'Pay visitation fee';
+    }
+  });
+</script>
+
+</body>
+</html>
