@@ -133,10 +133,73 @@
 
     <div class="eco-group">
       <div class="eco-group-head"><h3>Advertise at Kasighau</h3></div>
-      <p class="eco-group-note">Purely commercial inventory at this leg — teardrop banners, roadside banners, LED screens, media walls, start/finish banners.</p>
-      <div class="tile-grid">
-        <a class="tile add-tile" href="#">+ Advertising packages</a>
+      <p class="eco-group-note">Purely commercial inventory at this leg. Pick formats and quantities below — totals update as you go. Prices are placeholders pending final rates.</p>
+
+      <div class="ad-calc" data-ad-calc="Kasighau">
+        <div class="ad-row" data-price="150000">
+          <div class="ad-row-info">
+            <div class="ad-row-name">Large Format Billboard</div>
+            <div class="ad-row-desc">Standard large-format printed billboard at a high-visibility location on this leg.</div>
+          </div>
+          <div class="ad-row-price">KES 150,000 <span style="opacity:0.6;">/ install</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="220000">
+          <div class="ad-row-info">
+            <div class="ad-row-name">Green Billboard</div>
+            <div class="ad-row-desc">Minimal-plastic, low-paint alternative — woven natural fibres and artistry replace printed vinyl, roped between trees rather than a steel frame. Bespoke per brand.</div>
+          </div>
+          <div class="ad-row-price">KES 220,000 <span style="opacity:0.6;">/ install</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="800">
+          <div class="ad-row-info"><div class="ad-row-name">Flags</div></div>
+          <div class="ad-row-price">KES 800 <span style="opacity:0.6;">/ unit</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="3500">
+          <div class="ad-row-info"><div class="ad-row-name">Teardrop Banner — Small</div></div>
+          <div class="ad-row-price">KES 3,500 <span style="opacity:0.6;">/ unit</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="6000">
+          <div class="ad-row-info"><div class="ad-row-name">Teardrop Banner — Large</div></div>
+          <div class="ad-row-price">KES 6,000 <span style="opacity:0.6;">/ unit</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="4500">
+          <div class="ad-row-info"><div class="ad-row-name">Roadside Banner</div></div>
+          <div class="ad-row-price">KES 4,500 <span style="opacity:0.6;">/ unit</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="0">
+          <div class="ad-row-info">
+            <div class="ad-row-name">Other / Custom</div>
+            <div class="ad-row-desc">LED screens, media wall, start/finish banners, or a format not listed — priced on request.</div>
+          </div>
+          <div class="ad-row-price">Enquire</div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-calc-footer">
+          <div class="ad-calc-total">Total: <span data-ad-total>KES 0</span></div>
+          <button type="button" class="ad-enquire-btn" data-ad-enquire>Send enquiry</button>
+        </div>
       </div>
+      <p class="ad-note">This calculator estimates cost — it doesn't take payment directly. "Send enquiry" prepares an email with your selections for our team to confirm availability and formalise the order.</p>
     </div>
 
     <div class="eco-group">
@@ -250,6 +313,56 @@
       vbtn.disabled = false;
       vbtn.textContent = 'Pay visitation fee';
     }
+  });
+
+  // Advertising order calculator — same logic as the Tour page
+  document.querySelectorAll('[data-ad-calc]').forEach(function(calc){
+    const scopeName = calc.dataset.adCalc;
+    const rows = calc.querySelectorAll('.ad-row');
+    const totalEl = calc.querySelector('[data-ad-total]');
+    const enquireBtn = calc.querySelector('[data-ad-enquire]');
+
+    function recalc(){
+      let grand = 0;
+      const lines = [];
+      rows.forEach(function(row){
+        const price = Number(row.dataset.price || 0);
+        const qty = Number(row.querySelector('.ad-qty').value || 0);
+        const lineTotal = price * qty;
+        const lineEl = row.querySelector('.ad-row-line');
+        if (qty > 0) {
+          row.classList.add('has-qty');
+          lineEl.textContent = price > 0 ? ('KES ' + lineTotal.toLocaleString()) : 'Priced on request';
+          const name = row.querySelector('.ad-row-name').textContent;
+          lines.push(name + ' × ' + qty + (price > 0 ? (' = KES ' + lineTotal.toLocaleString()) : ' (enquire for price)'));
+        } else {
+          row.classList.remove('has-qty');
+        }
+        grand += lineTotal;
+      });
+      totalEl.textContent = 'KES ' + grand.toLocaleString();
+      calc.dataset.lines = JSON.stringify(lines);
+    }
+
+    rows.forEach(function(row){
+      row.querySelector('.ad-qty').addEventListener('input', recalc);
+    });
+
+    enquireBtn.addEventListener('click', function(){
+      const lines = JSON.parse(calc.dataset.lines || '[]');
+      if (lines.length === 0) {
+        alert('Set a quantity for at least one format before sending an enquiry.');
+        return;
+      }
+      const subject = encodeURIComponent('Advertising enquiry — ' + scopeName);
+      const body = encodeURIComponent(
+        'Advertising enquiry for: ' + scopeName + '\n\n' +
+        lines.join('\n') + '\n\n' +
+        'Estimated total: ' + totalEl.textContent + '\n\n' +
+        '(This is an estimate only — please confirm availability and final pricing.)'
+      );
+      window.location.href = 'mailto:sponsorship@touroftaitataveta.co.ke?subject=' + subject + '&body=' + body;
+    });
   });
 </script>
 
