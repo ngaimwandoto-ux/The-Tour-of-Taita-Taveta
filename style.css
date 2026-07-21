@@ -118,6 +118,40 @@
   .leg .status.tentative{background:rgba(242,140,15,0.15);color:var(--accent-deep);}
   .legs-note{font-size:0.8rem;color:rgba(20,20,20,0.55);margin-top:1rem;}
 
+  /* ---- Advertising order calculator ---- */
+  .ad-calc{border:2px solid var(--ink);background:#fff;}
+  .ad-row{
+    display:grid;grid-template-columns:1fr auto auto;gap:0.6rem 1rem;align-items:center;
+    padding:0.9rem 1rem;border-bottom:1px solid var(--line);
+  }
+  .ad-row:last-of-type{border-bottom:none;}
+  .ad-row-info{grid-column:1;}
+  .ad-row-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;text-transform:uppercase;font-size:1rem;}
+  .ad-row-desc{font-size:0.78rem;color:rgba(20,20,20,0.6);margin-top:0.15rem;max-width:40ch;}
+  .ad-row-price{font-family:'IBM Plex Mono',monospace;font-size:0.8rem;color:rgba(20,20,20,0.55);white-space:nowrap;}
+  .ad-qty{
+    width:64px;padding:0.4rem;border:1px solid var(--line);background:var(--paper);
+    font-family:'IBM Plex Mono',monospace;font-size:0.9rem;text-align:center;
+  }
+  .ad-row-line{
+    grid-column:1/-1;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:var(--accent-deep);
+    display:none;
+  }
+  .ad-row.has-qty .ad-row-line{display:block;}
+  .ad-calc-footer{
+    display:flex;justify-content:space-between;align-items:center;padding:1rem;
+    background:var(--paper);border-top:2px solid var(--ink);flex-wrap:wrap;gap:0.6rem;
+  }
+  .ad-calc-total{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.4rem;}
+  .ad-calc-total span{color:var(--accent-deep);}
+  .ad-enquire-btn{
+    background:var(--ink);color:var(--cream);border:none;padding:0.7rem 1.3rem;
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:0.03em;
+    font-size:0.9rem;cursor:pointer;
+  }
+  .ad-enquire-btn:hover{background:var(--accent-deep);}
+  .ad-note{font-size:0.76rem;color:rgba(20,20,20,0.5);margin-top:0.7rem;}
+
   /* ---- County pin map (interim placeholder for Google Maps integration) ---- */
   .county-map{
     position:relative;aspect-ratio:4/3;max-width:640px;margin:0 auto;
