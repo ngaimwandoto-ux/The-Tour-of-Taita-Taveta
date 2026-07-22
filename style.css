@@ -152,6 +152,29 @@
   .ad-enquire-btn:hover{background:var(--accent-deep);}
   .ad-note{font-size:0.76rem;color:rgba(20,20,20,0.5);margin-top:0.7rem;}
 
+  /* ---- Shop ---- */
+  .shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.9rem;margin-bottom:1.2rem;}
+  @media (min-width:640px){ .shop-grid{grid-template-columns:repeat(3,1fr);} }
+  .shop-item{border:1px solid var(--line);background:#fff;display:flex;flex-direction:column;}
+  .shop-item .shop-photo{
+    aspect-ratio:1/1;background:repeating-linear-gradient(135deg, rgba(63,163,77,0.08) 0 2px, transparent 2px 16px), var(--paper);
+    display:flex;align-items:center;justify-content:center;text-align:center;padding:0.5rem;
+  }
+  .shop-photo span{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.03em;text-transform:uppercase;color:rgba(20,20,20,0.4);}
+  .shop-item-body{padding:0.7rem;display:flex;flex-direction:column;gap:0.4rem;flex:1;}
+  .shop-item-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;text-transform:uppercase;font-size:0.95rem;line-height:1.05;}
+  .shop-item-price{font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:var(--accent-deep);}
+  .shop-item-qty{margin-top:auto;display:flex;align-items:center;gap:0.5rem;}
+  .shop-item-qty label{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:rgba(20,20,20,0.5);text-transform:uppercase;}
+  .shop-item-qty input{
+    width:52px;padding:0.3rem;border:1px solid var(--line);background:var(--paper);
+    font-family:'IBM Plex Mono',monospace;font-size:0.85rem;text-align:center;
+  }
+  .shop-order-panel{border:2px solid var(--ink);background:#fff;padding:1rem;}
+  .shop-order-panel .field{margin-bottom:0.9rem;}
+  .shop-summary{font-size:0.82rem;color:rgba(20,20,20,0.65);margin-bottom:0.8rem;min-height:1.2rem;}
+  .shop-summary .line{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:0.78rem;padding:0.15rem 0;}
+
   /* ---- County pin map (interim placeholder for Google Maps integration) ---- */
   .county-map{
     position:relative;aspect-ratio:4/3;max-width:640px;margin:0 auto;
