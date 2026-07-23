@@ -274,6 +274,13 @@
   .tile.event-tile .leg-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;text-transform:uppercase;font-size:1.05rem;color:#fff;}
   .tile.event-tile .leg-date{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:rgba(240,219,184,0.6);}
   .tile.add-tile{border-style:dashed;color:var(--accent-deep);font-family:'IBM Plex Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.04em;}
+.leg-logo{
+    width:120px;
+    height:120px;
+    object-fit:contain;
+    display:block;
+    margin:0 auto 12px;
+}
 
   .nav-dropdown{position:relative;}
   .nav-dropdown-trigger{
