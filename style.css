@@ -275,7 +275,7 @@
   .tile.event-tile .leg-date{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:rgba(240,219,184,0.6);}
   .tile.add-tile{border-style:dashed;color:var(--accent-deep);font-family:'IBM Plex Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.04em;}
 .leg-logo{
-    width:55%;
+    width:65%;
 height:auto;
     object-fit:contain;
     display:block;
