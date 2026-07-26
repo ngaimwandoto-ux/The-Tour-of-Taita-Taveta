@@ -58,6 +58,11 @@
     .nav-dropdown-trigger{padding:0.4rem 0.6rem !important;font-size:0.85rem !important;}
     .brand{font-size:1.05rem;}
   }
+  .main-logo{
+    height:70px;
+    width:auto;
+    display:block;
+}
   .route-strip{background:var(--deep);padding:0 0 0.4rem;}
   .elevation{display:block;width:100%;height:70px;}
   .elevation path.fill{fill:var(--accent);opacity:0.14;}
