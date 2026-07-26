@@ -93,11 +93,11 @@
     }
 
     .brand span{
-        display:none;
+        display:inline;
     }
 
     .main-logo{
-        height:50px;
+        height:90px;
     }
 
 }
