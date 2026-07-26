@@ -59,12 +59,25 @@
     .brand span{
     display:none;
 }
-
 .main-logo{
-    height:90px;
+    height:56px;
     width:auto;
     display:block;
-    flex-shrink:0;
+}
+
+.brand span{
+    display:inline;
+}
+
+@media (max-width:900px){
+
+    .brand span{
+        display:none;
+    }
+
+    .main-logo{
+        height:90px;
+    }
 
 }
   .route-strip{background:var(--deep);padding:0 0 0.4rem;}
