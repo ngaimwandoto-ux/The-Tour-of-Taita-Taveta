@@ -56,12 +56,16 @@
     nav.links::-webkit-scrollbar{display:none;}
     nav.links a{padding:0.4rem 0.6rem;font-size:0.85rem;}
     .nav-dropdown-trigger{padding:0.4rem 0.6rem !important;font-size:0.85rem !important;}
-    .brand{font-size:1.05rem;}
-  }
-  .main-logo{
-    height:120px;
+    .brand span{
+    display:none;
+}
+
+.main-logo{
+    height:90px;
     width:auto;
     display:block;
+    flex-shrink:0;
+
 }
   .route-strip{background:var(--deep);padding:0 0 0.4rem;}
   .elevation{display:block;width:100%;height:70px;}
