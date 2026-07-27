@@ -25,11 +25,7 @@
         <button
     type="button"
     class="nav-dropdown-trigger"
-    onclick="
-      const p = this.parentElement;
-      p.classList.toggle('open');
-      this.setAttribute('aria-expanded', p.classList.contains('open'));
-    "
+    onclick="this.parentElement.classList.toggle('open')"
     aria-expanded="false">
     Directory
         </button>
