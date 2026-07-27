@@ -22,7 +22,17 @@
       <a href="#training-centre">Centre</a>
       <a href="#legs">Legs</a>
       <div class="nav-dropdown">
-        <button type="button" class="nav-dropdown-trigger" onclick="this.parentElement.classList.toggle('open')" aria-expanded="false">Directory</button>
+        <button
+    type="button"
+    class="nav-dropdown-trigger"
+    onclick="
+      const p = this.parentElement;
+      p.classList.toggle('open');
+      this.setAttribute('aria-expanded', p.classList.contains('open'));
+    "
+    aria-expanded="false">
+    Directory
+        </button>
         <div class="nav-dropdown-menu">
           <a href="#ecosystem">Tour Events</a>
           <a href="#ecosystem">Teams</a>
