@@ -51,56 +51,15 @@
   nav.links a, nav.links .nav-dropdown{flex:none;white-space:nowrap;}
   nav.links a{text-decoration:none;padding:0.5rem 1rem;border-bottom:3px solid transparent;}
   nav.links a:hover{border-color:var(--accent);color:var(--accent);}
+  .main-logo{height:56px;width:auto;display:block;flex:none;}
   @media (max-width:900px){
     nav.links{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;justify-content:flex-start;}
     nav.links::-webkit-scrollbar{display:none;}
     nav.links a{padding:0.4rem 0.6rem;font-size:0.85rem;}
     .nav-dropdown-trigger{padding:0.4rem 0.6rem !important;font-size:0.85rem !important;}
-    .brand span{
-    display:none;
-}
-.main-logo{
-    height:56px;
-    width:auto;
-    display:block;
-}
-
-.brand span{
-    display:inline;
-}
-
-@media (max-width:900px){
-
-    nav.links{
-        overflow-x:auto;
-        -webkit-overflow-scrolling:touch;
-        scrollbar-width:none;
-        justify-content:flex-start;
-    }
-
-    nav.links::-webkit-scrollbar{
-        display:none;
-    }
-
-    nav.links a{
-        padding:0.4rem 0.6rem;
-        font-size:0.85rem;
-    }
-
-    .nav-dropdown-trigger{
-        padding:0.4rem 0.6rem !important;
-        font-size:0.85rem !important;
-    }
-
-    .brand span{
-        display:inline;
-    }
-
-    .main-logo{
-        height:90px;
-    }
-
-}
+    .brand{font-size:1.05rem;}
+    .main-logo{height:90px;}
+  }
   .route-strip{background:var(--deep);padding:0 0 0.4rem;}
   .elevation{display:block;width:100%;height:70px;}
   .elevation path.fill{fill:var(--accent);opacity:0.14;}
