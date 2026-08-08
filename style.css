@@ -408,3 +408,47 @@ height:auto;
 .visit-item.active{outline:3px solid var(--accent);outline-offset:-3px;}
 .visit-item .name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;}
 .visit-item .fee{font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--accent-deep);}
+/* ---- Region-Specific Hero Layout & Logo Settings ---- */
+.region-hero {
+  background: var(--deep);
+  color: var(--cream);
+  padding: 4.5rem 1.5rem 3rem;
+  text-align: center;
+  position: relative;
+}
+
+.region-hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  color: var(--cream);
+  margin-top: 1rem;
+}
+
+.region-hero .back {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  color: rgba(240, 219, 184, 0.6);
+}
+
+.region-hero .back:hover {
+  color: var(--accent);
+}
+
+/* Explicitly overrides any default layout box traits on transparent region logos */
+.region-logo {
+  display: block;
+  max-height: 110px;
+  width: auto;
+  margin: 0 auto;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  object-fit: contain;
+}
+
