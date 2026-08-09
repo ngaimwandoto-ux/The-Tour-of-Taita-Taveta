@@ -451,4 +451,71 @@ height:auto;
   box-shadow: none !important;
   object-fit: contain;
 }
+/* Social Media Links */
+.social-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
 
+.social-row a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: var(--cream);
+  background: rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.social-row a:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Individual brand colors on hover */
+.social-row a:hover[aria-label="Facebook"] {
+  color: #1877f2;
+  background: rgba(24, 119, 242, 0.15);
+  border-color: #1877f2;
+}
+
+.social-row a:hover[aria-label="X"] {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #ffffff;
+}
+
+.social-row a:hover[aria-label="Instagram"] {
+  color: #e4405f;
+  background: rgba(228, 64, 95, 0.15);
+  border-color: #e4405f;
+}
+
+.social-row a:hover[aria-label="TikTok"] {
+  color: #00f2ea;
+  background: rgba(0, 242, 234, 0.15);
+  border-color: #00f2ea;
+}
+
+.social-row a:hover[aria-label="WhatsApp"] {
+  color: #25d366;
+  background: rgba(37, 211, 102, 0.15);
+  border-color: #25d366;
+}
+
+/* Social SVG icons */
+.social-row svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
