@@ -9,6 +9,8 @@
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../includes/database.php';
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/messaging.php';
+require_once __DIR__ . '/../includes/directory.php';
 
 // ---- CORS: locked to real origins, never a wildcard ----
 $allowedOrigins = array_filter(array_map('trim', explode(',', CORS_ALLOWED_ORIGINS)));
@@ -30,13 +32,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 $auth = new Auth();
+$messaging = new Messaging();
+$directory = new Directory();
 $method = $_SERVER['REQUEST_METHOD'];
 $endpoint = $_GET['endpoint'] ?? '';
-$input = json_decode(file_get_contents('php://input'), true) ?: [];
+// Logo upload is multipart/form-data, not JSON — don't try to parse the
+// body as JSON for that endpoint (php://input is empty for file uploads
+// anyway; the file lives in $_FILES).
+$input = ($endpoint === 'upload-logo') ? [] : (json_decode(file_get_contents('php://input'), true) ?: []);
 $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+
+$currentUserId = $auth->validateToken($_COOKIE['auth_token'] ?? null);
+$currentUser = $currentUserId ? $auth->getUserById($currentUserId) : null;
+
+function requireAuth(?int $userId): bool {
+    if (!$userId) {
+        http_response_code(401);
+        echo json_encode(['success' => false, 'error' => 'Not authenticated.']);
+        return false;
+    }
+    return true;
+}
 
 try {
     switch (true) {
+
+        // ---------------- Auth (public) ----------------
+
         case $endpoint === 'register' && $method === 'POST':
             echo json_encode($auth->register($input));
             break;
@@ -50,14 +72,56 @@ try {
             break;
 
         case $endpoint === 'profile' && $method === 'GET':
-            $userId = $auth->validateToken($_COOKIE['auth_token'] ?? null);
-            if (!$userId) {
-                http_response_code(401);
-                echo json_encode(['success' => false, 'error' => 'Not authenticated.']);
-                break;
-            }
-            $user = $auth->getUserById($userId);
-            echo json_encode(['success' => true, 'user' => $user]);
+            if (!requireAuth($currentUserId)) break;
+            echo json_encode(['success' => true, 'user' => $currentUser]);
+            break;
+
+        // ---------------- Messaging (all require auth) ----------------
+
+        case $endpoint === 'find-user' && $method === 'GET':
+            if (!requireAuth($currentUserId)) break;
+            $found = $messaging->findUserByEmail($_GET['email'] ?? '');
+            echo json_encode($found
+                ? ['success' => true, 'user' => $found]
+                : ['success' => false, 'error' => 'No account found with that email.']);
+            break;
+
+        case $endpoint === 'conversations' && $method === 'GET':
+            if (!requireAuth($currentUserId)) break;
+            echo json_encode(['success' => true, 'conversations' => $messaging->getConversations($currentUserId)]);
+            break;
+
+        case $endpoint === 'thread' && $method === 'GET':
+            if (!requireAuth($currentUserId)) break;
+            echo json_encode($messaging->getThread($currentUserId, (int) ($_GET['conversation_id'] ?? 0)));
+            break;
+
+        case $endpoint === 'send-message' && $method === 'POST':
+            if (!requireAuth($currentUserId)) break;
+            echo json_encode($messaging->sendMessage($currentUserId, (int) ($input['recipient_id'] ?? 0), $input['body'] ?? ''));
+            break;
+
+        case $endpoint === 'archive-conversation' && $method === 'POST':
+            if (!requireAuth($currentUserId)) break;
+            echo json_encode($messaging->archiveConversation($currentUserId, (int) ($input['conversation_id'] ?? 0)));
+            break;
+
+        case $endpoint === 'unread-count' && $method === 'GET':
+            if (!requireAuth($currentUserId)) break;
+            echo json_encode(['success' => true, 'count' => $messaging->getUnreadCount($currentUserId)]);
+            break;
+
+        // ---------------- Directory ----------------
+
+        case $endpoint === 'directory' && $method === 'GET':
+            // Public — no auth. Only returns already-approved entries.
+            echo json_encode(['success' => true, 'listings' => $directory->getAllPublicListings()]);
+            break;
+
+        case $endpoint === 'upload-logo' && $method === 'POST':
+            if (!requireAuth($currentUserId)) break;
+            $result = $directory->uploadLogo($currentUserId, $currentUser['account_type'], $_FILES['logo'] ?? []);
+            echo json_encode($result);
             break;
 
         default:
