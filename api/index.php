@@ -9,6 +9,7 @@
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../includes/database.php';
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/messaging.php';
 
 // ---- CORS: locked to real origins, never a wildcard ----
 $allowedOrigins = array_filter(array_map('trim', explode(',', CORS_ALLOWED_ORIGINS)));
@@ -30,13 +31,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 $auth = new Auth();
+$messaging = new Messaging();
 $method = $_SERVER['REQUEST_METHOD'];
 $endpoint = $_GET['endpoint'] ?? '';
 $input = json_decode(file_get_contents('php://input'), true) ?: [];
 $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 
+// Resolve the logged-in user once, for endpoints that need it.
+$currentUserId = $auth->validateToken($_COOKIE['auth_token'] ?? null);
+
+function requireAuth(?int $userId): bool {
+    if (!$userId) {
+        http_response_code(401);
+        echo json_encode(['success' => false, 'error' => 'Not authenticated.']);
+        return false;
+    }
+    return true;
+}
+
 try {
     switch (true) {
+
+        // ---------------- Auth (public) ----------------
+
         case $endpoint === 'register' && $method === 'POST':
             echo json_encode($auth->register($input));
             break;
@@ -50,14 +67,47 @@ try {
             break;
 
         case $endpoint === 'profile' && $method === 'GET':
-            $userId = $auth->validateToken($_COOKIE['auth_token'] ?? null);
-            if (!$userId) {
-                http_response_code(401);
-                echo json_encode(['success' => false, 'error' => 'Not authenticated.']);
-                break;
-            }
-            $user = $auth->getUserById($userId);
-            echo json_encode(['success' => true, 'user' => $user]);
+            if (!requireAuth($currentUserId)) break;
+            echo json_encode(['success' => true, 'user' => $auth->getUserById($currentUserId)]);
+            break;
+
+        // ---------------- Messaging (all require auth) ----------------
+
+        case $endpoint === 'find-user' && $method === 'GET':
+            if (!requireAuth($currentUserId)) break;
+            $email = $_GET['email'] ?? '';
+            $found = $messaging->findUserByEmail($email);
+            echo json_encode($found
+                ? ['success' => true, 'user' => $found]
+                : ['success' => false, 'error' => 'No account found with that email.']);
+            break;
+
+        case $endpoint === 'conversations' && $method === 'GET':
+            if (!requireAuth($currentUserId)) break;
+            echo json_encode(['success' => true, 'conversations' => $messaging->getConversations($currentUserId)]);
+            break;
+
+        case $endpoint === 'thread' && $method === 'GET':
+            if (!requireAuth($currentUserId)) break;
+            $conversationId = (int) ($_GET['conversation_id'] ?? 0);
+            echo json_encode($messaging->getThread($currentUserId, $conversationId));
+            break;
+
+        case $endpoint === 'send-message' && $method === 'POST':
+            if (!requireAuth($currentUserId)) break;
+            $recipientId = (int) ($input['recipient_id'] ?? 0);
+            echo json_encode($messaging->sendMessage($currentUserId, $recipientId, $input['body'] ?? ''));
+            break;
+
+        case $endpoint === 'archive-conversation' && $method === 'POST':
+            if (!requireAuth($currentUserId)) break;
+            $conversationId = (int) ($input['conversation_id'] ?? 0);
+            echo json_encode($messaging->archiveConversation($currentUserId, $conversationId));
+            break;
+
+        case $endpoint === 'unread-count' && $method === 'GET':
+            if (!requireAuth($currentUserId)) break;
+            echo json_encode(['success' => true, 'count' => $messaging->getUnreadCount($currentUserId)]);
             break;
 
         default:
