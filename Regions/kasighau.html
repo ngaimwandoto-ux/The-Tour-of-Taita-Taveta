@@ -18,7 +18,6 @@
       <a href="../index.html#legs">Legs</a>
       <a href="../index.html#tickets">Register</a>
       <a href="../pages/login.html">Log In</a>
-      </nav>
     </nav>
   </div>
 </header>
@@ -26,7 +25,7 @@
 <section class="region-hero">
   <a class="back" href="../index.html#legs">&larr; All six legs</a>
   <img class="region-logo" src="../logos/kasighau.png" alt="Kasighau leg logo" onerror="this.style.display='none'">
-  <h1>Leg 04 · Kasighau</h1>
+  <h1>Leg 05 · Kasighau</h1>
   <div class="meta">Sat 1 – Mon 3 May 2027 &nbsp;·&nbsp; <span class="status confirmed" style="display:inline-block;padding:0.2rem 0.6rem;border-radius:2px;">Date confirmed</span></div>
 </section>
 
@@ -72,19 +71,18 @@
   <section id="visit">
     <div class="section-head">
       <span class="eyebrow">Visit &amp; Support</span>
-      <h2>Pay a site visitation fee</h2>
-      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Entry fees support the local conservancies and community sites that host this leg. Pick a site and pay by M-Pesa — the same STK push flow as race registration.</p>
+      <h2>Places to visit at Kasighau</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Entry fees support the local conservancies and community sites that host this leg. Pick a place below, then pay by M-Pesa — the same STK push flow as race registration.</p>
     </div>
-    <div class="visit-wrap">
-      <div class="visit-list" id="visit-list">
-        <div class="visit-item active" data-fee="500" data-name="Rukinga Wildlife Sanctuary entry"><div><div class="name">Rukinga Wildlife Sanctuary entry</div></div><div class="fee">KES 500</div></div>
-        <div class="visit-item" data-fee="300" data-name="Kasigau Base Camp day visit"><div><div class="name">Kasigau Base Camp day visit</div></div><div class="fee">KES 300</div></div>
-      </div>
+
+    <div id="visit-grid" class="site-grid"></div>
+
+    <div style="max-width:480px;margin-top:2rem;">
       <form id="visit-form" novalidate>
         <div class="field"><label for="vname">Full name</label><input type="text" id="vname" name="vname" required></div>
         <div class="field"><label for="vphone">M-Pesa phone number</label><input type="tel" id="vphone" name="vphone" placeholder="07XXXXXXXX" pattern="^0[71][0-9]{8}$" required></div>
-        <div class="amount-line"><span>Site</span><span id="visit-site-echo">Rukinga Wildlife Sanctuary entry</span></div>
-        <div class="amount-line"><span>Fee due</span><span id="visit-fee-echo">KES 500</span></div>
+        <div class="amount-line"><span>Site</span><span id="visit-site-echo">—</span></div>
+        <div class="amount-line"><span>Fee due</span><span id="visit-fee-echo">—</span></div>
         <button type="submit" class="submit" id="visit-submit-btn">Pay visitation fee</button>
         <div class="status-msg" id="visit-status-msg"></div>
       </form>
@@ -256,68 +254,40 @@
 </footer>
 
 <script>
-  const visitItems = document.querySelectorAll('.visit-item');
-  const siteEcho = document.getElementById('visit-site-echo');
-  const feeEcho = document.getElementById('visit-fee-echo');
-  visitItems.forEach(it => {
-    it.addEventListener('click', () => {
-      visitItems.forEach(x => x.classList.remove('active'));
-      it.classList.add('active');
-      siteEcho.textContent = it.dataset.name;
-      feeEcho.textContent = 'KES ' + Number(it.dataset.fee).toLocaleString();
-    });
-  });
+  window.VISIT_SITES = [
+    {
+      id: 'rukinga-wildlife-sanctuary',
+      name: 'Rukinga Wildlife Sanctuary entry',
+      fee: 500,
+      description: 'Anchor of the Kasigau Corridor REDD+ project — eleven ranches across roughly 2,023 km² protecting dryland forest and offsetting an estimated one million tonnes of CO₂ a year.',
+      photos: ['../photo/rukinga-1.jpg', '../photo/rukinga-2.jpg', '../photo/rukinga-3.jpg']
+    },
+    {
+      id: 'kasigau-base-camp',
+      name: 'Kasigau Base Camp day visit',
+      fee: 300,
+      description: 'One of the established launch points into the Rukinga Sanctuary, with views of Mount Kasigau and access to walking trails.',
+      photos: ['../photo/kasigau-base-1.jpg', '../photo/kasigau-base-2.jpg', '../photo/kasigau-base-3.jpg']
+    },
+    {
+      id: 'mount-kasigau-hike',
+      name: 'Mount Kasigau guided hike',
+      fee: 600,
+      description: 'A guided hike to the summit of this isolated massif, passing springs and rock pools — home to the endemic Taita White-eye.',
+      photos: ['../photo/kasigau-mountain-1.jpg', '../photo/kasigau-mountain-2.jpg', '../photo/kasigau-mountain-3.jpg']
+    },
+    {
+      id: 'kasigau-cultural-village',
+      name: 'Wakasighau cultural village tour',
+      fee: 250,
+      description: 'Visit the local community and learn about Wakasighau culture, language, and traditions distinct from the main Taita dialects.',
+      photos: ['../photo/kasigau-culture-1.jpg', '../photo/kasigau-culture-2.jpg', '../photo/kasigau-culture-3.jpg']
+    },
+  ];
+</script>
+<script src="../assets/js/visit-sites.js"></script>
 
-  const vform = document.getElementById('visit-form');
-  const vstatus = document.getElementById('visit-status-msg');
-  const vbtn = document.getElementById('visit-submit-btn');
-
-  function showVStatus(kind, text){
-    vstatus.className = 'status-msg show ' + kind;
-    vstatus.textContent = text;
-  }
-
-  vform.addEventListener('submit', async function(e){
-    e.preventDefault();
-    const activeSite = document.querySelector('.visit-item.active');
-    const payload = {
-      name: vform.vname.value.trim(),
-      email: '',
-      phone: vform.vphone.value.trim(),
-      ticket: activeSite.dataset.name,
-      leg: document.title,
-      amount: Number(activeSite.dataset.fee)
-    };
-    if(!/^0[71][0-9]{8}$/.test(payload.phone)){
-      showVStatus('error', 'Enter a valid Safaricom number, e.g. 0712345678.');
-      return;
-    }
-    vbtn.disabled = true;
-    vbtn.textContent = 'Sending M-Pesa prompt…';
-    showVStatus('info', 'Check your phone for the M-Pesa PIN prompt.');
-    try {
-      const res = await fetch('../visit-payment.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if(!res.ok) throw new Error('Server returned ' + res.status);
-      const data = await res.json();
-      if (data.ResponseCode === '0' || data.ResponseCode === 0) {
-        showVStatus('success', 'Prompt sent! Enter your M-Pesa PIN to complete payment.');
-        vform.reset();
-      } else {
-        showVStatus('error', data.ResponseDescription || 'Payment could not be started.');
-      }
-    } catch (err) {
-      showVStatus('error', 'Could not reach the payment server — deploy visit-payment.php on a live PHP host first.');
-    } finally {
-      vbtn.disabled = false;
-      vbtn.textContent = 'Pay visitation fee';
-    }
-  });
-
-  // Advertising order calculator — same logic as the Tour page
+<script>
   document.querySelectorAll('[data-ad-calc]').forEach(function(calc){
     const scopeName = calc.dataset.adCalc;
     const rows = calc.querySelectorAll('.ad-row');
