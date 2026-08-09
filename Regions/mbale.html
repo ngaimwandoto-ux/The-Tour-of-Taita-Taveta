@@ -19,7 +19,6 @@
       <a href="../index.html#tickets">Register</a>
       <a href="../pages/login.html">Log In</a>
     </nav>
-    </nav>
   </div>
 </header>
 
@@ -72,19 +71,18 @@
   <section id="visit">
     <div class="section-head">
       <span class="eyebrow">Visit &amp; Support</span>
-      <h2>Pay a site visitation fee</h2>
-      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Entry fees support the local conservancies and community sites that host this leg. Pick a site and pay by M-Pesa — the same STK push flow as race registration.</p>
+      <h2>Places to visit at Mbale</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Entry fees support the local conservancies and community sites that host this leg. Pick a place below, then pay by M-Pesa — the same STK push flow as race registration.</p>
     </div>
-    <div class="visit-wrap">
-      <div class="visit-list" id="visit-list">
-        <div class="visit-item active" data-fee="250" data-name="Wesu Rock & Skull Caves guided visit"><div><div class="name">Wesu Rock & Skull Caves guided visit</div></div><div class="fee">KES 250</div></div>
-        <div class="visit-item" data-fee="300" data-name="Ngangao Forest walk"><div><div class="name">Ngangao Forest walk</div></div><div class="fee">KES 300</div></div>
-      </div>
+
+    <div id="visit-grid" class="site-grid"></div>
+
+    <div style="max-width:480px;margin-top:2rem;">
       <form id="visit-form" novalidate>
         <div class="field"><label for="vname">Full name</label><input type="text" id="vname" name="vname" required></div>
         <div class="field"><label for="vphone">M-Pesa phone number</label><input type="tel" id="vphone" name="vphone" placeholder="07XXXXXXXX" pattern="^0[71][0-9]{8}$" required></div>
-        <div class="amount-line"><span>Site</span><span id="visit-site-echo">Wesu Rock & Skull Caves guided visit</span></div>
-        <div class="amount-line"><span>Fee due</span><span id="visit-fee-echo">KES 250</span></div>
+        <div class="amount-line"><span>Site</span><span id="visit-site-echo">—</span></div>
+        <div class="amount-line"><span>Fee due</span><span id="visit-fee-echo">—</span></div>
         <button type="submit" class="submit" id="visit-submit-btn">Pay visitation fee</button>
         <div class="status-msg" id="visit-status-msg"></div>
       </form>
@@ -243,8 +241,8 @@
     <div class="gallery-grid">
       <figure><div class="ph"><span>image/mbale-wesu.jpg</span></div><figcaption>Wesu Rock finish</figcaption></figure>
       <figure><div class="ph"><span>image/mbale-forest.jpg</span></div><figcaption>Ngangao Forest trail</figcaption></figure>
-      <figure><div class="ph"><span>image/mbale-awards.jpg</span></div><figcaption>Closing awards ceremony (placeholder)</figcaption></figure>
-      <figure><div class="ph"><span>image/mbale-village.jpg</span></div><figcaption>Fan village (placeholder)</figcaption></figure>
+      <figure><div class="ph"><span>image/mbale-awards.jpg</span></div><figcaption>Closing awards ceremony</figcaption></figure>
+      <figure><div class="ph"><span>image/mbale-village.jpg</span></div><figcaption>Fan village</figcaption></figure>
     </div>
   </section>
 
@@ -256,68 +254,54 @@
 </footer>
 
 <script>
-  const visitItems = document.querySelectorAll('.visit-item');
-  const siteEcho = document.getElementById('visit-site-echo');
-  const feeEcho = document.getElementById('visit-fee-echo');
-  visitItems.forEach(it => {
-    it.addEventListener('click', () => {
-      visitItems.forEach(x => x.classList.remove('active'));
-      it.classList.add('active');
-      siteEcho.textContent = it.dataset.name;
-      feeEcho.textContent = 'KES ' + Number(it.dataset.fee).toLocaleString();
-    });
-  });
+  window.VISIT_SITES = [
+    {
+      id: 'wesu-rock-skull-caves',
+      name: 'Wesu Rock & Skull Caves guided visit',
+      fee: 250,
+      description: 'A granite outcrop just outside Wundanyi with panoramic views over the Taita Hills and plains — plus the traditional \'Cave of Skulls\' burial site.',
+      photos: ['../photo/wesu-rock-1.jpg', '../photo/wesu-rock-2.jpg', '../photo/wesu-rock-3.jpg']
+    },
+    {
+      id: 'ngangao-forest-walk',
+      name: 'Ngangao Forest walk',
+      fee: 300,
+      description: 'The largest remaining forest fragment in the Taita Hills at roughly 92–149 hectares, sheltering endemic birds and known for its butterflies.',
+      photos: ['../photo/ngangao-1.jpg', '../photo/ngangao-2.jpg', '../photo/ngangao-3.jpg']
+    },
+    {
+      id: 'taita-research-station',
+      name: 'Taita Research Station visit',
+      fee: 200,
+      description: 'A University of Helsinki field station based in Wundanyi studying land change, biodiversity and water resources across the Taita Hills.',
+      photos: ['../photo/research-station-1.jpg', '../photo/research-station-2.jpg', '../photo/research-station-3.jpg']
+    },
+    {
+      id: 'mbale-cultural-experience',
+      name: 'Mbale cultural & farming experience',
+      fee: 350,
+      description: 'Visit local farms and learn about traditional farming practices in the Taita Hills, including agroforestry and terracing techniques.',
+      photos: ['../photo/mbale-culture-1.jpg', '../photo/mbale-culture-2.jpg', '../photo/mbale-culture-3.jpg']
+    },
+    {
+      id: 'wundanyi-town-walk',
+      name: 'Wundanyi town heritage walk',
+      fee: 150,
+      description: 'A guided walk through the county\'s administrative and cultural centre, visiting colonial-era buildings and local markets.',
+      photos: ['../photo/wundanyi-1.jpg', '../photo/wundanyi-2.jpg', '../photo/wundanyi-3.jpg']
+    },
+    {
+      id: 'mbololo-forest-fragment',
+      name: 'Mbololo Forest excursion',
+      fee: 350,
+      description: 'One of the Taita Hills\' smaller forest fragments, featuring unique plant species and endemic birds.',
+      photos: ['../photo/mbololo-1.jpg', '../photo/mbololo-2.jpg', '../photo/mbololo-3.jpg']
+    },
+  ];
+</script>
+<script src="../assets/js/visit-sites.js"></script>
 
-  const vform = document.getElementById('visit-form');
-  const vstatus = document.getElementById('visit-status-msg');
-  const vbtn = document.getElementById('visit-submit-btn');
-
-  function showVStatus(kind, text){
-    vstatus.className = 'status-msg show ' + kind;
-    vstatus.textContent = text;
-  }
-
-  vform.addEventListener('submit', async function(e){
-    e.preventDefault();
-    const activeSite = document.querySelector('.visit-item.active');
-    const payload = {
-      name: vform.vname.value.trim(),
-      email: '',
-      phone: vform.vphone.value.trim(),
-      ticket: activeSite.dataset.name,
-      leg: document.title,
-      amount: Number(activeSite.dataset.fee)
-    };
-    if(!/^0[71][0-9]{8}$/.test(payload.phone)){
-      showVStatus('error', 'Enter a valid Safaricom number, e.g. 0712345678.');
-      return;
-    }
-    vbtn.disabled = true;
-    vbtn.textContent = 'Sending M-Pesa prompt…';
-    showVStatus('info', 'Check your phone for the M-Pesa PIN prompt.');
-    try {
-      const res = await fetch('../visit-payment.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if(!res.ok) throw new Error('Server returned ' + res.status);
-      const data = await res.json();
-      if (data.ResponseCode === '0' || data.ResponseCode === 0) {
-        showVStatus('success', 'Prompt sent! Enter your M-Pesa PIN to complete payment.');
-        vform.reset();
-      } else {
-        showVStatus('error', data.ResponseDescription || 'Payment could not be started.');
-      }
-    } catch (err) {
-      showVStatus('error', 'Could not reach the payment server — deploy visit-payment.php on a live PHP host first.');
-    } finally {
-      vbtn.disabled = false;
-      vbtn.textContent = 'Pay visitation fee';
-    }
-  });
-
-  // Advertising order calculator — same logic as the Tour page
+<script>
   document.querySelectorAll('[data-ad-calc]').forEach(function(calc){
     const scopeName = calc.dataset.adCalc;
     const rows = calc.querySelectorAll('.ad-row');
@@ -369,4 +353,4 @@
 </script>
 
 </body>
-</html>
+              </html>
