@@ -519,3 +519,8 @@ height:auto;
   height: 20px;
   fill: currentColor;
 }
+.social-row a:hover[aria-label="YouTube"] {
+  color: #ff0000;
+  background: rgba(255, 0, 0, 0.15);
+  border-color: #ff0000;
+}
