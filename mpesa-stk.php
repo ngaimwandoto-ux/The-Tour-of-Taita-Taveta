@@ -4,6 +4,10 @@
  * Receives the race-registration form's JSON payload and triggers a Daraja
  * STK Push. Requires mpesa-config.php (copy mpesa-config.example.php first
  * and fill in your real credentials — see that file for instructions).
+ *
+ * UPDATED: once Safaricom returns a CheckoutRequestID, this now saves the
+ * registration as "pending" in the database. callback.php marks it "paid"
+ * once Safaricom confirms the payment went through.
  */
 
 header('Content-Type: application/json');
@@ -13,12 +17,13 @@ if (!file_exists($configPath)) {
     http_response_code(500);
     echo json_encode([
         'ResponseCode' => '1',
-        'ResponseDescription' => 'Server is not configured yet: copy mpesa-config.example.php to mpesa-config.php and fill in your Daraja credentials.'
+        'ResponseDescription' => 'Server is not configured yet: copy mpesa-config.example.php to mpesa-config.php and fill in your Daraja credentials.',
     ]);
     exit;
 }
 require $configPath;
 require __DIR__ . '/mpesa-common.php';
+require __DIR__ . '/includes/database.php';
 
 // ---- Read + validate input ----
 $input = json_decode(file_get_contents('php://input'), true);
@@ -52,8 +57,17 @@ try {
         'Tour of Taita Taveta - ' . $leg . ' - ' . $ticket . ' (' . $gender . ')'
     );
 
-    // TODO: once you have a database, save $name/$email/$msisdn/$ticket/$leg here
-    // (as "pending"), then mark it "paid" when callback.php confirms success.
+    // Save as "pending" now that we have Safaricom's CheckoutRequestID —
+    // callback.php will flip this row to "paid"/"failed".
+    $checkoutRequestId = $result['CheckoutRequestID'] ?? null;
+    if ($checkoutRequestId) {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("
+            INSERT INTO registrations (checkout_request_id, name, email, phone, ticket, leg, gender, amount, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+        ");
+        $stmt->execute([$checkoutRequestId, $name, $email, $msisdn, $ticket, $leg, $gender, $amount]);
+    }
 
     echo json_encode($result);
 
