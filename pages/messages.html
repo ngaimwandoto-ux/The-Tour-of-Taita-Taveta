@@ -1,1 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Messages — Tour of Taita Taveta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<style>
+  /* Small additions specific to messaging — everything else reuses style.css */
+  .msg-list { display:flex; flex-direction:column; gap:0.6rem; }
+  .msg-item {
+    border:2px solid var(--ink); background:#fff; padding:0.8rem 1rem;
+    cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:0.6rem;
+  }
+  .msg-item.unread { border-color:var(--accent); }
+  .msg-item .name { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:1rem; }
+  .msg-item .preview { font-size:0.8rem; color:rgba(20,20,20,0.6); max-width:32ch; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .msg-item .unread-dot { width:10px; height:10px; border-radius:50%; background:var(--accent); flex:none; }
+  .thread-box { border:2px solid var(--ink); background:#fff; padding:1rem; margin-top:1.5rem; display:none; }
+  .thread-msg { max-width:80%; padding:0.6rem 0.9rem; margin-bottom:0.6rem; border-radius:2px; font-size:0.9rem; }
+  .thread-msg.mine { margin-left:auto; background:var(--deep); color:var(--cream); }
+  .thread-msg.theirs { background:var(--paper); border:1px solid var(--line); }
+  .thread-msg .meta { font-size:0.68rem; opacity:0.6; margin-top:0.3rem; font-family:'IBM Plex Mono',monospace; }
+</style>
+</head>
+<body>
 
+<header>
+  <div class="nav-inner">
+    <div class="brand"><img src="../logos/taita-taveta.png" alt="Tour of Taita Taveta Logo" class="main-logo"></div>
+    <nav class="links">
+      <a href="../index.html#home">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#" id="logout-link">Log Out</a>
+    </nav>
+  </div>
+</header>
+
+<section class="region-hero">
+  <h1>Messages</h1>
+  <div class="meta">Direct messages between TTTT accounts</div>
+</section>
+
+<main>
+  <section id="new-message-section">
+    <div class="section-head">
+      <span class="eyebrow">Start a Conversation</span>
+      <h2>Message someone by email</h2>
+    </div>
+    <form id="new-message-form" novalidate style="display:flex;gap:0.6rem;flex-wrap:wrap;align-items:flex-end;max-width:600px;">
+      <div class="field" style="flex:1;min-width:200px;margin-bottom:0;">
+        <label for="new-msg-email">Their email address</label>
+        <input type="email" id="new-msg-email" required>
+      </div>
+      <button type="submit" class="submit" style="width:auto;padding:0.7rem 1.4rem;">Start</button>
+    </form>
+    <div class="status-msg" id="new-msg-status"></div>
+  </section>
+
+  <section id="inbox-section">
+    <div class="section-head">
+      <span class="eyebrow">Inbox</span>
+      <h2>Your conversations</h2>
+    </div>
+    <div class="msg-list" id="conversation-list">
+      <p style="color:rgba(20,20,20,0.5);">Loading…</p>
+    </div>
+
+    <div class="thread-box" id="thread-box">
+      <h3 id="thread-with-name" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;text-transform:uppercase;"></h3>
+      <div id="thread-messages"></div>
+      <form id="reply-form" novalidate style="margin-top:1rem;">
+        <textarea id="reply-body" rows="3" style="width:100%;padding:0.7rem;border:1px solid var(--line);background:var(--paper);font-family:'Barlow',sans-serif;font-size:0.95rem;" placeholder="Type a message…" required></textarea>
+        <button type="submit" class="submit" style="margin-top:0.6rem;">Send</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p><strong>Tour of Taita Taveta</strong> — Attitude meets Altitude.</p>
+  <p>&copy; 2026 Tour of Taita Taveta. All rights reserved.</p>
+</footer>
+
+<script src="../assets/js/account.js"></script>
+<script src="../assets/js/messaging.js"></script>
+<script>
+  let currentUser = null;
+  let activeConversationId = null;
+  let activeOtherUserId = null;
+
+  function showNewMsgStatus(kind, text) {
+    const el = document.getElementById('new-msg-status');
+    el.className = 'status-msg show ' + kind;
+    el.textContent = text;
+  }
+
+  async function loadInbox() {
+    const result = await ttttMessaging.getConversations();
+    const list = document.getElementById('conversation-list');
+    if (!result.success || result.conversations.length === 0) {
+      list.innerHTML = '<p style="color:rgba(20,20,20,0.5);">No conversations yet — start one above.</p>';
+      return;
+    }
+    list.innerHTML = result.conversations.map(c => `
+      <div class="msg-item ${c.unread_count > 0 ? 'unread' : ''}" data-conv-id="${c.id}" data-other-id="${c.other_user_id}" data-other-name="${c.other_display_name}">
+        <div>
+          <div class="name">${c.other_display_name} <span style="font-weight:400;opacity:0.6;">(${c.other_account_type})</span></div>
+          <div class="preview">${c.last_body || ''}</div>
+        </div>
+        ${c.unread_count > 0 ? '<span class="unread-dot"></span>' : ''}
+      </div>
+    `).join('');
+
+    list.querySelectorAll('.msg-item').forEach(el => {
+      el.addEventListener('click', () => openThread(
+        parseInt(el.dataset.convId), parseInt(el.dataset.otherId), el.dataset.otherName
+      ));
+    });
+  }
+
+  async function openThread(conversationId, otherUserId, otherName) {
+    activeConversationId = conversationId;
+    activeOtherUserId = otherUserId;
+
+    const box = document.getElementById('thread-box');
+    box.style.display = 'block';
+    document.getElementById('thread-with-name').textContent = otherName;
+
+    const result = await ttttMessaging.getThread(conversationId);
+    const container = document.getElementById('thread-messages');
+    if (!result.success) {
+      container.innerHTML = '<p>Could not load this conversation.</p>';
+      return;
+    }
+    container.innerHTML = result.messages.map(m => `
+      <div class="thread-msg ${m.sender_id === currentUser.id ? 'mine' : 'theirs'}">
+        <div>${m.body}</div>
+        <div class="meta">${m.sender_name} · ${new Date(m.created_at).toLocaleString()}</div>
+      </div>
+    `).join('');
+
+    loadInbox(); // refresh unread dots now that this thread's been read
+  }
+
+  document.getElementById('new-message-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('new-msg-email').value.trim();
+    const found = await ttttMessaging.findUserByEmail(email);
+    if (!found.success) {
+      showNewMsgStatus('error', found.error || 'No account found with that email.');
+      return;
+    }
+    showNewMsgStatus('info', 'Found ' + found.user.display_name + ' — type your first message below.');
+    document.getElementById('thread-box').style.display = 'block';
+    document.getElementById('thread-with-name').textContent = found.user.display_name;
+    document.getElementById('thread-messages').innerHTML = '';
+    activeConversationId = null;
+    activeOtherUserId = found.user.id;
+  });
+
+  document.getElementById('reply-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const textarea = document.getElementById('reply-body');
+    const body = textarea.value.trim();
+    if (!body || !activeOtherUserId) return;
+
+    const result = await ttttMessaging.sendMessage(activeOtherUserId, body);
+    if (result.success) {
+      textarea.value = '';
+      activeConversationId = result.conversation_id;
+      await openThread(activeConversationId, activeOtherUserId, document.getElementById('thread-with-name').textContent);
+    } else {
+      alert(result.error || 'Failed to send.');
+    }
+  });
+
+  (async function () {
+    currentUser = await ttttAccount.checkAuth();
+    if (!currentUser) {
+      window.location.href = 'login.html';
+      return;
+    }
+    loadInbox();
+
+    document.getElementById('logout-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      ttttAccount.logout();
+    });
+  })();
+</script>
+
+</body>
+</html>

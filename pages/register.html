@@ -1,1 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register — Tour of Taita Taveta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
 
+<header>
+  <div class="nav-inner">
+    <div class="brand"><img src="../logos/taita-taveta.png" alt="Tour of Taita Taveta Logo" class="main-logo"></div>
+    <nav class="links">
+      <a href="../index.html#home">Home</a>
+      <a href="login.html">Log In</a>
+    </nav>
+  </div>
+</header>
+
+<section class="region-hero">
+  <h1>Create an Account</h1>
+  <div class="meta">Riders, teams, sponsors, supporters, partners, and volunteers all start here</div>
+</section>
+
+<main>
+  <section style="max-width:480px;margin:0 auto;">
+    <form id="register-form" novalidate>
+      <div class="field">
+        <label for="account-type">Account type</label>
+        <select id="account-type" required>
+          <option value="rider">Rider</option>
+          <option value="team">Team</option>
+          <option value="volunteer">Volunteer</option>
+          <option value="sponsor">Sponsor</option>
+          <option value="supporter">Supporter</option>
+          <option value="partner">Partner</option>
+        </select>
+      </div>
+
+      <div class="field"><label for="display-name">Display name</label><input type="text" id="display-name" required></div>
+      <div class="field"><label for="email">Email address</label><input type="email" id="email" required></div>
+      <div class="field"><label for="password">Password (min 8 characters)</label><input type="password" id="password" minlength="8" required></div>
+      <div class="field"><label for="location">Location</label><input type="text" id="location" placeholder="e.g. Voi, Wundanyi, Nairobi"></div>
+
+      <div class="field" id="team-field" style="display:none;">
+        <label for="team-name">Team name</label>
+        <input type="text" id="team-name">
+      </div>
+
+      <div class="field" id="rider-field" style="display:none;">
+        <label for="category">Racing category</label>
+        <select id="category">
+          <option value="open">Open</option>
+          <option value="amateur">Amateur</option>
+          <option value="elite">Elite</option>
+        </select>
+      </div>
+
+      <div class="field" id="volunteer-field" style="display:none;">
+        <label for="primary-role">Primary role</label>
+        <select id="primary-role">
+          <option value="general">General</option>
+          <option value="conservation">Conservation</option>
+          <option value="culture_dance">Culture & Dance</option>
+          <option value="history_guide">History Guide</option>
+          <option value="security">Security</option>
+          <option value="race_day_logistics">Race-Day Logistics</option>
+        </select>
+      </div>
+
+      <div class="field" id="sponsor-field" style="display:none;">
+        <label for="company-name">Company name</label>
+        <input type="text" id="company-name">
+      </div>
+
+      <div class="field" id="partner-field" style="display:none;">
+        <label for="business-name">Business name</label>
+        <input type="text" id="business-name">
+      </div>
+
+      <button type="submit" class="submit" id="register-btn">Create Account</button>
+      <div class="status-msg" id="register-status"></div>
+    </form>
+    <p class="fine-print" style="text-align:center;margin-top:1rem;">
+      Already have an account? <a href="login.html" style="color:var(--accent-deep);">Log in</a>
+    </p>
+  </section>
+</main>
+
+<footer>
+  <p><strong>Tour of Taita Taveta</strong> — Attitude meets Altitude.</p>
+  <p>&copy; 2026 Tour of Taita Taveta. All rights reserved.</p>
+</footer>
+
+<script src="../assets/js/account.js"></script>
+<script>
+  const typeSelect = document.getElementById('account-type');
+  const fieldsByType = {
+    team: 'team-field',
+    rider: 'rider-field',
+    volunteer: 'volunteer-field',
+    sponsor: 'sponsor-field',
+    partner: 'partner-field',
+  };
+
+  function updateFields() {
+    Object.values(fieldsByType).forEach(id => document.getElementById(id).style.display = 'none');
+    const target = fieldsByType[typeSelect.value];
+    if (target) document.getElementById(target).style.display = 'block';
+  }
+  typeSelect.addEventListener('change', updateFields);
+  updateFields();
+
+  const form = document.getElementById('register-form');
+  const status = document.getElementById('register-status');
+  const btn = document.getElementById('register-btn');
+
+  function showStatus(kind, text) {
+    status.className = 'status-msg show ' + kind;
+    status.textContent = text;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Creating account…';
+
+    const data = {
+      account_type: typeSelect.value,
+      display_name: document.getElementById('display-name').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      password: document.getElementById('password').value,
+      location: document.getElementById('location').value.trim(),
+      team_name: document.getElementById('team-name').value.trim(),
+      category: document.getElementById('category').value,
+      primary_role: document.getElementById('primary-role').value,
+      company_name: document.getElementById('company-name').value.trim(),
+      business_name: document.getElementById('business-name').value.trim(),
+    };
+
+    const result = await ttttAccount.register(data);
+    if (result.success) {
+      window.location.href = 'dashboard.html';
+    } else {
+      showStatus('error', result.error || 'Registration failed.');
+      btn.disabled = false;
+      btn.textContent = 'Create Account';
+    }
+  });
+</script>
+
+</body>
+</html>

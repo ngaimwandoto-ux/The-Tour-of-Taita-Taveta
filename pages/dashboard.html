@@ -1,1 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Tour of Taita Taveta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
 
+<header>
+  <div class="nav-inner">
+    <div class="brand"><img src="../logos/taita-taveta.png" alt="Tour of Taita Taveta Logo" class="main-logo"></div>
+    <nav class="links">
+      <a href="../index.html#home">Home</a>
+      <a href="messages.html">Messages <span id="nav-unread"></span></a>
+      <a href="#" id="logout-link">Log Out</a>
+    </nav>
+  </div>
+</header>
+
+<section class="region-hero">
+  <h1 id="welcome-heading">Dashboard</h1>
+  <div class="meta" id="account-type-label">&nbsp;</div>
+</section>
+
+<main>
+  <section>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Your Profile</h3>
+        <p id="profile-email">Loading…</p>
+        <p id="profile-location"></p>
+        <p id="profile-joined"></p>
+      </div>
+      <div class="info-card">
+        <h3>Messages</h3>
+        <p id="unread-summary">Loading…</p>
+        <p><a href="messages.html" style="color:var(--accent-deep);">Go to inbox →</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p><strong>Tour of Taita Taveta</strong> — Attitude meets Altitude.</p>
+  <p>&copy; 2026 Tour of Taita Taveta. All rights reserved.</p>
+</footer>
+
+<script src="../assets/js/account.js"></script>
+<script src="../assets/js/messaging.js"></script>
+<script>
+  (async function () {
+    const user = await ttttAccount.checkAuth();
+    if (!user) {
+      window.location.href = 'login.html';
+      return;
+    }
+
+    document.getElementById('welcome-heading').textContent = 'Welcome, ' + user.display_name;
+    document.getElementById('account-type-label').textContent =
+      user.account_type.charAt(0).toUpperCase() + user.account_type.slice(1) + ' account';
+    document.getElementById('profile-email').textContent = user.email;
+    document.getElementById('profile-location').textContent = user.location ? 'Based in ' + user.location : '';
+    document.getElementById('profile-joined').textContent = 'Joined ' + new Date(user.created_at).toLocaleDateString();
+
+    const unread = await ttttMessaging.getUnreadCount();
+    if (unread.success) {
+      document.getElementById('unread-summary').textContent =
+        unread.count > 0 ? `You have ${unread.count} unread message${unread.count === 1 ? '' : 's'}.` : 'No unread messages.';
+      if (unread.count > 0) {
+        document.getElementById('nav-unread').textContent = `(${unread.count})`;
+      }
+    }
+
+    document.getElementById('logout-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      ttttAccount.logout();
+    });
+  })();
+</script>
+
+</body>
+</html>
