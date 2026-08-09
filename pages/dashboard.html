@@ -42,6 +42,25 @@
       </div>
     </div>
   </section>
+
+  <section id="logo-section" style="display:none;">
+    <div class="section-head">
+      <span class="eyebrow">Public Listing</span>
+      <h2>Your logo on the homepage</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">
+        Upload a logo (JPG, PNG, or WEBP, under 2MB) to appear in the
+        homepage directory. New listings are reviewed before going live —
+        you'll see your status below.
+      </p>
+    </div>
+    <div class="info-card" style="max-width:480px;">
+      <div id="current-logo-preview" style="margin-bottom:0.8rem;"></div>
+      <p id="listing-status" style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;margin-bottom:0.8rem;"></p>
+      <div class="field"><label for="logo-file">Choose a logo file</label><input type="file" id="logo-file" accept="image/jpeg,image/png,image/webp"></div>
+      <button type="button" class="submit" id="logo-upload-btn">Upload Logo</button>
+      <div class="status-msg" id="logo-status-msg"></div>
+    </div>
+  </section>
 </main>
 
 <footer>
@@ -52,6 +71,14 @@
 <script src="../assets/js/account.js"></script>
 <script src="../assets/js/messaging.js"></script>
 <script>
+  const LISTED_TYPES = ['team', 'sponsor', 'supporter', 'partner'];
+
+  function showLogoStatus(kind, text) {
+    const el = document.getElementById('logo-status-msg');
+    el.className = 'status-msg show ' + kind;
+    el.textContent = text;
+  }
+
   (async function () {
     const user = await ttttAccount.checkAuth();
     if (!user) {
@@ -70,10 +97,43 @@
     if (unread.success) {
       document.getElementById('unread-summary').textContent =
         unread.count > 0 ? `You have ${unread.count} unread message${unread.count === 1 ? '' : 's'}.` : 'No unread messages.';
-      if (unread.count > 0) {
-        document.getElementById('nav-unread').textContent = `(${unread.count})`;
+      if (unread.count > 0) document.getElementById('nav-unread').textContent = `(${unread.count})`;
+    }
+
+    if (LISTED_TYPES.includes(user.account_type)) {
+      document.getElementById('logo-section').style.display = 'block';
+      document.getElementById('listing-status').textContent = user.is_public
+        ? '✓ Live on the homepage.'
+        : 'Not yet public — pending review.';
+      const preview = document.getElementById('current-logo-preview');
+      if (user.logo_path) {
+        preview.innerHTML = `<img src="../${user.logo_path}" alt="Current logo" style="max-height:80px;">`;
+      } else {
+        preview.innerHTML = '<span style="color:rgba(20,20,20,0.5);font-size:0.85rem;">No logo uploaded yet.</span>';
       }
     }
+
+    document.getElementById('logo-upload-btn').addEventListener('click', async () => {
+      const fileInput = document.getElementById('logo-file');
+      if (!fileInput.files.length) {
+        showLogoStatus('error', 'Choose a file first.');
+        return;
+      }
+      const formData = new FormData();
+      formData.append('logo', fileInput.files[0]);
+
+      const res = await fetch('/api/index.php?endpoint=upload-logo', {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+      });
+      const result = await res.json();
+      if (result.success) {
+        showLogoStatus('success', 'Logo uploaded — awaiting approval before it appears on the homepage.');
+      } else {
+        showLogoStatus('error', result.error || 'Upload failed.');
+      }
+    });
 
     document.getElementById('logout-link').addEventListener('click', (e) => {
       e.preventDefault();
