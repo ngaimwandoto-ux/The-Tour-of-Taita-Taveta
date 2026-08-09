@@ -71,18 +71,18 @@
   <section id="visit">
     <div class="section-head">
       <span class="eyebrow">Visit &amp; Support</span>
-      <h2>Pay a site visitation fee</h2>
-      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Entry fees support the local conservancies and community sites that host this leg. Pick a site and pay by M-Pesa — the same STK push flow as race registration.</p>
+      <h2>Places to visit at Vuria / Wusi</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Entry fees support the local conservancies and community sites that host this leg. Pick a place below, then pay by M-Pesa — the same STK push flow as race registration.</p>
     </div>
-    <div class="visit-wrap">
-      <div class="visit-list" id="visit-list">
-        <div class="visit-item active" data-fee="300" data-name="Vuria summit hike & camping permit"><div><div class="name">Vuria summit hike & camping permit</div></div><div class="fee">KES 300</div></div>
-      </div>
+
+    <div id="visit-grid" class="site-grid"></div>
+
+    <div style="max-width:480px;margin-top:2rem;">
       <form id="visit-form" novalidate>
         <div class="field"><label for="vname">Full name</label><input type="text" id="vname" name="vname" required></div>
         <div class="field"><label for="vphone">M-Pesa phone number</label><input type="tel" id="vphone" name="vphone" placeholder="07XXXXXXXX" pattern="^0[71][0-9]{8}$" required></div>
-        <div class="amount-line"><span>Site</span><span id="visit-site-echo">Vuria summit hike & camping permit</span></div>
-        <div class="amount-line"><span>Fee due</span><span id="visit-fee-echo">KES 300</span></div>
+        <div class="amount-line"><span>Site</span><span id="visit-site-echo">—</span></div>
+        <div class="amount-line"><span>Fee due</span><span id="visit-fee-echo">—</span></div>
         <button type="submit" class="submit" id="visit-submit-btn">Pay visitation fee</button>
         <div class="status-msg" id="visit-status-msg"></div>
       </form>
@@ -254,68 +254,54 @@
 </footer>
 
 <script>
-  const visitItems = document.querySelectorAll('.visit-item');
-  const siteEcho = document.getElementById('visit-site-echo');
-  const feeEcho = document.getElementById('visit-fee-echo');
-  visitItems.forEach(it => {
-    it.addEventListener('click', () => {
-      visitItems.forEach(x => x.classList.remove('active'));
-      it.classList.add('active');
-      siteEcho.textContent = it.dataset.name;
-      feeEcho.textContent = 'KES ' + Number(it.dataset.fee).toLocaleString();
-    });
-  });
+  window.VISIT_SITES = [
+    {
+      id: 'vuria-summit-hike',
+      name: 'Vuria summit hike & camping permit',
+      fee: 300,
+      description: 'The highest point in Taita Taveta County at 2,228m, with a bare rock-ledge summit offering a 360° viewing deck — Kenya Forest Service permits camping at the top.',
+      photos: ['../photo/vuria-summit-1.jpg', '../photo/vuria-summit-2.jpg', '../photo/vuria-summit-3.jpg']
+    },
+    {
+      id: 'vuria-montane-forest',
+      name: 'Vuria montane forest walk',
+      fee: 250,
+      description: 'A guided walk through the recovering ~51-hectare forest patch below the summit, managed by the Kenya Forest Service as part of ongoing restoration efforts.',
+      photos: ['../photo/vuria-forest-1.jpg', '../photo/vuria-forest-2.jpg', '../photo/vuria-forest-3.jpg']
+    },
+    {
+      id: 'wusi-kishamba-villages',
+      name: 'Wusi / Kishamba village tour',
+      fee: 200,
+      description: 'Visit the terraced hillside farms of the Wusi and Kishamba communities — one of the distinct Dawida dialect areas of the Taita Hills.',
+      photos: ['../photo/wusi-village-1.jpg', '../photo/wusi-village-2.jpg', '../photo/wusi-village-3.jpg']
+    },
+    {
+      id: 'mwanda-trailhead',
+      name: 'Mwanda trailhead & springs walk',
+      fee: 150,
+      description: 'The traditional launch point for the Vuria hike, with access to the springs that feed the lower Taita Hills — a working example of hilltop forest as water infrastructure.',
+      photos: ['../photo/mwanda-springs-1.jpg', '../photo/mwanda-springs-2.jpg', '../photo/mwanda-springs-3.jpg']
+    },
+    {
+      id: 'vuria-sunrise-sunset',
+      name: 'Vuria sunrise / sunset viewing',
+      fee: 100,
+      description: 'Access to the summit during golden hours — a spectacular 360° view over the Taita Hills and Tsavo plains, best at dawn or dusk.',
+      photos: ['../photo/vuria-sunrise-1.jpg', '../photo/vuria-sunrise-2.jpg', '../photo/vuria-sunrise-3.jpg']
+    },
+    {
+      id: 'taita-hills-birding',
+      name: 'Taita Hills birding excursion',
+      fee: 350,
+      description: 'Guided birdwatching in the Vuria forest remnant, targeting endemic species including the Taita Thrush and Taita White-eye.',
+      photos: ['../photo/birding-1.jpg', '../photo/birding-2.jpg', '../photo/birding-3.jpg']
+    },
+  ];
+</script>
+<script src="../assets/js/visit-sites.js"></script>
 
-  const vform = document.getElementById('visit-form');
-  const vstatus = document.getElementById('visit-status-msg');
-  const vbtn = document.getElementById('visit-submit-btn');
-
-  function showVStatus(kind, text){
-    vstatus.className = 'status-msg show ' + kind;
-    vstatus.textContent = text;
-  }
-
-  vform.addEventListener('submit', async function(e){
-    e.preventDefault();
-    const activeSite = document.querySelector('.visit-item.active');
-    const payload = {
-      name: vform.vname.value.trim(),
-      email: '',
-      phone: vform.vphone.value.trim(),
-      ticket: activeSite.dataset.name,
-      leg: document.title,
-      amount: Number(activeSite.dataset.fee)
-    };
-    if(!/^0[71][0-9]{8}$/.test(payload.phone)){
-      showVStatus('error', 'Enter a valid Safaricom number, e.g. 0712345678.');
-      return;
-    }
-    vbtn.disabled = true;
-    vbtn.textContent = 'Sending M-Pesa prompt…';
-    showVStatus('info', 'Check your phone for the M-Pesa PIN prompt.');
-    try {
-      const res = await fetch('../visit-payment.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if(!res.ok) throw new Error('Server returned ' + res.status);
-      const data = await res.json();
-      if (data.ResponseCode === '0' || data.ResponseCode === 0) {
-        showVStatus('success', 'Prompt sent! Enter your M-Pesa PIN to complete payment.');
-        vform.reset();
-      } else {
-        showVStatus('error', data.ResponseDescription || 'Payment could not be started.');
-      }
-    } catch (err) {
-      showVStatus('error', 'Could not reach the payment server — deploy visit-payment.php on a live PHP host first.');
-    } finally {
-      vbtn.disabled = false;
-      vbtn.textContent = 'Pay visitation fee';
-    }
-  });
-
-  // Advertising order calculator — same logic as the Tour page
+<script>
   document.querySelectorAll('[data-ad-calc]').forEach(function(calc){
     const scopeName = calc.dataset.adCalc;
     const rows = calc.querySelectorAll('.ad-row');
