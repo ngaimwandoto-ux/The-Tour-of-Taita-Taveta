@@ -257,7 +257,8 @@ class Auth {
 
     public function getUserById(int $userId): ?array {
         $stmt = $this->db->prepare("
-            SELECT id, email, account_type, display_name, location, is_active, email_verified, created_at, last_login
+            SELECT id, email, account_type, display_name, location, logo_path, is_public,
+                   is_active, email_verified, created_at, last_login
             FROM users WHERE id = ?
         ");
         $stmt->execute([$userId]);
