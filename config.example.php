@@ -7,7 +7,7 @@
  *
  * 1. Copy this file to "config.php" (do NOT commit that copy to git).
  * 2. Add "config.php" to your .gitignore, right alongside mpesa-config.php.
- * 3. Generate a real JWT secret — do not ship the placeholder below.
+ * 3. Generate real secrets — do not ship the placeholders below.
  *    On the command line: php -r "echo bin2hex(random_bytes(32));"
  *
  * Never paste real values into chat, screenshots, or public repos —
@@ -25,6 +25,10 @@ define('DB_PATH', __DIR__ . '/data/tttt.sqlite');
 
 // Generate with: php -r "echo bin2hex(random_bytes(32));"
 define('JWT_SECRET', 'REPLACE_WITH_A_REAL_RANDOM_64_CHAR_HEX_STRING');
+
+// A second, separate random string — protects admin/approve.php.
+// Generate the same way, but use a DIFFERENT value than JWT_SECRET.
+define('ADMIN_KEY', 'REPLACE_WITH_A_DIFFERENT_RANDOM_STRING');
 
 // Your real deployed frontend origin(s), comma-separated, no trailing slash.
 // e.g. 'https://tour-of-taita-taveta.vercel.app,https://touroftaitataveta.co.ke'
