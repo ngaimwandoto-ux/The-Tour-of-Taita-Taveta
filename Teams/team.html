@@ -1,1 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team — Tour of Taita Taveta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
 
+<header>
+  <div class="nav-inner">
+    <div class="brand"><img src="../logos/taita-taveta.png" alt="Tour of Taita Taveta Logo" class="main-logo"></div>
+    <nav class="links">
+      <a href="../index.html#home">Home</a>
+      <a href="../index.html#ecosystem">All teams</a>
+      <a href="../index.html#tickets">Register</a>
+      <a href="../pages/login.html">Log In</a>
+    </nav>
+  </div>
+</header>
+
+<section class="region-hero">
+  <a class="back" href="../index.html#ecosystem">&larr; All teams</a>
+  <img id="team-logo" class="region-logo" src="" alt="" style="display:none;">
+  <h1 id="team-name">Loading…</h1>
+  <div class="meta" id="team-meta">&nbsp;</div>
+</section>
+
+<main>
+  <section id="roster">
+    <div class="section-head">
+      <span class="eyebrow">The Team</span>
+      <h2>Roster</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;" id="roster-note">Loading riders…</p>
+    </div>
+    <div class="camp-grid" id="roster-grid"></div>
+  </section>
+
+  <section id="standings">
+    <div class="section-head">
+      <span class="eyebrow">Leaderboard</span>
+      <h2>Tour standing</h2>
+    </div>
+    <table class="leaderboard">
+      <thead><tr><th>Pos</th><th>Rider</th><th>Category</th><th>Cumulative time</th></tr></thead>
+      <tbody>
+        <tr><td colspan="4" style="text-align:center;color:rgba(20,20,20,0.5);padding:1.2rem;">No results yet — standings populate automatically once leg timing data comes in.</td></tr>
+      </tbody>
+    </table>
+    <p class="leaderboard-note">Team result = sum of each rider's completion time per leg, cumulative across the Tour.</p>
+  </section>
+</main>
+
+<footer>
+  <p><strong>Tour of Taita Taveta</strong> — Attitude meets Altitude.</p>
+  <p>&copy; 2026 Tour of Taita Taveta. All rights reserved.</p>
+</footer>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('slug');
+
+  async function loadTeam() {
+    if (!slug) {
+      document.getElementById('team-name').textContent = 'No team specified';
+      return;
+    }
+    try {
+      const res = await fetch(`/api/index.php?endpoint=team&slug=${encodeURIComponent(slug)}`);
+      const data = await res.json();
+      if (!data.success) {
+        document.getElementById('team-name').textContent = 'Team not found';
+        return;
+      }
+      const team = data.team;
+      document.title = team.name + ' — Tour of Taita Taveta';
+      document.getElementById('team-name').textContent = team.name;
+      document.getElementById('team-meta').textContent = team.captain ? `Captained by ${team.captain}` : 'No captain on record';
+
+      if (team.logo_path) {
+        const logo = document.getElementById('team-logo');
+        logo.src = '../' + team.logo_path;
+        logo.alt = team.name + ' logo';
+        logo.style.display = 'inline-block';
+      }
+
+      const grid = document.getElementById('roster-grid');
+      const note = document.getElementById('roster-note');
+      if (team.roster.length === 0) {
+        note.textContent = 'No riders have joined this team yet.';
+        grid.innerHTML = '';
+      } else {
+        note.textContent = `${team.rider_count} rider${team.rider_count === 1 ? '' : 's'} racing under the ${team.name} banner.`;
+        grid.innerHTML = team.roster.map(r => `
+          <div class="camp-card"><h3>${r.display_name}</h3><p>${r.category ? r.category.charAt(0).toUpperCase() + r.category.slice(1) : 'Open'} · ${r.gender ? r.gender.charAt(0).toUpperCase() + r.gender.slice(1) : ''}</p></div>
+        `).join('');
+      }
+    } catch (e) {
+      document.getElementById('team-name').textContent = 'Could not load team';
+    }
+  }
+
+  loadTeam();
+</script>
+
+</body>
+</html>
