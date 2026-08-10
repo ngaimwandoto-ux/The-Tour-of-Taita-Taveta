@@ -716,17 +716,3 @@ height:auto;
 [data-theme="dark"] .region-logo {
   background: transparent !important;
 }
-.cycling-trail-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  background-image: url('photo/mtb-tread-pattern.svg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.04;
-  pointer-events: none;
-}
