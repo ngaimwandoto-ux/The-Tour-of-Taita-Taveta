@@ -18,6 +18,10 @@
       <a href="../index.html#legs">Legs</a>
       <a href="../index.html#tickets">Register</a>
       <a href="../pages/login.html">Log In</a>
+      <!-- Dark Mode Toggle Button -->
+<button id="theme-toggle" aria-label="Toggle dark mode" style="background:none;border:2px solid var(--olive-lt);color:var(--cream);cursor:pointer;font-size:1.1rem;padding:0.3rem 0.7rem;border-radius:4px;transition:all 0.2s ease;white-space:nowrap;">
+  🌙
+</button>
     </nav>
   </div>
 </header>
@@ -392,6 +396,28 @@
 </script>
       <script>window.DONATE_SCOPE = document.title;</script>
 <script src="../assets/js/donate.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const toggleBtn = document.getElementById('theme-toggle');
+  const currentTheme = localStorage.getItem('theme') || 'light';
+  if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    toggleBtn.textContent = '☀️';
+  }
+  toggleBtn.addEventListener('click', function() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    if (theme === 'dark') {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      toggleBtn.textContent = '🌙';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      toggleBtn.textContent = '☀️';
+    }
+  });
+});
+  </script>
 
 </body>
 </html>
