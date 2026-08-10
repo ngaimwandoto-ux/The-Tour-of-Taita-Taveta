@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
     email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
     account_type TEXT NOT NULL CHECK(account_type IN
-        ('rider','team','sponsor','supporter','partner','volunteer','admin')),
+        ('rider','team','sponsor','supporter','partner','volunteer','media','advertiser','admin')),
     display_name TEXT NOT NULL,
     location TEXT,
     logo_path TEXT,
@@ -63,6 +63,20 @@ CREATE TABLE IF NOT EXISTS partner_profiles (
     business_type TEXT
 );
 
+-- New: media brands/creators covering the Tour
+CREATE TABLE IF NOT EXISTS media_profiles (
+    user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    brand_name TEXT NOT NULL,
+    platform TEXT -- e.g. "YouTube", "Instagram", "Blog" — free text, not an enum, since this varies a lot
+);
+
+-- New: commercial advertisers (no public homepage listing — they buy
+-- inventory via the ad calculator/enquiry flow, not a logo wall)
+CREATE TABLE IF NOT EXISTS advertiser_profiles (
+    user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    company_name TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS registrations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     checkout_request_id TEXT UNIQUE,
@@ -86,6 +100,23 @@ CREATE TABLE IF NOT EXISTS visits (
     phone TEXT NOT NULL,
     site TEXT NOT NULL,
     leg TEXT NOT NULL,
+    amount INTEGER NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','paid','failed')),
+    mpesa_receipt TEXT,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- New: leg-level "Support this leg" donations, same pending/paid/failed
+-- lifecycle as registrations/visits. Guest checkout — not tied to an
+-- account, same as race registration and visitation fees.
+CREATE TABLE IF NOT EXISTS donations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    checkout_request_id TEXT UNIQUE,
+    name TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    scope TEXT NOT NULL,     -- which leg (or "Tour of Taita Taveta") this backs
+    tier TEXT NOT NULL,      -- derived server-side from the amount
     amount INTEGER NOT NULL,
     status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','paid','failed')),
     mpesa_receipt TEXT,
@@ -125,9 +156,12 @@ CREATE INDEX IF NOT EXISTS idx_reg_status ON registrations(status);
 CREATE INDEX IF NOT EXISTS idx_reg_leg ON registrations(leg);
 CREATE INDEX IF NOT EXISTS idx_visits_status ON visits(status);
 CREATE INDEX IF NOT EXISTS idx_visits_leg ON visits(leg);
+CREATE INDEX IF NOT EXISTS idx_donations_status ON donations(status);
+CREATE INDEX IF NOT EXISTS idx_donations_scope ON donations(scope);
 CREATE INDEX IF NOT EXISTS idx_rate_limits_lookup ON rate_limits(ip_address, action, created_at);
 CREATE INDEX IF NOT EXISTS idx_conversations_participants ON conversations(participant1_id, participant2_id);
 CREATE INDEX IF NOT EXISTS idx_messages_conversation ON messages(conversation_id, created_at);
 CREATE INDEX IF NOT EXISTS idx_messages_unread ON messages(recipient_id, is_read);
 CREATE INDEX IF NOT EXISTS idx_users_public ON users(account_type, is_public, is_active);
 CREATE INDEX IF NOT EXISTS idx_teams_public ON teams(is_public);
+CREATE INDEX IF NOT EXISTS idx_rider_team ON rider_profiles(team_id);
