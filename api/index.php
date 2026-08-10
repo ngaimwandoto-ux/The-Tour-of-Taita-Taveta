@@ -1,17 +1,15 @@
 <?php
 /**
  * api/index.php
- *
  * Single entry point: /api/index.php?endpoint=login etc.
- * Point your web server at this file, or route /api/* to it.
  */
 
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../includes/database.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/messaging.php';
+require_once __DIR__ . '/../includes/directory.php';
 
-// ---- CORS: locked to real origins, never a wildcard ----
 $allowedOrigins = array_filter(array_map('trim', explode(',', CORS_ALLOWED_ORIGINS)));
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 if (in_array($origin, $allowedOrigins, true)) {
@@ -32,13 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $auth = new Auth();
 $messaging = new Messaging();
+$directory = new Directory();
 $method = $_SERVER['REQUEST_METHOD'];
 $endpoint = $_GET['endpoint'] ?? '';
-$input = json_decode(file_get_contents('php://input'), true) ?: [];
+$input = ($endpoint === 'upload-logo') ? [] : (json_decode(file_get_contents('php://input'), true) ?: []);
 $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 
-// Resolve the logged-in user once, for endpoints that need it.
 $currentUserId = $auth->validateToken($_COOKIE['auth_token'] ?? null);
+$currentUser = $currentUserId ? $auth->getUserById($currentUserId) : null;
 
 function requireAuth(?int $userId): bool {
     if (!$userId) {
@@ -68,15 +67,14 @@ try {
 
         case $endpoint === 'profile' && $method === 'GET':
             if (!requireAuth($currentUserId)) break;
-            echo json_encode(['success' => true, 'user' => $auth->getUserById($currentUserId)]);
+            echo json_encode(['success' => true, 'user' => $currentUser]);
             break;
 
-        // ---------------- Messaging (all require auth) ----------------
+        // ---------------- Messaging (auth required) ----------------
 
         case $endpoint === 'find-user' && $method === 'GET':
             if (!requireAuth($currentUserId)) break;
-            $email = $_GET['email'] ?? '';
-            $found = $messaging->findUserByEmail($email);
+            $found = $messaging->findUserByEmail($_GET['email'] ?? '');
             echo json_encode($found
                 ? ['success' => true, 'user' => $found]
                 : ['success' => false, 'error' => 'No account found with that email.']);
@@ -89,25 +87,56 @@ try {
 
         case $endpoint === 'thread' && $method === 'GET':
             if (!requireAuth($currentUserId)) break;
-            $conversationId = (int) ($_GET['conversation_id'] ?? 0);
-            echo json_encode($messaging->getThread($currentUserId, $conversationId));
+            echo json_encode($messaging->getThread($currentUserId, (int) ($_GET['conversation_id'] ?? 0)));
             break;
 
         case $endpoint === 'send-message' && $method === 'POST':
             if (!requireAuth($currentUserId)) break;
-            $recipientId = (int) ($input['recipient_id'] ?? 0);
-            echo json_encode($messaging->sendMessage($currentUserId, $recipientId, $input['body'] ?? ''));
+            echo json_encode($messaging->sendMessage($currentUserId, (int) ($input['recipient_id'] ?? 0), $input['body'] ?? ''));
             break;
 
         case $endpoint === 'archive-conversation' && $method === 'POST':
             if (!requireAuth($currentUserId)) break;
-            $conversationId = (int) ($input['conversation_id'] ?? 0);
-            echo json_encode($messaging->archiveConversation($currentUserId, $conversationId));
+            echo json_encode($messaging->archiveConversation($currentUserId, (int) ($input['conversation_id'] ?? 0)));
             break;
 
         case $endpoint === 'unread-count' && $method === 'GET':
             if (!requireAuth($currentUserId)) break;
             echo json_encode(['success' => true, 'count' => $messaging->getUnreadCount($currentUserId)]);
+            break;
+
+        // ---------------- Directory ----------------
+
+        case $endpoint === 'directory' && $method === 'GET':
+            echo json_encode(['success' => true, 'listings' => $directory->getAllPublicListings()]);
+            break;
+
+        case $endpoint === 'upload-logo' && $method === 'POST':
+            if (!requireAuth($currentUserId)) break;
+            echo json_encode($directory->uploadLogo($currentUserId, $currentUser['account_type'], $_FILES['logo'] ?? []));
+            break;
+
+        // ---------------- Teams ----------------
+
+        case $endpoint === 'list-teams' && $method === 'GET':
+            // Public — used by the team picker at rider registration.
+            echo json_encode(['success' => true, 'teams' => $directory->listTeams()]);
+            break;
+
+        case $endpoint === 'my-team' && $method === 'GET':
+            if (!requireAuth($currentUserId)) break;
+            $team = $directory->getTeamByCaptain($currentUserId);
+            echo json_encode($team
+                ? ['success' => true, 'team' => $team]
+                : ['success' => false, 'error' => 'No team found for this account.']);
+            break;
+
+        case $endpoint === 'team' && $method === 'GET':
+            // Public — powers Teams/team.html?slug=...
+            $team = $directory->getTeamBySlugWithRoster($_GET['slug'] ?? '');
+            echo json_encode($team
+                ? ['success' => true, 'team' => $team]
+                : ['success' => false, 'error' => 'Team not found.']);
             break;
 
         default:
