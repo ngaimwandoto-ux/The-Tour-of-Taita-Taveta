@@ -3,19 +3,9 @@
  * includes/auth.php
  *
  * Registration, login, and session tokens — plain PHP, no libraries.
- *
- * Security choices, and why, for future-you:
- *  - PASSWORD_DEFAULT (bcrypt), not Argon2id: Argon2 needs libsodium/argon2
- *    compiled into PHP, which isn't guaranteed on shared hosting. Bcrypt
- *    via PASSWORD_DEFAULT works everywhere and is still strong.
- *  - Token is a hand-rolled JWT-shaped token (header.payload.signature),
- *    verified with hash_equals() to avoid timing attacks on the signature
- *    comparison.
- *  - Token lives in an httpOnly, SameSite=Strict cookie — never
- *    localStorage — so it can't be read or exfiltrated by injected JS.
- *  - Generic error messages on login/register to avoid leaking whether
- *    a given email is registered (user enumeration).
- *  - Login is rate-limited per IP using the rate_limits table.
+ * (See earlier comments in this file's history for the security
+ * rationale — bcrypt, hand-rolled JWT-shaped token, httpOnly cookie,
+ * rate-limited login, generic error messages. Unchanged here.)
  */
 
 require_once __DIR__ . '/database.php';
@@ -70,7 +60,7 @@ class Auth {
         }
 
         $accountType = $data['account_type'] ?? '';
-        $validTypes = ['rider', 'team', 'sponsor', 'supporter', 'partner', 'volunteer'];
+        $validTypes = ['rider', 'team', 'sponsor', 'supporter', 'partner', 'volunteer', 'media', 'advertiser'];
         if (!in_array($accountType, $validTypes, true)) {
             return ['success' => false, 'error' => 'Invalid account type.'];
         }
@@ -113,21 +103,28 @@ class Auth {
         $token = $this->generateToken($userId);
         $this->setAuthCookie($token);
 
-        // NOTE: no email is sent yet — mail() is unreliable on shared
-        // hosting and there's no verified sender configured. Wire this
-        // up (mail() or a transactional provider) when you actually
-        // need verification emails to go out.
-
         return ['success' => true, 'user_id' => $userId, 'account_type' => $accountType];
     }
 
     private function createProfile(int $userId, string $type, array $data): void {
         switch ($type) {
             case 'rider':
+                // team_id is optional — a rider can register without a team
+                // ("individual rider") or pick an existing one from the
+                // dropdown on the registration page.
+                $teamId = !empty($data['team_id']) ? (int) $data['team_id'] : null;
+                if ($teamId !== null) {
+                    // Confirm the team actually exists — silently ignore a
+                    // bogus/tampered team_id rather than erroring the whole
+                    // registration out.
+                    $check = $this->db->prepare("SELECT id FROM teams WHERE id = ?");
+                    $check->execute([$teamId]);
+                    if (!$check->fetch()) $teamId = null;
+                }
                 $stmt = $this->db->prepare("
-                    INSERT INTO rider_profiles (user_id, category, gender) VALUES (?, ?, ?)
+                    INSERT INTO rider_profiles (user_id, category, gender, team_id) VALUES (?, ?, ?, ?)
                 ");
-                $stmt->execute([$userId, $data['category'] ?? 'open', $data['gender'] ?? null]);
+                $stmt->execute([$userId, $data['category'] ?? 'open', $data['gender'] ?? null, $teamId]);
                 break;
             case 'team':
                 $slug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $data['team_name'] ?? 'team-' . $userId), '-'));
@@ -150,6 +147,14 @@ class Auth {
                 $stmt = $this->db->prepare("INSERT INTO partner_profiles (user_id, business_name, business_type) VALUES (?, ?, ?)");
                 $stmt->execute([$userId, $data['business_name'] ?? '', $data['business_type'] ?? null]);
                 break;
+            case 'media':
+                $stmt = $this->db->prepare("INSERT INTO media_profiles (user_id, brand_name, platform) VALUES (?, ?, ?)");
+                $stmt->execute([$userId, $data['brand_name'] ?? '', $data['platform'] ?? null]);
+                break;
+            case 'advertiser':
+                $stmt = $this->db->prepare("INSERT INTO advertiser_profiles (user_id, company_name) VALUES (?, ?)");
+                $stmt->execute([$userId, $data['company_name'] ?? '']);
+                break;
         }
     }
 
@@ -169,7 +174,7 @@ class Auth {
         $user = $stmt->fetch();
 
         if (!$user) {
-            usleep(300000); // ~0.3s — blunts timing-based user enumeration
+            usleep(300000);
             return ['success' => false, 'error' => 'Invalid credentials.'];
         }
 
@@ -206,7 +211,7 @@ class Auth {
         setcookie('auth_token', $token, [
             'expires' => time() + TOKEN_EXPIRY_SECONDS,
             'path' => '/',
-            'secure' => APP_ENV === 'production', // allow plain HTTP only in local dev
+            'secure' => APP_ENV === 'production',
             'httponly' => true,
             'samesite' => 'Strict',
         ]);
