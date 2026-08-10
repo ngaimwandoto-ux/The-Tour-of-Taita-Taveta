@@ -723,3 +723,93 @@ height:auto;
 [data-theme="dark"] .region-logo {
   background: transparent !important;
 }
+/* ---- Dark Mode ---- */
+[data-theme="dark"] {
+  --deep: #0d0d0d;
+  --charcoal: #1a1a1a;
+  --olive: #2a2a2a;
+  --olive-lt: #444444;
+  --cream: #d4c9b8;
+  --paper: #121212;
+  --ink: #e8e0d8;
+  --line: rgba(255,255,255,0.08);
+  --bg-body: #121212;
+  --text-body: #e8e0d8;
+  --card-bg: #1a1a1a;
+  --border-color: #333333;
+}
+
+[data-theme="dark"] body {
+  background: var(--bg-body);
+  color: var(--text-body);
+}
+
+[data-theme="dark"] .tile {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .tile span {
+  color: rgba(232,224,216,0.6);
+}
+
+[data-theme="dark"] .tile.event-tile {
+  background: var(--deep);
+  border-color: var(--deep);
+}
+
+[data-theme="dark"] .tile.add-tile {
+  color: var(--accent);
+}
+
+[data-theme="dark"] .leg-logo {
+  filter: brightness(0.9);
+}
+
+[data-theme="dark"] .leg {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .site-card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .region-hero {
+  background: var(--deep);
+  color: var(--cream);
+}
+
+[data-theme="dark"] .route-strip {
+  background: var(--deep);
+}
+
+[data-theme="dark"] .elevation text {
+  fill: var(--cream) !important;
+}
+
+[data-theme="dark"] .info-card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .prose-card p,
+[data-theme="dark"] .info-card p,
+[data-theme="dark"] .route-note,
+[data-theme="dark"] .leg .when,
+[data-theme="dark"] .site-card-desc,
+[data-theme="dark"] .section-head p {
+  color: rgba(232,224,216,0.8);
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select {
+  background: var(--deep);
+  border-color: var(--border-color);
+  color: var(--text-body);
+}
+
+[data-theme="dark"] .region-logo {
+  background: transparent !important;
+}
