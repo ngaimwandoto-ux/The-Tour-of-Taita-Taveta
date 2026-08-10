@@ -22,7 +22,7 @@
 
 <section class="region-hero">
   <h1>Create an Account</h1>
-  <div class="meta">Riders, teams, sponsors, supporters, partners, and volunteers all start here</div>
+  <div class="meta">Riders, teams, sponsors, supporters, partners, media, and volunteers all start here</div>
 </section>
 
 <main>
@@ -37,6 +37,8 @@
           <option value="sponsor">Sponsor</option>
           <option value="supporter">Supporter</option>
           <option value="partner">Partner</option>
+          <option value="media">Media</option>
+          <option value="advertiser">Advertiser</option>
         </select>
       </div>
 
@@ -56,6 +58,13 @@
           <option value="open">Open</option>
           <option value="amateur">Amateur</option>
           <option value="elite">Elite</option>
+        </select>
+      </div>
+
+      <div class="field" id="rider-team-field" style="display:none;">
+        <label for="rider-team">Join a team (optional)</label>
+        <select id="rider-team">
+          <option value="">No team — riding individually</option>
         </select>
       </div>
 
@@ -81,6 +90,20 @@
         <input type="text" id="business-name">
       </div>
 
+      <div class="field" id="media-field" style="display:none;">
+        <label for="brand-name">Brand / channel name</label>
+        <input type="text" id="brand-name">
+      </div>
+      <div class="field" id="media-platform-field" style="display:none;">
+        <label for="platform">Main platform</label>
+        <input type="text" id="platform" placeholder="e.g. YouTube, Instagram, Blog">
+      </div>
+
+      <div class="field" id="advertiser-field" style="display:none;">
+        <label for="advertiser-company">Company name</label>
+        <input type="text" id="advertiser-company">
+      </div>
+
       <button type="submit" class="submit" id="register-btn">Create Account</button>
       <div class="status-msg" id="register-status"></div>
     </form>
@@ -99,20 +122,40 @@
 <script>
   const typeSelect = document.getElementById('account-type');
   const fieldsByType = {
-    team: 'team-field',
-    rider: 'rider-field',
-    volunteer: 'volunteer-field',
-    sponsor: 'sponsor-field',
-    partner: 'partner-field',
+    team: ['team-field'],
+    rider: ['rider-field', 'rider-team-field'],
+    volunteer: ['volunteer-field'],
+    sponsor: ['sponsor-field'],
+    partner: ['partner-field'],
+    media: ['media-field', 'media-platform-field'],
+    advertiser: ['advertiser-field'],
   };
 
   function updateFields() {
-    Object.values(fieldsByType).forEach(id => document.getElementById(id).style.display = 'none');
-    const target = fieldsByType[typeSelect.value];
-    if (target) document.getElementById(target).style.display = 'block';
+    Object.values(fieldsByType).flat().forEach(id => document.getElementById(id).style.display = 'none');
+    (fieldsByType[typeSelect.value] || []).forEach(id => document.getElementById(id).style.display = 'block');
   }
   typeSelect.addEventListener('change', updateFields);
   updateFields();
+
+  // Populate the team picker once, on load — it's public, no auth needed.
+  (async function loadTeams() {
+    const select = document.getElementById('rider-team');
+    try {
+      const res = await fetch('/api/index.php?endpoint=list-teams');
+      const data = await res.json();
+      if (data.success) {
+        data.teams.forEach(t => {
+          const opt = document.createElement('option');
+          opt.value = t.id;
+          opt.textContent = t.name;
+          select.appendChild(opt);
+        });
+      }
+    } catch (e) {
+      // Backend not deployed yet — the "no team" option still works fine.
+    }
+  })();
 
   const form = document.getElementById('register-form');
   const status = document.getElementById('register-status');
@@ -136,10 +179,16 @@
       location: document.getElementById('location').value.trim(),
       team_name: document.getElementById('team-name').value.trim(),
       category: document.getElementById('category').value,
+      team_id: document.getElementById('rider-team').value,
       primary_role: document.getElementById('primary-role').value,
       company_name: document.getElementById('company-name').value.trim(),
       business_name: document.getElementById('business-name').value.trim(),
+      brand_name: document.getElementById('brand-name').value.trim(),
+      platform: document.getElementById('platform').value.trim(),
     };
+    if (typeSelect.value === 'advertiser') {
+      data.company_name = document.getElementById('advertiser-company').value.trim();
+    }
 
     const result = await ttttAccount.register(data);
     if (result.success) {
