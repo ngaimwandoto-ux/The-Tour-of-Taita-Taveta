@@ -809,7 +809,290 @@ height:auto;
   border-color: var(--border-color);
   color: var(--text-body);
 }
+/* ---- Dark Mode Fixes ---- */
+[data-theme="dark"] .tile {
+  background: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+}
 
+[data-theme="dark"] .tile span {
+  color: rgba(232,224,216,0.6) !important;
+}
+
+[data-theme="dark"] .tile.event-tile {
+  background: var(--deep) !important;
+  border-color: var(--deep) !important;
+}
+
+[data-theme="dark"] .tile.event-tile .leg-name {
+  color: var(--cream) !important;
+}
+
+[data-theme="dark"] .tile.event-tile .leg-date {
+  color: rgba(212,201,184,0.6) !important;
+}
+
+[data-theme="dark"] .tile.add-tile {
+  color: var(--accent) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .leg {
+  background: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .leg .region {
+  color: var(--cream) !important;
+}
+
+[data-theme="dark"] .leg .when {
+  color: rgba(232,224,216,0.6) !important;
+}
+
+[data-theme="dark"] .leg .num {
+  color: var(--accent) !important;
+}
+
+[data-theme="dark"] .tier {
+  background: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .tier .name {
+  color: var(--cream) !important;
+}
+
+[data-theme="dark"] .tier .desc {
+  color: rgba(232,224,216,0.6) !important;
+}
+
+[data-theme="dark"] .tier .price {
+  color: var(--accent) !important;
+}
+
+[data-theme="dark"] form {
+  background: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] label {
+  color: rgba(232,224,216,0.6) !important;
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select {
+  background: var(--deep) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-body) !important;
+}
+
+[data-theme="dark"] .region-hero {
+  background: var(--deep) !important;
+  color: var(--cream) !important;
+}
+
+[data-theme="dark"] .route-strip {
+  background: var(--deep) !important;
+}
+
+[data-theme="dark"] .elevation text {
+  fill: var(--cream) !important;
+}
+
+[data-theme="dark"] .section-head h2 {
+  color: var(--cream) !important;
+}
+
+[data-theme="dark"] .section-head p {
+  color: rgba(232,224,216,0.8) !important;
+}
+
+[data-theme="dark"] .eyebrow {
+  color: var(--accent) !important;
+}
+
+[data-theme="dark"] .prose-card {
+  background: var(--card-bg) !important;
+  border-left-color: var(--accent) !important;
+}
+
+[data-theme="dark"] .prose-card h3 {
+  color: var(--cream) !important;
+}
+
+[data-theme="dark"] .prose-card p {
+  color: rgba(232,224,216,0.8) !important;
+}
+
+[data-theme="dark"] .info-card {
+  background: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .info-card h3 {
+  color: var(--accent) !important;
+}
+
+[data-theme="dark"] .info-card p {
+  color: rgba(232,224,216,0.8) !important;
+}
+
+[data-theme="dark"] .route-note {
+  background: rgba(242,140,15,0.08) !important;
+  color: rgba(232,224,216,0.8) !important;
+  border-left-color: var(--accent) !important;
+}
+
+[data-theme="dark"] .site-card {
+  background: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .site-card-name {
+  color: var(--cream) !important;
+}
+
+[data-theme="dark"] .site-card-desc {
+  color: rgba(232,224,216,0.7) !important;
+}
+
+[data-theme="dark"] .site-card-fee {
+  color: var(--accent) !important;
+}
+
+[data-theme="dark"] .region-logo {
+  background: transparent !important;
+}
+
+[data-theme="dark"] .fine-print {
+  color: rgba(232,224,216,0.5) !important;
+}
+
+[data-theme="dark"] .stat-bar {
+  background: var(--accent) !important;
+  color: var(--deep) !important;
+}
+
+[data-theme="dark"] .btn-primary {
+  background: var(--accent) !important;
+  color: var(--deep) !important;
+}
+
+[data-theme="dark"] .btn-ghost {
+  background: var(--olive) !important;
+  color: var(--cream) !important;
+  border-color: var(--olive-lt) !important;
+}
+
+[data-theme="dark"] button.submit {
+  background: var(--deep) !important;
+  color: var(--accent) !important;
+}
+
+[data-theme="dark"] button.submit:hover {
+  background: var(--accent-deep) !important;
+  color: var(--cream) !important;
+}
+
+[data-theme="dark"] .shop-item {
+  background: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .shop-item-name {
+  color: var(--cream) !important;
+}
+
+[data-theme="dark"] .shop-item-price {
+  color: var(--accent) !important;
+}
+
+[data-theme="dark"] .shop-order-panel {
+  background: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .ad-calc {
+  background: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .ad-calc-footer {
+  background: var(--deep) !important;
+  border-top-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .ad-row-name {
+  color: var(--cream) !important;
+}
+
+[data-theme="dark"] .ad-row-desc {
+  color: rgba(232,224,216,0.6) !important;
+}
+
+[data-theme="dark"] .ad-row-price {
+  color: rgba(232,224,216,0.5) !important;
+}
+
+[data-theme="dark"] .ad-calc-total {
+  color: var(--cream) !important;
+}
+
+[data-theme="dark"] .ad-calc-total span {
+  color: var(--accent) !important;
+}
+
+[data-theme="dark"] .gallery-grid figcaption {
+  color: rgba(232,224,216,0.6) !important;
+}
+
+[data-theme="dark"] .county-map {
+  background: repeating-linear-gradient(135deg, rgba(242,140,15,0.05) 0 2px, transparent 2px 18px), var(--bg-body) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .county-map .pin-label {
+  background: var(--deep) !important;
+  color: var(--cream) !important;
+}
+
+[data-theme="dark"] .map-note {
+  color: rgba(232,224,216,0.5) !important;
+}
+
+[data-theme="dark"] .legs-note {
+  color: rgba(232,224,216,0.5) !important;
+}
+
+[data-theme="dark"] .counter-line {
+  color: rgba(232,224,216,0.6) !important;
+}
+
+[data-theme="dark"] .counter-line b {
+  color: var(--cream) !important;
+}
+
+[data-theme="dark"] footer {
+  background: var(--deep) !important;
+  color: rgba(212,201,184,0.75) !important;
+  border-top-color: var(--accent) !important;
+}
+
+[data-theme="dark"] footer strong {
+  color: var(--accent) !important;
+}
+
+[data-theme="dark"] .social-row a {
+  background: var(--olive) !important;
+  border-color: var(--olive-lt) !important;
+  color: var(--cream) !important;
+}
+
+[data-theme="dark"] .social-row a:hover {
+  background: var(--accent) !important;
+  color: var(--deep) !important;
+}
 [data-theme="dark"] .region-logo {
   background: transparent !important;
 }
