@@ -63,3 +63,21 @@
 
     document.addEventListener('DOMContentLoaded', loadDirectory);
 })();
+<script>
+  // Replace the hardcoded "128" stats with the real live count from stats.php.
+  (async function () {
+    try {
+      const res = await fetch('stats.php');
+      const data = await res.json();
+      if (typeof data.paid_riders === 'number') {
+        const statEl = document.getElementById('riders-stat');
+        const counterEl = document.getElementById('ticket-counter');
+        if (statEl) statEl.textContent = data.paid_riders;
+        if (counterEl) counterEl.textContent = data.paid_riders;
+      }
+    } catch (e) {
+      // Backend not deployed yet — the page just keeps showing the
+      // placeholder number until stats.php is live.
+    }
+  })();
+</script>
