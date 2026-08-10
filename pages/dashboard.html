@@ -43,6 +43,15 @@
     </div>
   </section>
 
+  <section id="team-page-section" style="display:none;">
+    <div class="section-head">
+      <span class="eyebrow">Your Team</span>
+      <h2 id="team-name-heading">—</h2>
+    </div>
+    <p id="team-status-note" style="font-size:0.9rem;color:rgba(20,20,20,0.7);"></p>
+    <p><a id="team-page-link" href="#" style="color:var(--accent-deep);">View your public team page →</a></p>
+  </section>
+
   <section id="logo-section" style="display:none;">
     <div class="section-head">
       <span class="eyebrow">Public Listing</span>
@@ -71,7 +80,8 @@
 <script src="../assets/js/account.js"></script>
 <script src="../assets/js/messaging.js"></script>
 <script>
-  const LISTED_TYPES = ['team', 'sponsor', 'supporter', 'partner'];
+  // Types that get a homepage logo listing.
+  const LISTED_TYPES = ['team', 'sponsor', 'supporter', 'partner', 'media'];
 
   function showLogoStatus(kind, text) {
     const el = document.getElementById('logo-status-msg');
@@ -98,6 +108,22 @@
       document.getElementById('unread-summary').textContent =
         unread.count > 0 ? `You have ${unread.count} unread message${unread.count === 1 ? '' : 's'}.` : 'No unread messages.';
       if (unread.count > 0) document.getElementById('nav-unread').textContent = `(${unread.count})`;
+    }
+
+    // Team captains get a link to their public team page.
+    if (user.account_type === 'team') {
+      try {
+        const res = await fetch('/api/index.php?endpoint=my-team', { credentials: 'include' });
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('team-page-section').style.display = 'block';
+          document.getElementById('team-name-heading').textContent = data.team.name;
+          document.getElementById('team-status-note').textContent = data.team.is_public
+            ? 'Your team logo is live on the homepage.'
+            : 'Your team page is up — the homepage logo tile is pending approval.';
+          document.getElementById('team-page-link').href = '../Teams/team.html?slug=' + encodeURIComponent(data.team.slug);
+        }
+      } catch (e) { /* backend not deployed yet */ }
     }
 
     if (LISTED_TYPES.includes(user.account_type)) {
