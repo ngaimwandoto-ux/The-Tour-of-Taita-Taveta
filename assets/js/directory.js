@@ -1,12 +1,13 @@
 /**
  * assets/js/directory.js
  * Include on index.html only. Fetches the public, approved list of
- * teams/sponsors/supporters/partners and renders a tile per entry into
- * the existing tile-grid containers — the "+Add X" tile stays, real
- * entries get inserted before it.
+ * teams/sponsors/supporters/partners/media and renders a tile per
+ * entry into the existing tile-grid containers — the "+Add X" tile
+ * stays, real entries get inserted before it.
  *
  * Requires each target container to have an id, added to index.html:
- *   #teams-tile-grid, #sponsors-tile-grid, #supporters-tile-grid, #partners-tile-grid
+ *   #teams-tile-grid, #sponsors-tile-grid, #supporters-tile-grid,
+ *   #partners-tile-grid, #media-tile-grid
  * — see README-DIRECTORY.md for the exact markup change.
  */
 
@@ -19,10 +20,9 @@
         const logo = entry.logo_path
             ? `<img src="${entry.logo_path}" alt="${entry.display_name}" style="max-width:80%;max-height:70%;object-fit:contain;">`
             : `<span>${entry.display_name}</span>`;
-        const inner = `<div class="tile" style="flex-direction:column;gap:0.4rem;">${logo}</div>`;
         return linkHref
             ? `<a class="tile" href="${linkHref}" style="flex-direction:column;gap:0.4rem;">${logo}</a>`
-            : inner;
+            : `<div class="tile" style="flex-direction:column;gap:0.4rem;">${logo}</div>`;
     }
 
     async function loadDirectory() {
@@ -35,19 +35,19 @@
         }
         if (!data.success) return;
 
-        const { teams, sponsors, supporters, partners } = data.listings;
+        const { teams, sponsors, supporters, partners, media } = data.listings;
 
-        renderInto('teams-tile-grid', teams, t => tileFor(t, `Teams/${t.slug}.html`));
+        renderInto('teams-tile-grid', teams, t => tileFor(t, `Teams/team.html?slug=${encodeURIComponent(t.slug)}`));
         renderInto('sponsors-tile-grid', sponsors, s => tileFor(s));
         renderInto('supporters-tile-grid', supporters, s => tileFor(s));
         renderInto('partners-tile-grid', partners, p => tileFor(p));
+        renderInto('media-tile-grid', media, m => tileFor(m));
     }
 
     function renderInto(containerId, entries, tileBuilder) {
         const container = document.getElementById(containerId);
-        if (!container || !entries.length) return;
+        if (!container || !entries || !entries.length) return;
 
-        // Keep the last tile (the "+Add" one) and insert real entries before it.
         const addTile = container.querySelector('.add-tile');
         entries.forEach(entry => {
             const wrapper = document.createElement('div');
