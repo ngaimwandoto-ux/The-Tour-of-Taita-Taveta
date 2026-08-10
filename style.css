@@ -672,3 +672,54 @@ height:auto;
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
+[data-theme="dark"] {
+  --deep:#1a1a1a;
+  --charcoal:#2a2a2a;
+  --olive:#3d3d3d;
+  --olive-lt:#555555;
+  --cream:#d4c9b8;
+  --paper:#121212;
+  --ink:#e8e0d8;
+  --line:rgba(255,255,255,0.1);
+  --bg-body:#121212;
+  --text-body:#e8e0d8;
+  --card-bg:#1e1e1e;
+  --border-color:#333333;
+}
+[data-theme="dark"] .prose-card p,
+[data-theme="dark"] .info-card p,
+[data-theme="dark"] .route-note,
+[data-theme="dark"] .leg .when,
+[data-theme="dark"] .site-card-desc,
+[data-theme="dark"] .section-head p {
+  color: rgba(232,224,216,0.8);
+}
+[data-theme="dark"] .elevation path.fill {
+  opacity: 0.25;
+}
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] .ad-qty,
+[data-theme="dark"] .shop-item-qty input {
+  background: var(--deep);
+  border-color: var(--border-color);
+  color: var(--text-body);
+}
+[data-theme="dark"] .ad-calc-footer {
+  background: var(--deep);
+}
+[data-theme="dark"] .status-msg.info {
+  background: #2a2a1a;
+  color: var(--cream);
+}
+[data-theme="dark"] .status-msg.error {
+  background: #2a1518;
+  color: #e8a0a8;
+}
+[data-theme="dark"] .status-msg.success {
+  background: #152a18;
+  color: #80c080;
+}
+[data-theme="dark"] .region-logo {
+  background: transparent !important;
+}
