@@ -716,3 +716,27 @@ height:auto;
 [data-theme="dark"] .region-logo {
   background: transparent !important;
 }
+/* ===== HERO PHOTO MECHANISM ===== */
+
+.hero,
+.region-hero {
+  background-image: 
+    linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+    var(--hero-photo, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Fallback if no photo is set */
+.hero:not([style*="--hero-photo"]),
+.region-hero:not([style*="--hero-photo"]) {
+  background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6));
+}
+
+/* Keep content above background */
+.hero .hero-content,
+.region-hero .hero-content {
+  position: relative;
+  z-index: 2;
+}
