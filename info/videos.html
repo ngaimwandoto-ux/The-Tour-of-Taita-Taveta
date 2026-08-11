@@ -1,1 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Gallery — Tour of Taita Taveta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
 
+<header>
+  <div class="nav-inner">
+    <div class="brand"><img src="../logos/taita-taveta.png" alt="Tour of Taita Taveta Logo" class="main-logo"></div>
+    <nav class="links">
+      <a href="../index.html#home">Home</a>
+      <a href="../index.html#legs">Legs</a>
+      <a href="../index.html#tickets">Register</a>
+      <a href="../pages/login.html">Log In</a>
+    </nav>
+  </div>
+</header>
+
+<section class="region-hero">
+  <h1>Video Gallery</h1>
+  <div class="meta">From the Tour's YouTube channel</div>
+</section>
+
+<main>
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">Watch</span>
+      <h2>Race day, highlights & behind the scenes</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Pulled straight from the Tour's YouTube channel as videos go live.</p>
+    </div>
+    <div class="gallery-grid" id="video-gallery-grid"></div>
+  </section>
+</main>
+
+<footer>
+  <p><strong>Tour of Taita Taveta</strong> — Attitude meets Altitude.</p>
+  <p>&copy; 2026 Tour of Taita Taveta. All rights reserved.</p>
+</footer>
+
+<script>
+  // Add a video by copying one object below. youtubeId is the part of
+  // a YouTube URL after "v=" (e.g. youtube.com/watch?v=THIS_PART).
+  window.VIDEO_GALLERY = [
+    // {
+    //   title: 'Sagalla Leg — Race Highlights',
+    //   youtubeId: 'dQw4w9WgXcQ'
+    // },
+  ];
+</script>
+<script src="../assets/js/media-grids.js"></script>
+
+</body>
+</html>

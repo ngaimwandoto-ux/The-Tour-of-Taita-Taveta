@@ -1,1 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photo Album — Tour of Taita Taveta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
 
+<header>
+  <div class="nav-inner">
+    <div class="brand"><img src="../logos/taita-taveta.png" alt="Tour of Taita Taveta Logo" class="main-logo"></div>
+    <nav class="links">
+      <a href="../index.html#home">Home</a>
+      <a href="../index.html#legs">Legs</a>
+      <a href="../index.html#tickets">Register</a>
+      <a href="../pages/login.html">Log In</a>
+    </nav>
+  </div>
+</header>
+
+<section class="region-hero">
+  <h1>Photo Album</h1>
+  <div class="meta">The full archive — every leg, every edition</div>
+</section>
+
+<main>
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">Gallery</span>
+      <h2>All photos</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">The consolidated archive — each leg page's own gallery shows a few highlights; this is everything, across every edition.</p>
+    </div>
+    <div class="gallery-grid" id="photo-album-grid"></div>
+  </section>
+</main>
+
+<footer>
+  <p><strong>Tour of Taita Taveta</strong> — Attitude meets Altitude.</p>
+  <p>&copy; 2026 Tour of Taita Taveta. All rights reserved.</p>
+</footer>
+
+<script>
+  // Add a photo by copying one object below. "src" can point at any
+  // file in /photo/ — if it's missing, the card shows "Photo pending"
+  // automatically instead of a broken image.
+  window.PHOTO_ALBUM = [
+    // {
+    //   caption: 'Riders cresting the Sagalla climb',
+    //   leg: 'Sagalla',
+    //   src: '../photo/sagalla-climb.jpg'
+    // },
+  ];
+</script>
+<script src="../assets/js/media-grids.js"></script>
+
+</body>
+</html>
