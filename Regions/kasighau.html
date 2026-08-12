@@ -43,21 +43,16 @@
       <svg class="elevation" viewBox="0 0 1180 70" preserveAspectRatio="none" aria-hidden="true">
         <path class="fill" d="M0,70 L0,52 L100,26 L200,44 L310,14 L440,40 L570,18 L710,48 L840,22 L960,42 L1080,16 L1180,34 L1180,70 Z"/>
         <path class="line" d="M0,52 L100,26 L200,44 L310,14 L440,40 L570,18 L710,48 L840,22 L960,42 L1080,16 L1180,34"/>
+        <circle cx="0" cy="52" r="4"/>
+        <circle cx="100" cy="26" r="4"/>
+        <circle cx="310" cy="14" r="4"/>
+        <circle cx="570" cy="18" r="4"/>
+        <circle cx="840" cy="22" r="4"/>
+        <circle cx="1080" cy="16" r="4"/>
+        <circle cx="1180" cy="34" r="4"/>
       </svg>
     </div>
     <div class="route-note">Kasighau's route skirts Rukinga Wildlife Sanctuary before climbing toward Mount Kasigau's lower springs. Route maps for this leg are finalised and reconfirmed with the county and local conservancies before each edition — check back closer to race day for the exact GPX file and road closures.</div>
-  </section>
-
-  <section id="tourism">
-    <div class="section-head">
-      <span class="eyebrow">Tourism & Culture</span>
-      <h2>What there is to see</h2>
-      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Beyond the finish line, Kasighau has its own reasons to linger.</p>
-    </div>
-    <div class="info-grid">
-      <div class="info-card"><h3>Mount Kasigau</h3><p>An isolated massif south of the main Taita Hills, with footpaths climbing to springs and rock pools near the summit — home to the endemic Taita White-eye.</p></div>
-      <div class="info-card"><h3>Wakasighau culture</h3><p>Kasigau's community speaks its own distinct dialect, separate from the main Dawida-area dialects of the Taita Hills.</p></div>
-    </div>
   </section>
 
   <section id="conservation">
@@ -66,10 +61,34 @@
       <h2>Why the terrain is protected</h2>
       <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Every leg of the tour runs through land under active conservation — here's what that looks like locally.</p>
     </div>
-    <div class="info-grid">
-      <div class="info-card"><h3>Rukinga Wildlife Sanctuary</h3><p>Anchor of the Kasigau Corridor REDD+ project — eleven ranches across roughly 2,023 km² protecting dryland forest and offsetting an estimated one million tonnes of CO₂ a year.</p></div>
-      <div class="info-card"><h3>Tsavo wildlife corridor</h3><p>Rukinga forms a key dispersal corridor linking Tsavo East and Tsavo West National Parks for elephant and other wildlife movement.</p></div>
+    <div class="info-grid" id="conservation-grid"></div>
+  </section>
+
+  <section id="flora-fauna">
+    <div class="section-head">
+      <span class="eyebrow">Flora &amp; Fauna</span>
+      <h2>Species and plants of note</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">What grows and lives in the Kasighau region — from endemic birds to unique plant species.</p>
     </div>
+    <div class="info-grid" id="flora-fauna-grid"></div>
+  </section>
+
+  <section id="gastronomy">
+    <div class="section-head">
+      <span class="eyebrow">Gastronomy</span>
+      <h2>Food, drink &amp; culinary heritage</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">From traditional dishes to local delicacies — taste the flavours of Kasighau.</p>
+    </div>
+    <div class="info-grid" id="gastronomy-grid"></div>
+  </section>
+
+  <section id="traditional-medicine">
+    <div class="section-head">
+      <span class="eyebrow">Traditional Medicine</span>
+      <h2>Healing plants &amp; indigenous knowledge</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Generations of wisdom in plant-based remedies passed down through local elders.</p>
+    </div>
+    <div class="info-grid" id="traditional-medicine-grid"></div>
   </section>
 
   <section id="visit">
@@ -256,6 +275,11 @@
 </footer>
 
 <script>
+  // ==============================================
+  // DATA DEFINITIONS — Kasighau Leg
+  // ==============================================
+
+  // PLACES TO VISIT — with payment
   window.VISIT_SITES = [
     {
       id: 'rukinga-wildlife-sanctuary',
@@ -284,12 +308,75 @@
       fee: 250,
       description: 'Visit the local community and learn about Wakasighau culture, language, and traditions distinct from the main Taita dialects.',
       photos: ['../photo/kasigau-culture-1.jpg', '../photo/kasigau-culture-2.jpg', '../photo/kasigau-culture-3.jpg']
-    },
+    }
   ];
+
+  // CONSERVATION — informational only
+  window.CONSERVATION = [
+    {
+      name: 'Rukinga Wildlife Sanctuary',
+      description: 'Anchor of the Kasigau Corridor REDD+ project — eleven ranches across roughly 2,023 km² protecting dryland forest and offsetting an estimated one million tonnes of CO₂ a year.',
+      photos: []
+    },
+    {
+      name: 'Tsavo wildlife corridor',
+      description: 'Rukinga forms a key dispersal corridor linking Tsavo East and Tsavo West National Parks for elephant and other wildlife movement.',
+      photos: []
+    }
+  ];
+
+  // FLORA & FAUNA — informational only
+  window.FLORA_FAUNA = [
+    {
+      name: 'Taita White-eye (Zosterops silvanus)',
+      description: 'A critically endangered bird species found in the Taita Hills and Mount Kasigau. Mount Kasigau holds 80% of the entire population.',
+      photos: ['../photo/taita-white-eye-1.jpg', '../photo/taita-white-eye-2.jpg', '../photo/taita-white-eye-3.jpg']
+    },
+    {
+      name: 'Mount Kasigau Biodiversity',
+      description: 'The isolated massif is home to Euphorbia classenii, an endemic plant species found naturally only on Mount Kasigau.',
+      photos: ['../photo/euphorbia-1.jpg', '../photo/euphorbia-2.jpg', '../photo/euphorbia-3.jpg']
+    }
+  ];
+
+  // GASTRONOMY — placeholder
+  window.GASTRONOMY = [
+    {
+      name: 'Kasighau Traditional Cuisine',
+      description: 'Local dishes prepared from farm-fresh produce grown in the Kasighau region.',
+      photos: []
+    },
+    {
+      name: 'Local Honey Harvesting',
+      description: 'Traditional beekeeping practices in the Kasighau ranches producing unique honey from native bees.',
+      photos: []
+    }
+  ];
+
+  // TRADITIONAL MEDICINE — placeholder
+  window.TRADITIONAL_MEDICINE = [
+    {
+      name: 'Kasighau Herbal Knowledge',
+      description: 'Traditional plant-based remedies used by Wakasighau elders, drawing from the diverse flora of the region.',
+      photos: []
+    },
+    {
+      name: 'Rukinga Medicinal Plants',
+      description: 'Indigenous knowledge of medicinal plants found within the Rukinga Wildlife Sanctuary and surrounding areas.',
+      photos: []
+    }
+  ];
+
+  // ==============================================
+  // RENDER SCRIPTS
+  // ==============================================
 </script>
+
 <script src="../assets/js/visit-sites.js"></script>
+<script src="../assets/js/site-grids.js"></script>
 
 <script>
+  // Advertising order calculator — unchanged from before
   document.querySelectorAll('[data-ad-calc]').forEach(function(calc){
     const scopeName = calc.dataset.adCalc;
     const rows = calc.querySelectorAll('.ad-row');
@@ -339,10 +426,11 @@
     });
   });
 </script>
-      <script>window.DONATE_SCOPE = document.title;</script>
+
+<script>window.DONATE_SCOPE = document.title;</script>
 <script src="../assets/js/donate.js"></script>
 
-  <script>
+<script>
 document.addEventListener('DOMContentLoaded', function() {
   const toggleBtn = document.getElementById('theme-toggle');
   const currentTheme = localStorage.getItem('theme') || 'light';
@@ -363,7 +451,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
-  </script>
+</script>
 
 </body>
 </html>
