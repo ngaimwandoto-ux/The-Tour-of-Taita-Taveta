@@ -8,54 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
     <style>
-        /* Accommodation Page Specific Styles */
-        .accommodation-hero {
-            background: var(--olive-dk);
-            color: var(--cream);
-            padding: 4rem 2rem;
-            text-align: center;
-        }
-        .accommodation-hero h1 {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-            margin: 0 0 0.5rem 0;
-            letter-spacing: -0.02em;
-        }
-        .accommodation-hero .subtitle {
-            font-size: 1.4rem;
-            font-weight: 400;
-            opacity: 0.9;
-            margin: 0 0 0.25rem 0;
-        }
-        .accommodation-hero .tagline {
-            font-size: 1.1rem;
-            opacity: 0.7;
-            margin: 0;
-        }
-        .accommodation-hero .back-link {
-            display: inline-block;
-            color: var(--gold);
-            text-decoration: none;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-        .accommodation-hero .back-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Filters */
+        /* Only what style.css doesn't already have */
         .filters {
-            background: var(--cream);
-            padding: 1.5rem 2rem;
-            border-bottom: 2px solid var(--olive-lt);
+            background: var(--paper);
+            padding: 1.5rem 0;
+            border-bottom: 2px solid var(--ink);
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
             align-items: flex-end;
-            position: sticky;
-            top: 0;
-            z-index: 10;
         }
         .filters .filter-group {
             flex: 1 1 180px;
@@ -63,7 +24,7 @@
         }
         .filters label {
             display: block;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -71,36 +32,31 @@
             opacity: 0.6;
             margin-bottom: 0.25rem;
         }
-        .filters select,
-        .filters input {
+        .filters select {
             width: 100%;
             padding: 0.5rem 0.75rem;
-            border: 1px solid var(--olive-lt);
-            border-radius: 4px;
-            background: white;
+            border: 2px solid var(--ink);
+            background: #fff;
             font-family: 'Barlow', sans-serif;
             font-size: 0.95rem;
             color: var(--ink);
         }
         .filters .filter-reset {
-            flex: 0 0 auto;
             padding: 0.5rem 1.5rem;
-            background: var(--olive-lt);
+            background: var(--ink);
+            color: var(--cream);
             border: none;
-            border-radius: 4px;
             font-family: 'Barlow', sans-serif;
             font-weight: 600;
-            color: var(--ink);
             cursor: pointer;
             height: 40px;
             align-self: flex-end;
         }
         .filters .filter-reset:hover {
-            background: var(--olive);
-            color: var(--cream);
+            background: var(--accent);
+            color: var(--deep);
         }
         .filters .results-count {
-            flex: 0 0 auto;
             font-size: 0.9rem;
             color: var(--ink);
             opacity: 0.6;
@@ -108,159 +64,155 @@
             padding: 0 0.5rem;
         }
 
-        /* Accommodation Grid */
         .accommodation-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.5rem;
-            padding: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+            padding: 2rem 0;
         }
 
         .accommodation-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--olive-lt);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 2px solid var(--ink);
+            background: #fff;
             cursor: pointer;
+            transition: transform 0.12s ease;
         }
         .accommodation-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            transform: translateY(-3px);
         }
         .accommodation-card.selected {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px var(--gold);
+            outline: 3px solid var(--accent);
+            outline-offset: -3px;
         }
         .accommodation-card .ph {
-            background: var(--cream);
             aspect-ratio: 16/10;
+            background: var(--paper);
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            position: relative;
         }
         .accommodation-card .ph img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
         .accommodation-card .ph span {
+            font-size: 0.7rem;
+            text-transform: uppercase;
             color: rgba(20,20,20,0.3);
-            font-size: 0.85rem;
+            font-family: 'IBM Plex Mono', monospace;
         }
         .accommodation-card .card-body {
-            padding: 1.25rem;
+            padding: 1rem 1.2rem;
         }
         .accommodation-card .card-body .category-badge {
             display: inline-block;
-            padding: 0.2rem 0.6rem;
-            border-radius: 3px;
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.04em;
-            background: var(--olive-lt);
+            background: var(--line);
             color: var(--ink);
-            margin-bottom: 0.5rem;
+            padding: 0.1rem 0.5rem;
+            margin-bottom: 0.3rem;
         }
         .accommodation-card .card-body h3 {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 1.25rem;
             font-weight: 700;
-            margin: 0 0 0.25rem 0;
-            letter-spacing: -0.01em;
+            font-style: italic;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            margin: 0 0 0.2rem 0;
         }
         .accommodation-card .card-body .region-tag {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--ink);
-            opacity: 0.6;
-            margin-bottom: 0.5rem;
+            opacity: 0.5;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        .accommodation-card .card-body .rating {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 600;
         }
         .accommodation-card .card-body .price {
             font-weight: 700;
             font-size: 1.1rem;
             color: var(--olive);
-            margin: 0.5rem 0;
+            margin: 0.4rem 0;
         }
         .accommodation-card .card-body .price small {
             font-weight: 400;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             opacity: 0.6;
         }
         .accommodation-card .card-body .description {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             line-height: 1.5;
-            opacity: 0.8;
-            margin: 0.5rem 0;
+            color: rgba(20,20,20,0.8);
+            margin: 0.4rem 0;
         }
         .accommodation-card .card-body .host {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             opacity: 0.6;
-            margin: 0.25rem 0;
+            margin: 0.2rem 0;
         }
         .accommodation-card .card-body .amenities {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.35rem;
-            margin: 0.75rem 0;
+            gap: 0.3rem;
+            margin: 0.6rem 0;
         }
         .accommodation-card .card-body .amenities span {
-            padding: 0.15rem 0.5rem;
-            background: var(--cream);
-            border-radius: 3px;
-            font-size: 0.7rem;
+            padding: 0.1rem 0.5rem;
+            background: var(--paper);
+            font-size: 0.65rem;
             color: var(--ink);
             opacity: 0.7;
         }
         .accommodation-card .card-body .select-btn {
             width: 100%;
-            padding: 0.6rem;
-            background: var(--olive);
-            color: var(--cream);
+            padding: 0.5rem;
+            background: var(--accent);
+            color: var(--deep);
             border: none;
-            border-radius: 4px;
-            font-family: 'Barlow', sans-serif;
-            font-weight: 600;
-            font-size: 0.95rem;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: background 0.2s ease;
             margin-top: 0.5rem;
+            transition: background 0.12s ease;
         }
         .accommodation-card .card-body .select-btn:hover {
-            background: var(--olive-dk);
+            background: var(--deep);
+            color: var(--cream);
         }
-        .accommodation-card .card-body .select-btn.selected-btn {
-            background: var(--gold);
-            color: var(--ink);
-        }
-        .accommodation-card .card-body .rating {
-            font-size: 0.85rem;
-            color: var(--gold);
-            font-weight: 600;
+        .accommodation-card.selected .select-btn {
+            background: var(--deep);
+            color: var(--cream);
         }
 
-        /* Booking Form */
         .booking-section {
             max-width: 600px;
             margin: 0 auto 3rem auto;
+            border: 2px solid var(--ink);
+            background: #fff;
             padding: 2rem;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid var(--olive-lt);
         }
         .booking-section h3 {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 1.5rem;
             font-weight: 700;
+            font-style: italic;
+            text-transform: uppercase;
+            font-size: 1.5rem;
             margin: 0 0 0.25rem 0;
         }
         .booking-section .booking-sub {
-            color: var(--ink);
-            opacity: 0.6;
+            font-size: 0.85rem;
+            color: rgba(20,20,20,0.6);
             margin-bottom: 1.5rem;
         }
         .booking-section .field {
@@ -268,61 +220,61 @@
         }
         .booking-section .field label {
             display: block;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.04em;
-            opacity: 0.7;
+            opacity: 0.6;
             margin-bottom: 0.2rem;
         }
-        .booking-section .field input,
-        .booking-section .field select {
+        .booking-section .field input {
             width: 100%;
-            padding: 0.6rem 0.75rem;
-            border: 1px solid var(--olive-lt);
-            border-radius: 4px;
+            padding: 0.6rem 0.8rem;
+            border: 2px solid var(--line);
+            background: var(--paper);
             font-family: 'Barlow', sans-serif;
-            font-size: 1rem;
-            background: var(--cream);
+            font-size: 0.95rem;
+            color: var(--ink);
         }
-        .booking-section .field input:focus,
-        .booking-section .field select:focus {
+        .booking-section .field input:focus {
             outline: none;
-            border-color: var(--olive);
+            border-color: var(--ink);
         }
         .booking-section .booking-summary {
-            background: var(--cream);
+            background: var(--paper);
             padding: 1rem;
-            border-radius: 4px;
+            border: 1px solid var(--line);
             margin: 1rem 0;
         }
         .booking-section .booking-summary .line {
             display: flex;
             justify-content: space-between;
-            padding: 0.25rem 0;
+            padding: 0.2rem 0;
+            font-size: 0.85rem;
         }
         .booking-section .booking-summary .total {
             font-weight: 700;
             font-size: 1.1rem;
-            border-top: 1px solid var(--olive-lt);
+            border-top: 1px solid var(--line);
             padding-top: 0.5rem;
-            margin-top: 0.25rem;
+            margin-top: 0.2rem;
         }
         .booking-section .submit-btn {
             width: 100%;
             padding: 0.8rem;
-            background: var(--gold);
-            color: var(--ink);
+            background: var(--accent);
+            color: var(--deep);
             border: none;
-            border-radius: 4px;
-            font-family: 'Barlow', sans-serif;
+            font-family: 'Barlow Condensed', sans-serif;
             font-weight: 700;
+            text-transform: uppercase;
             font-size: 1.1rem;
             cursor: pointer;
-            transition: background 0.2s ease;
+            transition: background 0.12s ease;
         }
         .booking-section .submit-btn:hover {
-            background: #e8c84a;
+            background: var(--deep);
+            color: var(--cream);
         }
         .booking-section .submit-btn:disabled {
             opacity: 0.5;
@@ -331,8 +283,7 @@
         .booking-section .status-msg {
             margin-top: 1rem;
             padding: 0.75rem;
-            border-radius: 4px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
         .booking-section .status-msg.success {
             background: #d4edda;
@@ -350,7 +301,6 @@
             border: 1px solid #bee5eb;
         }
 
-        /* Empty state */
         .empty-state {
             text-align: center;
             padding: 4rem 2rem;
@@ -364,19 +314,10 @@
             margin: 0 0 0.5rem 0;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .accommodation-hero {
-                padding: 2rem 1rem;
-            }
-            .accommodation-hero h1 {
-                font-size: 2rem;
-            }
             .filters {
-                padding: 1rem;
                 flex-direction: column;
                 align-items: stretch;
-                position: static;
             }
             .filters .filter-group {
                 flex: 1 1 auto;
@@ -388,10 +329,8 @@
             }
             .accommodation-grid {
                 grid-template-columns: 1fr;
-                padding: 1rem;
             }
             .booking-section {
-                margin: 0 1rem 2rem 1rem;
                 padding: 1.5rem;
             }
         }
@@ -414,16 +353,16 @@
     </div>
 </header>
 
-<!-- Hero -->
-<section class="accommodation-hero">
-    <a class="back-link" href="../index.html#legs">&larr; Back to Tour</a>
-    <p class="subtitle">The Tour of Taita Taveta</p>
-    <h1>Hotels, Lodges, Camps &amp; Homestays</h1>
-    <p class="tagline">Stay where the race runs — accommodation across all six legs</p>
+<!-- Hero — uses your region-hero style -->
+<section class="region-hero" style="padding:3rem 1.5rem;text-align:center;">
+    <a class="back" href="../index.html#legs" style="display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;text-transform:uppercase;color:var(--accent);text-decoration:none;margin-bottom:1rem;">&larr; Back to Tour</a>
+    <p style="font-size:1rem;opacity:0.6;margin-bottom:0.25rem;">The Tour of Taita Taveta</p>
+    <h1 style="font-size:clamp(2.2rem,5vw,3.5rem);margin-top:0;">Hotels, Lodges, Camps &amp; Homestays</h1>
+    <p style="font-size:1rem;opacity:0.6;margin-top:0.4rem;">Stay where the race runs — accommodation across all six legs</p>
 </section>
 
 <!-- Filters -->
-<div class="filters" id="filters">
+<div class="filters" id="filters" style="max-width:1180px;margin:0 auto;padding:0 1.5rem 1.5rem 1.5rem;">
     <div class="filter-group">
         <label for="region-filter">Region</label>
         <select id="region-filter">
@@ -460,12 +399,12 @@
             <option value="25000">Under KES 25,000</option>
         </select>
     </div>
-    <button class="filter-reset" id="reset-filters">Clear Filters</button>
+    <button class="filter-reset" id="reset-filters">Clear</button>
     <span class="results-count" id="results-count">0 properties</span>
 </div>
 
 <!-- Accommodation Grid -->
-<div class="accommodation-grid" id="accommodation-grid">
+<div class="accommodation-grid" id="accommodation-grid" style="max-width:1180px;margin:0 auto;padding:0 1.5rem 2rem 1.5rem;">
     <!-- Rendered by JavaScript -->
 </div>
 
@@ -477,34 +416,34 @@
     <form id="booking-form" novalidate>
         <div class="field">
             <label for="guest-name">Full Name</label>
-            <input type="text" id="guest-name" name="guest-name" placeholder="John Doe" required>
+            <input type="text" id="guest-name" placeholder="John Doe" required>
         </div>
         <div class="field">
-            <label for="guest-phone">M-Pesa Phone Number</label>
-            <input type="tel" id="guest-phone" name="guest-phone" placeholder="0712345678" pattern="^0[71][0-9]{8}$" required>
+            <label for="guest-phone">M-Pesa Phone</label>
+            <input type="tel" id="guest-phone" placeholder="0712345678" pattern="^0[71][0-9]{8}$" required>
         </div>
         <div class="field">
             <label for="guest-email">Email (optional)</label>
-            <input type="email" id="guest-email" name="guest-email" placeholder="john@example.com">
+            <input type="email" id="guest-email" placeholder="john@example.com">
         </div>
         <div class="field">
-            <label for="checkin-date">Check-in Date</label>
+            <label for="checkin-date">Check-in</label>
             <input type="date" id="checkin-date" required>
         </div>
         <div class="field">
-            <label for="checkout-date">Check-out Date</label>
+            <label for="checkout-date">Check-out</label>
             <input type="date" id="checkout-date" required>
         </div>
         <div class="field">
-            <label for="guest-count">Number of Guests</label>
+            <label for="guest-count">Guests</label>
             <input type="number" id="guest-count" min="1" value="1" required>
         </div>
 
-        <div class="booking-summary" id="booking-summary">
-            <div class="line"><span>Selected Property</span><span id="summary-name">—</span></div>
-            <div class="line"><span>Price per night</span><span id="summary-price">—</span></div>
-            <div class="line"><span>Number of nights</span><span id="summary-nights">—</span></div>
-            <div class="line total"><span>Total Due</span><span id="summary-total">KES 0</span></div>
+        <div class="booking-summary">
+            <div class="line"><span>Property</span><span id="summary-name">—</span></div>
+            <div class="line"><span>Price / night</span><span id="summary-price">—</span></div>
+            <div class="line"><span>Nights</span><span id="summary-nights">—</span></div>
+            <div class="line total"><span>Total</span><span id="summary-total">KES 0</span></div>
         </div>
 
         <button type="submit" class="submit-btn" id="booking-submit" disabled>Select a property first</button>
@@ -520,13 +459,11 @@
 
 <script>
     // ==============================================
-    // ACCOMMODATION DATA — One source of truth
+    // ACCOMMODATION DATA — 19 properties, 6 regions
     // ==============================================
     window.ACCOMMODATION_DATA = {
         properties: [
-            // ==========================================
-            // SAGALLA
-            // ==========================================
+            // Sagalla
             {
                 id: 'sagalla-mwanakaviri-campsite',
                 name: 'Mwanakaviri Community Campsite',
@@ -575,10 +512,7 @@
                 bathroom_type: 'private',
                 rating: 4.5
             },
-
-            // ==========================================
-            // VURIA / WUSI
-            // ==========================================
+            // Vuria / Wusi
             {
                 id: 'vuria-abel-homestay',
                 name: 'Abel Homestay',
@@ -643,10 +577,7 @@
                 bathroom_type: 'private',
                 rating: 4.0
             },
-
-            // ==========================================
-            // BURA
-            // ==========================================
+            // Bura
             {
                 id: 'bura-mission-homestay',
                 name: 'Bura Mission Homestay',
@@ -679,10 +610,7 @@
                 bathroom_type: 'shared',
                 rating: 4.0
             },
-
-            // ==========================================
-            // KASIGHAU
-            // ==========================================
+            // Kasighau
             {
                 id: 'kasighau-kasigau-base-camp',
                 name: 'Kasigau Base Camp',
@@ -731,10 +659,7 @@
                 bathroom_type: 'private',
                 rating: 4.7
             },
-
-            // ==========================================
-            // MBOLOLO / RONGE
-            // ==========================================
+            // Mbololo / Ronge
             {
                 id: 'mbololo-forest-campsite',
                 name: 'Mbololo Forest Guard Station Campsite',
@@ -783,10 +708,7 @@
                 bathroom_type: 'shared',
                 rating: 4.1
             },
-
-            // ==========================================
-            // MBALE
-            // ==========================================
+            // Mbale
             {
                 id: 'mbale-wesu-campsite',
                 name: 'Wesu Rock Base Campsite',
@@ -852,16 +774,14 @@
                 rating: 4.3
             }
         ],
-
         categories: [
-            { value: 'homestay', label: '🏠 Homestay' },
-            { value: 'campsite', label: '⛺ Campsite' },
-            { value: 'guesthouse', label: '🏨 Guesthouse' },
-            { value: 'cottage', label: '🏡 Cottage' },
-            { value: 'eco-lodge', label: '🌿 Eco-Lodge' },
-            { value: 'camp', label: '⛺ Tented Camp' }
+            { value: 'homestay', label: 'Homestay' },
+            { value: 'campsite', label: 'Campsite' },
+            { value: 'guesthouse', label: 'Guesthouse' },
+            { value: 'cottage', label: 'Cottage' },
+            { value: 'eco-lodge', label: 'Eco-Lodge' },
+            { value: 'camp', label: 'Tented Camp' }
         ],
-
         regions: [
             { value: 'sagalla', label: 'Sagalla' },
             { value: 'vuria-wusi', label: 'Vuria / Wusi' },
@@ -877,7 +797,6 @@
     // ==============================================
     // ACCOMMODATION PAGE RENDERER
     // ==============================================
-
     (function() {
         const data = window.ACCOMMODATION_DATA;
         if (!data || !data.properties) return;
@@ -889,7 +808,6 @@
         const resetBtn = document.getElementById('reset-filters');
         const resultsCount = document.getElementById('results-count');
 
-        // Booking form elements
         const form = document.getElementById('booking-form');
         const summaryName = document.getElementById('summary-name');
         const summaryPrice = document.getElementById('summary-price');
@@ -906,7 +824,6 @@
         let selectedProperty = null;
         let filteredProperties = [];
 
-        // Set default dates
         function setDefaultDates() {
             const today = new Date();
             const tomorrow = new Date(today);
@@ -921,7 +838,7 @@
             const regionLabel = data.regions.find(r => r.value === property.region);
             const photos = property.photos && property.photos.length > 0 ?
                 property.photos.map(function(src) {
-                    return `<img src="${src}" alt="${property.name}" loading="lazy" onerror="this.parentElement.outerHTML='<span>Photo pending</span>'">`;
+                    return `<img src="${src}" alt="${property.name}" loading="lazy" onerror="this.parentElement.innerHTML='<span>Photo pending</span>'">`;
                 }).join('') :
                 '<span>Photo pending</span>';
 
@@ -948,9 +865,9 @@
                         <div class="rating">${ratingStars(property.rating)} ${property.rating}</div>
                         <div class="price">KES ${property.price_per_night.toLocaleString()} <small>/ night</small></div>
                         <p class="description">${property.description}</p>
-                        <p class="host">👤 Host: ${property.host_name}</p>
+                        <p class="host">Host: ${property.host_name}</p>
                         <div class="amenities">${amenitiesHtml}</div>
-                        <button class="select-btn" data-id="${property.id}">Select this property</button>
+                        <button class="select-btn" data-id="${property.id}">Select</button>
                     </div>
                 </div>
             `;
@@ -958,12 +875,7 @@
 
         function renderGrid(properties) {
             if (!properties || properties.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <h3>No properties match your filters</h3>
-                        <p>Try adjusting your filters or clear them to see all options.</p>
-                    </div>
-                `;
+                grid.innerHTML = `<div class="empty-state"><h3>No properties match</h3><p>Try adjusting your filters.</p></div>`;
                 resultsCount.textContent = '0 properties';
                 return;
             }
@@ -971,27 +883,20 @@
             grid.innerHTML = properties.map(renderCard).join('');
             resultsCount.textContent = properties.length + ' property' + (properties.length > 1 ? 'ies' : '');
 
-            // Attach click events to select buttons
             document.querySelectorAll('.select-btn').forEach(function(btn) {
                 btn.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    const card = this.closest('.accommodation-card');
-                    const id = card.dataset.id;
-                    selectProperty(id);
+                    selectProperty(this.dataset.id);
                 });
             });
-
-            // Click card to select
             document.querySelectorAll('.accommodation-card').forEach(function(card) {
                 card.addEventListener('click', function() {
-                    const id = this.dataset.id;
-                    selectProperty(id);
+                    selectProperty(this.dataset.id);
                 });
             });
         }
 
         function selectProperty(id) {
-            // Deselect all
             document.querySelectorAll('.accommodation-card').forEach(function(c) {
                 c.classList.remove('selected');
             });
@@ -1003,12 +908,9 @@
             const card = document.querySelector(`.accommodation-card[data-id="${id}"]`);
             if (card) card.classList.add('selected');
 
-            // Update booking summary
             summaryName.textContent = property.name;
             summaryPrice.textContent = 'KES ' + property.price_per_night.toLocaleString();
             updateTotal();
-
-            // Enable submit
             submitBtn.disabled = false;
             submitBtn.textContent = 'Book & Pay via M-Pesa';
             statusMsg.textContent = '';
@@ -1018,7 +920,6 @@
         function updateTotal() {
             if (!selectedProperty) return;
             const nights = calculateNights();
-            const guests = Number(guestCountInput.value) || 1;
             const total = selectedProperty.price_per_night * nights;
             summaryNights.textContent = nights + ' night' + (nights > 1 ? 's' : '');
             summaryTotal.textContent = 'KES ' + total.toLocaleString();
@@ -1028,8 +929,7 @@
             const checkin = new Date(checkinInput.value);
             const checkout = new Date(checkoutInput.value);
             if (isNaN(checkin) || isNaN(checkout) || checkout <= checkin) return 1;
-            const diff = checkout - checkin;
-            return Math.ceil(diff / (1000 * 60 * 60 * 24));
+            return Math.ceil((checkout - checkin) / (1000 * 60 * 60 * 24));
         }
 
         function filterProperties() {
@@ -1045,8 +945,6 @@
             });
 
             renderGrid(filteredProperties);
-
-            // If selected property is no longer in filtered list, clear selection
             if (selectedProperty) {
                 const stillVisible = filteredProperties.some(p => p.id === selectedProperty.id);
                 if (!stillVisible) {
@@ -1063,7 +961,6 @@
             }
         }
 
-        // Event listeners
         regionFilter.addEventListener('change', filterProperties);
         categoryFilter.addEventListener('change', filterProperties);
         priceFilter.addEventListener('change', filterProperties);
@@ -1083,29 +980,19 @@
             }
             if (selectedProperty) updateTotal();
         });
+        checkoutInput.addEventListener('change', function() { if (selectedProperty) updateTotal(); });
+        guestCountInput.addEventListener('change', function() { if (selectedProperty) updateTotal(); });
 
-        checkoutInput.addEventListener('change', function() {
-            if (selectedProperty) updateTotal();
-        });
-
-        guestCountInput.addEventListener('change', function() {
-            if (selectedProperty) updateTotal();
-        });
-
-        // Handle URL params (region pre-selection)
         function handleUrlParams() {
             const urlParams = new URLSearchParams(window.location.search);
             const regionParam = urlParams.get('region');
             if (regionParam) {
                 const regionOption = regionFilter.querySelector(`option[value="${regionParam}"]`);
-                if (regionOption) {
-                    regionFilter.value = regionParam;
-                }
+                if (regionOption) regionFilter.value = regionParam;
             }
             filterProperties();
         }
 
-        // Booking form submission
         form.addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -1117,7 +1004,6 @@
 
             const name = guestNameInput.value.trim();
             const phone = guestPhoneInput.value.trim();
-            const email = document.getElementById('guest-email').value.trim();
             const checkin = checkinInput.value;
             const checkout = checkoutInput.value;
             const guests = Number(guestCountInput.value) || 1;
@@ -1129,20 +1015,17 @@
                 statusMsg.className = 'status-msg error';
                 return;
             }
-
             if (!checkin || !checkout) {
                 statusMsg.textContent = 'Please select check-in and check-out dates.';
                 statusMsg.className = 'status-msg error';
                 return;
             }
 
-            // Show processing
             submitBtn.disabled = true;
             submitBtn.textContent = 'Processing...';
             statusMsg.textContent = '⏳ Initiating M-Pesa payment...';
             statusMsg.className = 'status-msg info';
 
-            // Simulate STK push (replace with actual API call)
             setTimeout(function() {
                 statusMsg.innerHTML = `
                     ✅ <strong>Booking confirmed!</strong><br>
@@ -1158,13 +1041,11 @@
             }, 2000);
         });
 
-        // Initial render
         handleUrlParams();
     })();
 </script>
 
 <script>
-    // Dark mode toggle
     document.addEventListener('DOMContentLoaded', function() {
         const toggleBtn = document.getElementById('theme-toggle');
         const currentTheme = localStorage.getItem('theme') || 'light';
@@ -1188,4 +1069,4 @@
 </script>
 
 </body>
-  </html>
+</html>
