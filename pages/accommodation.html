@@ -1,1 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotels, Lodges, Camps & Homestays — Tour of Taita Taveta</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Accommodation Page Specific Styles */
+        .accommodation-hero {
+            background: var(--olive-dk);
+            color: var(--cream);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        .accommodation-hero h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            letter-spacing: -0.02em;
+        }
+        .accommodation-hero .subtitle {
+            font-size: 1.4rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin: 0 0 0.25rem 0;
+        }
+        .accommodation-hero .tagline {
+            font-size: 1.1rem;
+            opacity: 0.7;
+            margin: 0;
+        }
+        .accommodation-hero .back-link {
+            display: inline-block;
+            color: var(--gold);
+            text-decoration: none;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        .accommodation-hero .back-link:hover {
+            text-decoration: underline;
+        }
 
+        /* Filters */
+        .filters {
+            background: var(--cream);
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid var(--olive-lt);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: flex-end;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .filters .filter-group {
+            flex: 1 1 180px;
+            min-width: 140px;
+        }
+        .filters label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--ink);
+            opacity: 0.6;
+            margin-bottom: 0.25rem;
+        }
+        .filters select,
+        .filters input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--olive-lt);
+            border-radius: 4px;
+            background: white;
+            font-family: 'Barlow', sans-serif;
+            font-size: 0.95rem;
+            color: var(--ink);
+        }
+        .filters .filter-reset {
+            flex: 0 0 auto;
+            padding: 0.5rem 1.5rem;
+            background: var(--olive-lt);
+            border: none;
+            border-radius: 4px;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 600;
+            color: var(--ink);
+            cursor: pointer;
+            height: 40px;
+            align-self: flex-end;
+        }
+        .filters .filter-reset:hover {
+            background: var(--olive);
+            color: var(--cream);
+        }
+        .filters .results-count {
+            flex: 0 0 auto;
+            font-size: 0.9rem;
+            color: var(--ink);
+            opacity: 0.6;
+            align-self: center;
+            padding: 0 0.5rem;
+        }
+
+        /* Accommodation Grid */
+        .accommodation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .accommodation-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--olive-lt);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+        .accommodation-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .accommodation-card.selected {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px var(--gold);
+        }
+        .accommodation-card .ph {
+            background: var(--cream);
+            aspect-ratio: 16/10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .accommodation-card .ph img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .accommodation-card .ph span {
+            color: rgba(20,20,20,0.3);
+            font-size: 0.85rem;
+        }
+        .accommodation-card .card-body {
+            padding: 1.25rem;
+        }
+        .accommodation-card .card-body .category-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            background: var(--olive-lt);
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        .accommodation-card .card-body h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 0.25rem 0;
+            letter-spacing: -0.01em;
+        }
+        .accommodation-card .card-body .region-tag {
+            font-size: 0.8rem;
+            color: var(--ink);
+            opacity: 0.6;
+            margin-bottom: 0.5rem;
+        }
+        .accommodation-card .card-body .price {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--olive);
+            margin: 0.5rem 0;
+        }
+        .accommodation-card .card-body .price small {
+            font-weight: 400;
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+        .accommodation-card .card-body .description {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            opacity: 0.8;
+            margin: 0.5rem 0;
+        }
+        .accommodation-card .card-body .host {
+            font-size: 0.85rem;
+            opacity: 0.6;
+            margin: 0.25rem 0;
+        }
+        .accommodation-card .card-body .amenities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin: 0.75rem 0;
+        }
+        .accommodation-card .card-body .amenities span {
+            padding: 0.15rem 0.5rem;
+            background: var(--cream);
+            border-radius: 3px;
+            font-size: 0.7rem;
+            color: var(--ink);
+            opacity: 0.7;
+        }
+        .accommodation-card .card-body .select-btn {
+            width: 100%;
+            padding: 0.6rem;
+            background: var(--olive);
+            color: var(--cream);
+            border: none;
+            border-radius: 4px;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            margin-top: 0.5rem;
+        }
+        .accommodation-card .card-body .select-btn:hover {
+            background: var(--olive-dk);
+        }
+        .accommodation-card .card-body .select-btn.selected-btn {
+            background: var(--gold);
+            color: var(--ink);
+        }
+        .accommodation-card .card-body .rating {
+            font-size: 0.85rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* Booking Form */
+        .booking-section {
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--olive-lt);
+        }
+        .booking-section h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0 0.25rem 0;
+        }
+        .booking-section .booking-sub {
+            color: var(--ink);
+            opacity: 0.6;
+            margin-bottom: 1.5rem;
+        }
+        .booking-section .field {
+            margin-bottom: 1rem;
+        }
+        .booking-section .field label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            opacity: 0.7;
+            margin-bottom: 0.2rem;
+        }
+        .booking-section .field input,
+        .booking-section .field select {
+            width: 100%;
+            padding: 0.6rem 0.75rem;
+            border: 1px solid var(--olive-lt);
+            border-radius: 4px;
+            font-family: 'Barlow', sans-serif;
+            font-size: 1rem;
+            background: var(--cream);
+        }
+        .booking-section .field input:focus,
+        .booking-section .field select:focus {
+            outline: none;
+            border-color: var(--olive);
+        }
+        .booking-section .booking-summary {
+            background: var(--cream);
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .booking-section .booking-summary .line {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+        }
+        .booking-section .booking-summary .total {
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-top: 1px solid var(--olive-lt);
+            padding-top: 0.5rem;
+            margin-top: 0.25rem;
+        }
+        .booking-section .submit-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--gold);
+            color: var(--ink);
+            border: none;
+            border-radius: 4px;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .booking-section .submit-btn:hover {
+            background: #e8c84a;
+        }
+        .booking-section .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .booking-section .status-msg {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+        .booking-section .status-msg.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .booking-section .status-msg.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .booking-section .status-msg.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--ink);
+            opacity: 0.5;
+            grid-column: 1 / -1;
+        }
+        .empty-state h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.5rem;
+            margin: 0 0 0.5rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .accommodation-hero {
+                padding: 2rem 1rem;
+            }
+            .accommodation-hero h1 {
+                font-size: 2rem;
+            }
+            .filters {
+                padding: 1rem;
+                flex-direction: column;
+                align-items: stretch;
+                position: static;
+            }
+            .filters .filter-group {
+                flex: 1 1 auto;
+                min-width: auto;
+            }
+            .filters .filter-reset {
+                height: auto;
+                padding: 0.6rem;
+            }
+            .accommodation-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            .booking-section {
+                margin: 0 1rem 2rem 1rem;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav-inner">
+        <div class="brand"><img src="../logos/taita-taveta.png" alt="Tour of Taita Taveta Logo" class="main-logo"></div>
+        <nav class="links">
+            <a href="../index.html#home">Home</a>
+            <a href="../index.html#legs">Legs</a>
+            <a href="../index.html#tickets">Register</a>
+            <a href="../pages/login.html">Log In</a>
+            <button id="theme-toggle" aria-label="Toggle dark mode" style="background:none;border:2px solid var(--olive-lt);color:var(--cream);cursor:pointer;font-size:1.1rem;padding:0.3rem 0.7rem;border-radius:4px;transition:all 0.2s ease;white-space:nowrap;">
+                🌙
+            </button>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero -->
+<section class="accommodation-hero">
+    <a class="back-link" href="../index.html#legs">&larr; Back to Tour</a>
+    <p class="subtitle">🏠 The Tour of Taita Taveta</p>
+    <h1>Hotels, Lodges, Camps &amp; Homestays</h1>
+    <p class="tagline">Stay where the race runs — accommodation across all six legs</p>
+</section>
+
+<!-- Filters -->
+<div class="filters" id="filters">
+    <div class="filter-group">
+        <label for="region-filter">Region</label>
+        <select id="region-filter">
+            <option value="all">All Regions</option>
+            <option value="sagalla">Sagalla</option>
+            <option value="vuria-wusi">Vuria / Wusi</option>
+            <option value="bura">Bura</option>
+            <option value="kasighau">Kasighau</option>
+            <option value="mbololo-ronge">Mbololo / Ronge</option>
+            <option value="mbale">Mbale</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label for="category-filter">Category</label>
+        <select id="category-filter">
+            <option value="all">All Categories</option>
+            <option value="homestay">🏠 Homestay</option>
+            <option value="campsite">⛺ Campsite</option>
+            <option value="guesthouse">🏨 Guesthouse</option>
+            <option value="cottage">🏡 Cottage</option>
+            <option value="eco-lodge">🌿 Eco-Lodge</option>
+            <option value="camp">⛺ Tented Camp</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label for="price-filter">Max Price (KES)</label>
+        <select id="price-filter">
+            <option value="all">Any</option>
+            <option value="500">Under KES 500</option>
+            <option value="1000">Under KES 1,000</option>
+            <option value="2000">Under KES 2,000</option>
+            <option value="5000">Under KES 5,000</option>
+            <option value="10000">Under KES 10,000</option>
+            <option value="25000">Under KES 25,000</option>
+        </select>
+    </div>
+    <button class="filter-reset" id="reset-filters">Clear Filters</button>
+    <span class="results-count" id="results-count">0 properties</span>
+</div>
+
+<!-- Accommodation Grid -->
+<div class="accommodation-grid" id="accommodation-grid">
+    <!-- Rendered by JavaScript -->
+</div>
+
+<!-- Booking Form -->
+<div class="booking-section" id="booking-section">
+    <h3>Book Your Stay</h3>
+    <p class="booking-sub">Select a property above, then fill in your details to book.</p>
+
+    <form id="booking-form" novalidate>
+        <div class="field">
+            <label for="guest-name">Full Name</label>
+            <input type="text" id="guest-name" name="guest-name" placeholder="John Doe" required>
+        </div>
+        <div class="field">
+            <label for="guest-phone">M-Pesa Phone Number</label>
+            <input type="tel" id="guest-phone" name="guest-phone" placeholder="0712345678" pattern="^0[71][0-9]{8}$" required>
+        </div>
+        <div class="field">
+            <label for="guest-email">Email (optional)</label>
+            <input type="email" id="guest-email" name="guest-email" placeholder="john@example.com">
+        </div>
+        <div class="field">
+            <label for="checkin-date">Check-in Date</label>
+            <input type="date" id="checkin-date" required>
+        </div>
+        <div class="field">
+            <label for="checkout-date">Check-out Date</label>
+            <input type="date" id="checkout-date" required>
+        </div>
+        <div class="field">
+            <label for="guest-count">Number of Guests</label>
+            <input type="number" id="guest-count" min="1" value="1" required>
+        </div>
+
+        <div class="booking-summary" id="booking-summary">
+            <div class="line"><span>Selected Property</span><span id="summary-name">—</span></div>
+            <div class="line"><span>Price per night</span><span id="summary-price">—</span></div>
+            <div class="line"><span>Number of nights</span><span id="summary-nights">—</span></div>
+            <div class="line total"><span>Total Due</span><span id="summary-total">KES 0</span></div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="booking-submit" disabled>Select a property first</button>
+        <div class="status-msg" id="booking-status"></div>
+    </form>
+</div>
+
+<footer>
+    <p><strong>Tour of Taita Taveta</strong> — Attitude meets Altitude.</p>
+    <p><strong>The Tour of Taita Taveta Hotels, Lodges, Camps, and Homestays</strong> — Stay where the race runs.</p>
+    <p>&copy; 2026 Tour of Taita Taveta. All rights reserved.</p>
+</footer>
+
+<script>
+    // ==============================================
+    // ACCOMMODATION DATA — One source of truth
+    // ==============================================
+    window.ACCOMMODATION_DATA = {
+        properties: [
+            // ==========================================
+            // SAGALLA
+            // ==========================================
+            {
+                id: 'sagalla-mwanakaviri-campsite',
+                name: 'Mwanakaviri Community Campsite',
+                category: 'campsite',
+                region: 'sagalla',
+                capacity: 20,
+                price_per_night: 500,
+                description: 'Community-managed campsite near the Mwanakaviri Caves. Sleep under the stars with access to nature trails and cave exploration.',
+                photos: ['../photo/accommodation/sagalla-campsite-1.jpg', '../photo/accommodation/sagalla-campsite-2.jpg'],
+                host_name: 'Mwanakaviri CBO',
+                host_contact: '0712345679',
+                amenities: ['Cave access', 'Nature trails', 'Picnic area', 'Basic toilet', 'Campfire allowed'],
+                meals_included: false,
+                bathroom_type: 'shared',
+                rating: 4.2
+            },
+            {
+                id: 'sagalla-esther-homestay',
+                name: "Mama Esther's Sagalla Homestay",
+                category: 'homestay',
+                region: 'sagalla',
+                capacity: 4,
+                price_per_night: 1500,
+                description: 'Traditional Sagalla homestead offering an authentic community experience. Includes home-cooked meals and a guided village walk.',
+                photos: ['../photo/accommodation/sagalla-homestay-1.jpg', '../photo/accommodation/sagalla-homestay-2.jpg'],
+                host_name: 'Mama Esther',
+                host_contact: '0712345678',
+                amenities: ['Meals included', 'Guided village walk', 'Shared bathroom', 'Village views', 'Cultural experience'],
+                meals_included: true,
+                bathroom_type: 'shared',
+                rating: 4.8
+            },
+            {
+                id: 'sagalla-gethsemane-cottages',
+                name: 'Mountain Gethsemane Cottages',
+                category: 'cottage',
+                region: 'sagalla',
+                capacity: 6,
+                price_per_night: 2500,
+                description: 'Self-contained cottages overlooking the Sagalla Hills. Perfect for families or groups wanting privacy with stunning nature views.',
+                photos: ['../photo/accommodation/sagalla-cottages-1.jpg', '../photo/accommodation/sagalla-cottages-2.jpg'],
+                host_name: 'Mountain Gethsemane',
+                host_contact: '0712345680',
+                amenities: ['Self-catering', 'Private bathroom', 'Kitchen', 'Nature views', 'Trail access', 'Parking'],
+                meals_included: false,
+                bathroom_type: 'private',
+                rating: 4.5
+            },
+
+            // ==========================================
+            // VURIA / WUSI
+            // ==========================================
+            {
+                id: 'vuria-abel-homestay',
+                name: 'Abel Homestay',
+                category: 'homestay',
+                region: 'vuria-wusi',
+                capacity: 6,
+                price_per_night: 2500,
+                description: 'A warm family-run homestay in Wundanyi. Enjoy home-cooked meals from the garden, village walks, and hiking guides.',
+                photos: ['../photo/accommodation/abel-homestay-1.jpg', '../photo/accommodation/abel-homestay-2.jpg'],
+                host_name: 'Abel & Liz',
+                host_contact: '0712345681',
+                amenities: ['Meals included', 'Village walks', 'Hiking guides', 'Cultural experiences', 'Garden views'],
+                meals_included: true,
+                bathroom_type: 'shared',
+                rating: 4.9
+            },
+            {
+                id: 'vuria-sk-cbd-suites',
+                name: 'SK CBD Suites',
+                category: 'guesthouse',
+                region: 'vuria-wusi',
+                capacity: 3,
+                price_per_night: 4000,
+                description: 'Self-contained suites in Wundanyi with panoramic mountain views. Cozy, private, and fully equipped.',
+                photos: ['../photo/accommodation/sk-cbd-1.jpg', '../photo/accommodation/sk-cbd-2.jpg'],
+                host_name: 'SK CBD Suites',
+                host_contact: '0712345682',
+                amenities: ['Private kitchen', 'Balcony', 'Mountain views', 'Netflix', 'Wi-Fi', 'Garden'],
+                meals_included: false,
+                bathroom_type: 'private',
+                rating: 4.7
+            },
+            {
+                id: 'vuria-taita-rocks-hotel',
+                name: 'Taita Rocks Hotel',
+                category: 'guesthouse',
+                region: 'vuria-wusi',
+                capacity: 30,
+                price_per_night: 4500,
+                description: 'A green, well-located hotel in Wundanyi with a beautiful garden and restaurant. Friendly staff and great atmosphere.',
+                photos: ['../photo/accommodation/taita-rocks-1.jpg', '../photo/accommodation/taita-rocks-2.jpg'],
+                host_name: 'Taita Rocks Hotel',
+                host_contact: '0712345683',
+                amenities: ['Restaurant', 'Bar', 'Garden', 'Wi-Fi', '24-hour front desk', 'Free parking'],
+                meals_included: false,
+                bathroom_type: 'private',
+                rating: 4.3
+            },
+            {
+                id: 'vuria-wundanyi-guesthouse',
+                name: 'Wundanyi Town Guesthouse',
+                category: 'guesthouse',
+                region: 'vuria-wusi',
+                capacity: 6,
+                price_per_night: 2000,
+                description: 'Comfortable guesthouse in Wundanyi town centre. Close to shops, restaurants, and the trailhead to Vuria Peak.',
+                photos: ['../photo/accommodation/wundanyi-guesthouse-1.jpg', '../photo/accommodation/wundanyi-guesthouse-2.jpg'],
+                host_name: 'Wundanyi Guesthouse',
+                host_contact: '0712345684',
+                amenities: ['Private rooms', 'Hot water', 'Restaurants nearby'],
+                meals_included: false,
+                bathroom_type: 'private',
+                rating: 4.0
+            },
+
+            // ==========================================
+            // BURA
+            // ==========================================
+            {
+                id: 'bura-mission-homestay',
+                name: 'Bura Mission Homestay',
+                category: 'homestay',
+                region: 'bura',
+                capacity: 3,
+                price_per_night: 1200,
+                description: 'Stay at the historic mission grounds with the local community. Experience terraced farm life and mission history.',
+                photos: ['../photo/accommodation/bura-homestay-1.jpg', '../photo/accommodation/bura-homestay-2.jpg'],
+                host_name: 'Mama Grace',
+                host_contact: '0712345685',
+                amenities: ['Meals included', 'Farm tour', 'Mission history walk'],
+                meals_included: true,
+                bathroom_type: 'shared',
+                rating: 4.4
+            },
+            {
+                id: 'bura-community-campsite',
+                name: 'Bura Community Campsite',
+                category: 'campsite',
+                region: 'bura',
+                capacity: 10,
+                price_per_night: 400,
+                description: 'Simple community-run campsite near Bura trading centre. Close to the terraced hillside farms.',
+                photos: ['../photo/accommodation/bura-campsite-1.jpg', '../photo/accommodation/bura-campsite-2.jpg'],
+                host_name: 'Bura Community',
+                host_contact: '0712345686',
+                amenities: ['Farm views', 'Quiet location', 'Basic toilet'],
+                meals_included: false,
+                bathroom_type: 'shared',
+                rating: 4.0
+            },
+
+            // ==========================================
+            // KASIGHAU
+            // ==========================================
+            {
+                id: 'kasighau-kasigau-base-camp',
+                name: 'Kasigau Base Camp',
+                category: 'campsite',
+                region: 'kasighau',
+                capacity: 15,
+                price_per_night: 750,
+                description: 'Beautiful location looking out on Tsavo West National Park. Wildlife migration corridor between Tsavo East and West.',
+                photos: ['../photo/accommodation/kasigau-base-1.jpg', '../photo/accommodation/kasigau-base-2.jpg'],
+                host_name: 'Jackson',
+                host_contact: '0704776485',
+                amenities: ['Solar lights', 'Flushing toilets', 'Cold showers', 'Kitchen', '4G signal'],
+                meals_included: false,
+                bathroom_type: 'shared',
+                rating: 4.6
+            },
+            {
+                id: 'kasighau-rukinga-campsite',
+                name: 'Rukinga Sanctuary Campsite',
+                category: 'campsite',
+                region: 'kasighau',
+                capacity: 15,
+                price_per_night: 800,
+                description: 'Campsite within the Rukinga Wildlife Sanctuary, part of the Kasigau Corridor REDD+ project. Wildlife viewing from camp.',
+                photos: ['../photo/accommodation/rukinga-campsite-1.jpg', '../photo/accommodation/rukinga-campsite-2.jpg'],
+                host_name: 'Kasigau Conservancy',
+                host_contact: '0712345687',
+                amenities: ['Wildlife viewing', 'Night sky', 'Guided walks available'],
+                meals_included: false,
+                bathroom_type: 'shared',
+                rating: 4.3
+            },
+            {
+                id: 'kasighau-voyager-ziwani',
+                name: 'Voyager Ziwani Tented Camp',
+                category: 'camp',
+                region: 'kasighau',
+                capacity: 25,
+                price_per_night: 20000,
+                description: 'Award-winning tented camp near Tsavo West. En-suite tents with private verandas, al fresco dining, and a man-made dam for wildlife viewing.',
+                photos: ['../photo/accommodation/ziwani-1.jpg', '../photo/accommodation/ziwani-2.jpg'],
+                host_name: 'Voyager Ziwani',
+                host_contact: '0712345688',
+                amenities: ['En-suite tents', 'Private verandas', 'Al fresco dining', 'Game drives', 'Fishing'],
+                meals_included: true,
+                bathroom_type: 'private',
+                rating: 4.7
+            },
+
+            // ==========================================
+            // MBOLOLO / RONGE
+            // ==========================================
+            {
+                id: 'mbololo-forest-campsite',
+                name: 'Mbololo Forest Guard Station Campsite',
+                category: 'campsite',
+                region: 'mbololo-ronge',
+                capacity: 10,
+                price_per_night: 400,
+                description: 'Simple campsite at the Kenya Forest Service station. Adjacent to Mbololo\'s montane forest and one of the richest birdwatching sites.',
+                photos: ['../photo/accommodation/mbololo-campsite-1.jpg', '../photo/accommodation/mbololo-campsite-2.jpg'],
+                host_name: 'Kenya Forest Service',
+                host_contact: '0712345689',
+                amenities: ['Forest access', 'Birdwatching', 'Guided walks available'],
+                meals_included: false,
+                bathroom_type: 'shared',
+                rating: 4.2
+            },
+            {
+                id: 'mbololo-community-homestay',
+                name: 'Mbololo Community Homestay',
+                category: 'homestay',
+                region: 'mbololo-ronge',
+                capacity: 3,
+                price_per_night: 1000,
+                description: 'Stay with a local family in Mbololo ward. Experience traditional forest conservation practices and community life.',
+                photos: ['../photo/accommodation/mbololo-homestay-1.jpg', '../photo/accommodation/mbololo-homestay-2.jpg'],
+                host_name: 'Mama Mbololo',
+                host_contact: '0712345690',
+                amenities: ['Meals included', 'Cultural experience', 'Forest stories'],
+                meals_included: true,
+                bathroom_type: 'shared',
+                rating: 4.3
+            },
+            {
+                id: 'mbololo-ronge-ridge-campsite',
+                name: 'Ronge Ridge Forest Campsite',
+                category: 'campsite',
+                region: 'mbololo-ronge',
+                capacity: 8,
+                price_per_night: 350,
+                description: 'Quiet campsite on Ronge ridge with excellent views of the surrounding plains. Less-visited part of the conservation network.',
+                photos: ['../photo/accommodation/ronge-campsite-1.jpg', '../photo/accommodation/ronge-campsite-2.jpg'],
+                host_name: 'Ronge Community',
+                host_contact: '0712345691',
+                amenities: ['Ridge views', 'Quiet location', 'Nature walks'],
+                meals_included: false,
+                bathroom_type: 'shared',
+                rating: 4.1
+            },
+
+            // ==========================================
+            // MBALE
+            // ==========================================
+            {
+                id: 'mbale-wesu-campsite',
+                name: 'Wesu Rock Base Campsite',
+                category: 'campsite',
+                region: 'mbale',
+                capacity: 15,
+                price_per_night: 500,
+                description: 'Campsite at the base of Wesu Rock, the finishing point of the Tour. Spectacular views of the Taita Hills.',
+                photos: ['../photo/accommodation/wesu-campsite-1.jpg', '../photo/accommodation/wesu-campsite-2.jpg'],
+                host_name: 'Mbale Community',
+                host_contact: '0712345692',
+                amenities: ['Rock views', 'Sunrise/sunset access', 'Hiking trails'],
+                meals_included: false,
+                bathroom_type: 'shared',
+                rating: 4.4
+            },
+            {
+                id: 'mbale-salt-lick-lodge',
+                name: 'Salt Lick Safari Lodge',
+                category: 'eco-lodge',
+                region: 'mbale',
+                capacity: 96,
+                price_per_night: 20000,
+                description: 'Iconic stilted eco-lodge in the Taita Hills Wildlife Sanctuary. Built on stilts above a waterhole, offering breathtaking views of wildlife.',
+                photos: ['../photo/accommodation/salt-lick-1.jpg', '../photo/accommodation/salt-lick-2.jpg'],
+                host_name: 'Salt Lick Lodge',
+                host_contact: '0712345693',
+                amenities: ['Heated swimming pool', 'Restaurant', 'Bar', 'Garden', 'Gift shop', 'Safari drives'],
+                meals_included: true,
+                bathroom_type: 'private',
+                rating: 4.8
+            },
+            {
+                id: 'mbale-taita-hills-resort',
+                name: 'Taita Hills Safari Resort & Spa',
+                category: 'eco-lodge',
+                region: 'mbale',
+                capacity: 62,
+                price_per_night: 18000,
+                description: 'Full-service resort in the Taita Hills Sanctuary offering game viewing, hiking trails, and spa facilities.',
+                photos: ['../photo/accommodation/taita-resort-1.jpg', '../photo/accommodation/taita-resort-2.jpg'],
+                host_name: 'Taita Hills Resort',
+                host_contact: '0712345694',
+                amenities: ['Spa', 'Restaurant', 'Bar', 'Hiking trails', 'Game viewing', 'Safari drives'],
+                meals_included: true,
+                bathroom_type: 'private',
+                rating: 4.5
+            },
+            {
+                id: 'mbale-cultural-homestay',
+                name: 'Mbale Cultural Homestay',
+                category: 'homestay',
+                region: 'mbale',
+                capacity: 4,
+                price_per_night: 1200,
+                description: 'Authentic community homestay with farm experience and cultural activities. Learn about Taita agroforestry traditions.',
+                photos: ['../photo/accommodation/mbale-homestay-1.jpg', '../photo/accommodation/mbale-homestay-2.jpg'],
+                host_name: 'Mama Mbale',
+                host_contact: '0712345695',
+                amenities: ['Meals included', 'Farm experience', 'Cultural activities'],
+                meals_included: true,
+                bathroom_type: 'shared',
+                rating: 4.3
+            }
+        ],
+
+        categories: [
+            { value: 'homestay', label: '🏠 Homestay' },
+            { value: 'campsite', label: '⛺ Campsite' },
+            { value: 'guesthouse', label: '🏨 Guesthouse' },
+            { value: 'cottage', label: '🏡 Cottage' },
+            { value: 'eco-lodge', label: '🌿 Eco-Lodge' },
+            { value: 'camp', label: '⛺ Tented Camp' }
+        ],
+
+        regions: [
+            { value: 'sagalla', label: 'Sagalla' },
+            { value: 'vuria-wusi', label: 'Vuria / Wusi' },
+            { value: 'bura', label: 'Bura' },
+            { value: 'kasighau', label: 'Kasighau' },
+            { value: 'mbololo-ronge', label: 'Mbololo / Ronge' },
+            { value: 'mbale', label: 'Mbale' }
+        ]
+    };
+</script>
+
+<script>
+    // ==============================================
+    // ACCOMMODATION PAGE RENDERER
+    // ==============================================
+
+    (function() {
+        const data = window.ACCOMMODATION_DATA;
+        if (!data || !data.properties) return;
+
+        const grid = document.getElementById('accommodation-grid');
+        const regionFilter = document.getElementById('region-filter');
+        const categoryFilter = document.getElementById('category-filter');
+        const priceFilter = document.getElementById('price-filter');
+        const resetBtn = document.getElementById('reset-filters');
+        const resultsCount = document.getElementById('results-count');
+
+        // Booking form elements
+        const form = document.getElementById('booking-form');
+        const summaryName = document.getElementById('summary-name');
+        const summaryPrice = document.getElementById('summary-price');
+        const summaryNights = document.getElementById('summary-nights');
+        const summaryTotal = document.getElementById('summary-total');
+        const checkinInput = document.getElementById('checkin-date');
+        const checkoutInput = document.getElementById('checkout-date');
+        const guestCountInput = document.getElementById('guest-count');
+        const guestNameInput = document.getElementById('guest-name');
+        const guestPhoneInput = document.getElementById('guest-phone');
+        const submitBtn = document.getElementById('booking-submit');
+        const statusMsg = document.getElementById('booking-status');
+
+        let selectedProperty = null;
+        let filteredProperties = [];
+
+        // Set default dates
+        function setDefaultDates() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            checkinInput.value = today.toISOString().split('T')[0];
+            checkoutInput.value = tomorrow.toISOString().split('T')[0];
+        }
+        setDefaultDates();
+
+        function renderCard(property) {
+            const categoryLabel = data.categories.find(c => c.value === property.category);
+            const regionLabel = data.regions.find(r => r.value === property.region);
+            const photos = property.photos && property.photos.length > 0 ?
+                property.photos.map(function(src) {
+                    return `<img src="${src}" alt="${property.name}" loading="lazy" onerror="this.parentElement.outerHTML='<span>Photo pending</span>'">`;
+                }).join('') :
+                '<span>Photo pending</span>';
+
+            const amenitiesHtml = (property.amenities || []).map(function(a) {
+                return `<span>${a}</span>`;
+            }).join('');
+
+            const ratingStars = function(rating) {
+                const full = Math.floor(rating);
+                const half = rating % 1 >= 0.5 ? 1 : 0;
+                let stars = '';
+                for (let i = 0; i < full; i++) stars += '★';
+                if (half) stars += '½';
+                return stars || '☆☆';
+            };
+
+            return `
+                <div class="accommodation-card" data-id="${property.id}" data-price="${property.price_per_night}" data-name="${property.name}" data-region="${property.region}" data-category="${property.category}">
+                    <div class="ph">${photos}</div>
+                    <div class="card-body">
+                        <span class="category-badge">${categoryLabel ? categoryLabel.label : property.category}</span>
+                        <h3>${property.name}</h3>
+                        <div class="region-tag">${regionLabel ? regionLabel.label : property.region}</div>
+                        <div class="rating">${ratingStars(property.rating)} ${property.rating}</div>
+                        <div class="price">KES ${property.price_per_night.toLocaleString()} <small>/ night</small></div>
+                        <p class="description">${property.description}</p>
+                        <p class="host">👤 Host: ${property.host_name}</p>
+                        <div class="amenities">${amenitiesHtml}</div>
+                        <button class="select-btn" data-id="${property.id}">Select this property</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGrid(properties) {
+            if (!properties || properties.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No properties match your filters</h3>
+                        <p>Try adjusting your filters or clear them to see all options.</p>
+                    </div>
+                `;
+                resultsCount.textContent = '0 properties';
+                return;
+            }
+
+            grid.innerHTML = properties.map(renderCard).join('');
+            resultsCount.textContent = properties.length + ' property' + (properties.length > 1 ? 'ies' : '');
+
+            // Attach click events to select buttons
+            document.querySelectorAll('.select-btn').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const card = this.closest('.accommodation-card');
+                    const id = card.dataset.id;
+                    selectProperty(id);
+                });
+            });
+
+            // Click card to select
+            document.querySelectorAll('.accommodation-card').forEach(function(card) {
+                card.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    selectProperty(id);
+                });
+            });
+        }
+
+        function selectProperty(id) {
+            // Deselect all
+            document.querySelectorAll('.accommodation-card').forEach(function(c) {
+                c.classList.remove('selected');
+            });
+
+            const property = filteredProperties.find(p => p.id === id);
+            if (!property) return;
+
+            selectedProperty = property;
+            const card = document.querySelector(`.accommodation-card[data-id="${id}"]`);
+            if (card) card.classList.add('selected');
+
+            // Update booking summary
+            summaryName.textContent = property.name;
+            summaryPrice.textContent = 'KES ' + property.price_per_night.toLocaleString();
+            updateTotal();
+
+            // Enable submit
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Book & Pay via M-Pesa';
+            statusMsg.textContent = '';
+            statusMsg.className = 'status-msg';
+        }
+
+        function updateTotal() {
+            if (!selectedProperty) return;
+            const nights = calculateNights();
+            const guests = Number(guestCountInput.value) || 1;
+            const total = selectedProperty.price_per_night * nights;
+            summaryNights.textContent = nights + ' night' + (nights > 1 ? 's' : '');
+            summaryTotal.textContent = 'KES ' + total.toLocaleString();
+        }
+
+        function calculateNights() {
+            const checkin = new Date(checkinInput.value);
+            const checkout = new Date(checkoutInput.value);
+            if (isNaN(checkin) || isNaN(checkout) || checkout <= checkin) return 1;
+            const diff = checkout - checkin;
+            return Math.ceil(diff / (1000 * 60 * 60 * 24));
+        }
+
+        function filterProperties() {
+            const region = regionFilter.value;
+            const category = categoryFilter.value;
+            const maxPrice = priceFilter.value;
+
+            filteredProperties = data.properties.filter(function(p) {
+                if (region !== 'all' && p.region !== region) return false;
+                if (category !== 'all' && p.category !== category) return false;
+                if (maxPrice !== 'all' && p.price_per_night > Number(maxPrice)) return false;
+                return true;
+            });
+
+            renderGrid(filteredProperties);
+
+            // If selected property is no longer in filtered list, clear selection
+            if (selectedProperty) {
+                const stillVisible = filteredProperties.some(p => p.id === selectedProperty.id);
+                if (!stillVisible) {
+                    selectedProperty = null;
+                    summaryName.textContent = '—';
+                    summaryPrice.textContent = '—';
+                    summaryNights.textContent = '—';
+                    summaryTotal.textContent = 'KES 0';
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Select a property first';
+                    statusMsg.textContent = '';
+                    statusMsg.className = 'status-msg';
+                }
+            }
+        }
+
+        // Event listeners
+        regionFilter.addEventListener('change', filterProperties);
+        categoryFilter.addEventListener('change', filterProperties);
+        priceFilter.addEventListener('change', filterProperties);
+
+        resetBtn.addEventListener('click', function() {
+            regionFilter.value = 'all';
+            categoryFilter.value = 'all';
+            priceFilter.value = 'all';
+            filterProperties();
+        });
+
+        checkinInput.addEventListener('change', function() {
+            if (checkoutInput.value && checkoutInput.value <= checkinInput.value) {
+                const newDate = new Date(checkinInput.value);
+                newDate.setDate(newDate.getDate() + 1);
+                checkoutInput.value = newDate.toISOString().split('T')[0];
+            }
+            if (selectedProperty) updateTotal();
+        });
+
+        checkoutInput.addEventListener('change', function() {
+            if (selectedProperty) updateTotal();
+        });
+
+        guestCountInput.addEventListener('change', function() {
+            if (selectedProperty) updateTotal();
+        });
+
+        // Handle URL params (region pre-selection)
+        function handleUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const regionParam = urlParams.get('region');
+            if (regionParam) {
+                const regionOption = regionFilter.querySelector(`option[value="${regionParam}"]`);
+                if (regionOption) {
+                    regionFilter.value = regionParam;
+                }
+            }
+            filterProperties();
+        }
+
+        // Booking form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!selectedProperty) {
+                statusMsg.textContent = 'Please select a property first.';
+                statusMsg.className = 'status-msg error';
+                return;
+            }
+
+            const name = guestNameInput.value.trim();
+            const phone = guestPhoneInput.value.trim();
+            const email = document.getElementById('guest-email').value.trim();
+            const checkin = checkinInput.value;
+            const checkout = checkoutInput.value;
+            const guests = Number(guestCountInput.value) || 1;
+            const nights = calculateNights();
+            const total = selectedProperty.price_per_night * nights;
+
+            if (!name || !phone) {
+                statusMsg.textContent = 'Please fill in your name and phone number.';
+                statusMsg.className = 'status-msg error';
+                return;
+            }
+
+            if (!checkin || !checkout) {
+                statusMsg.textContent = 'Please select check-in and check-out dates.';
+                statusMsg.className = 'status-msg error';
+                return;
+            }
+
+            // Show processing
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+            statusMsg.textContent = '⏳ Initiating M-Pesa payment...';
+            statusMsg.className = 'status-msg info';
+
+            // Simulate STK push (replace with actual API call)
+            setTimeout(function() {
+                statusMsg.innerHTML = `
+                    ✅ <strong>Booking confirmed!</strong><br>
+                    <strong>${selectedProperty.name}</strong><br>
+                    ${nights} nights · ${guests} guest${guests > 1 ? 's' : ''}<br>
+                    Total: <strong>KES ${total.toLocaleString()}</strong><br>
+                    📱 Confirmation sent to ${phone}<br>
+                    <span style="font-size:0.8rem;">Check-in: ${checkin} · Check-out: ${checkout}</span>
+                `;
+                statusMsg.className = 'status-msg success';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Book & Pay via M-Pesa';
+            }, 2000);
+        });
+
+        // Initial render
+        handleUrlParams();
+    })();
+</script>
+
+<script>
+    // Dark mode toggle
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleBtn = document.getElementById('theme-toggle');
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            toggleBtn.textContent = '☀️';
+        }
+        toggleBtn.addEventListener('click', function() {
+            const theme = document.documentElement.getAttribute('data-theme');
+            if (theme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                toggleBtn.textContent = '🌙';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                toggleBtn.textContent = '☀️';
+            }
+        });
+    });
+</script>
+
+</body>
+  </html>
