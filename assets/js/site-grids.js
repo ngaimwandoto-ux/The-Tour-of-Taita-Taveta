@@ -6,30 +6,40 @@
 
 (function () {
     function photoCard(entry) {
+        // Use name or title (whichever exists)
+        const name = entry.name || entry.title || 'Unnamed site';
+        const desc = entry.description || entry.desc || '';
+        const details = entry.details || entry.extra || '';
+        
         // Generate image HTML from photos array (or placeholder)
         const images = (entry.photos || []).map(function(src) {
-            return `<img src="${src}" alt="${entry.name}" loading="lazy" onerror="this.parentElement.outerHTML='<div class=&quot;ph&quot;><span>Photo pending</span></div>'">`;
+            return `<img src="${src}" alt="${name}" loading="lazy" onerror="this.parentElement.outerHTML='<div class=&quot;ph&quot;><span>Photo pending</span></div>'">`;
         }).join('');
 
         // Build details line (if present)
-        const detailsHtml = entry.details 
-            ? `<p style="font-size:0.85rem;opacity:0.7;margin-top:0.25rem;"><em>${entry.details}</em></p>` 
+        const detailsHtml = details 
+            ? `<p style="font-size:0.85rem;opacity:0.7;margin-top:0.25rem;"><em>${details}</em></p>` 
+            : '';
+
+        // Build description (if present and not the same as details)
+        const descHtml = desc && desc !== details 
+            ? `<p>${desc}</p>` 
             : '';
 
         return `
             <figure>
                 <div class="ph">${images || '<span>Photo pending</span>'}</div>
-                <figcaption>${entry.name}</figcaption>
-                ${entry.description ? `<p>${entry.description}</p>` : ''}
+                <figcaption>${name}</figcaption>
+                ${descHtml}
                 ${detailsHtml}
             </figure>`;
     }
 
     // Grid configurations
     const grids = [
-        { id: 'tourism-grid', data: window.TOURISM_SITES || [], label: 'Tourism sites' },
-        { id: 'conservation-grid', data: window.CONSERVATION_SITES || [], label: 'Conservation areas' },
-        { id: 'flora-fauna-grid', data: window.FLORA_FAUNA_SITES || [], label: 'Species and plants' }
+        { id: 'tourism-grid', data: window.TOURISM_SITES || [] },
+        { id: 'conservation-grid', data: window.CONSERVATION_SITES || [] },
+        { id: 'flora-fauna-grid', data: window.FLORA_FAUNA_SITES || [] }
     ];
 
     const emptyMessages = {
