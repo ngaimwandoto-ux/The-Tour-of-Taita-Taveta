@@ -43,21 +43,16 @@
       <svg class="elevation" viewBox="0 0 1180 70" preserveAspectRatio="none" aria-hidden="true">
         <path class="fill" d="M0,70 L0,52 L100,26 L200,44 L310,14 L440,40 L570,18 L710,48 L840,22 L960,42 L1080,16 L1180,34 L1180,70 Z"/>
         <path class="line" d="M0,52 L100,26 L200,44 L310,14 L440,40 L570,18 L710,48 L840,22 L960,42 L1080,16 L1180,34"/>
+        <circle cx="0" cy="52" r="4"/>
+        <circle cx="100" cy="26" r="4"/>
+        <circle cx="310" cy="14" r="4"/>
+        <circle cx="570" cy="18" r="4"/>
+        <circle cx="840" cy="22" r="4"/>
+        <circle cx="1080" cy="16" r="4"/>
+        <circle cx="1180" cy="34" r="4"/>
       </svg>
     </div>
     <div class="route-note">Provisional route linking Mbololo Forest's forest-guard station with the Ronge ridge. Route maps for this leg are finalised and reconfirmed with the county and local conservancies before each edition — check back closer to race day for the exact GPX file and road closures.</div>
-  </section>
-
-  <section id="tourism">
-    <div class="section-head">
-      <span class="eyebrow">Tourism & Culture</span>
-      <h2>What there is to see</h2>
-      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Beyond the finish line, Mbololo / Ronge has its own reasons to linger.</p>
-    </div>
-    <div class="info-grid">
-      <div class="info-card"><h3>Mbololo Forest</h3><p>The highest peak of its massif at roughly 2,209m, and one of the richest birdwatching sites in the Taita Hills.</p></div>
-      <div class="info-card"><h3>Ronge ridge</h3><p>A quieter, less-visited forest-guard station area on the same conservation network as Mbololo and Ngangao.</p></div>
-    </div>
   </section>
 
   <section id="conservation">
@@ -66,10 +61,34 @@
       <h2>Why the terrain is protected</h2>
       <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Every leg of the tour runs through land under active conservation — here's what that looks like locally.</p>
     </div>
-    <div class="info-grid">
-      <div class="info-card"><h3>Endemic bird habitat</h3><p>Mbololo is critical habitat for the Taita Thrush and Taita Apalis — two bird species found nowhere else on Earth, both flagship species for the Eastern Arc Mountains biodiversity hotspot.</p></div>
-      <div class="info-card"><h3>Forest guard network</h3><p>Mbololo and Ronge are both staffed Kenya Forest Service stations, part of the coordinated patrol network protecting the Taita Hills' remaining forest fragments.</p></div>
+    <div class="info-grid" id="conservation-grid"></div>
+  </section>
+
+  <section id="flora-fauna">
+    <div class="section-head">
+      <span class="eyebrow">Flora &amp; Fauna</span>
+      <h2>Species and plants of note</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">What grows and lives in the Mbololo / Ronge region — from endemic birds to unique plant species.</p>
     </div>
+    <div class="info-grid" id="flora-fauna-grid"></div>
+  </section>
+
+  <section id="gastronomy">
+    <div class="section-head">
+      <span class="eyebrow">Gastronomy</span>
+      <h2>Food, drink &amp; culinary heritage</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">From traditional dishes to local delicacies — taste the flavours of Mbololo / Ronge.</p>
+    </div>
+    <div class="info-grid" id="gastronomy-grid"></div>
+  </section>
+
+  <section id="traditional-medicine">
+    <div class="section-head">
+      <span class="eyebrow">Traditional Medicine</span>
+      <h2>Healing plants &amp; indigenous knowledge</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Generations of wisdom in plant-based remedies passed down through local elders.</p>
+    </div>
+    <div class="info-grid" id="traditional-medicine-grid"></div>
   </section>
 
   <section id="visit">
@@ -256,6 +275,11 @@
 </footer>
 
 <script>
+  // ==============================================
+  // DATA DEFINITIONS — Mbololo / Ronge Leg
+  // ==============================================
+
+  // PLACES TO VISIT — with payment
   window.VISIT_SITES = [
     {
       id: 'mbololo-birding-walk',
@@ -298,10 +322,57 @@
       fee: 500,
       description: 'A specialist guided birding tour targeting all Taita endemic species including the Taita Thrush, Taita Apalis, and Taita White-eye.',
       photos: ['../photo/endemic-birds-1.jpg', '../photo/endemic-birds-2.jpg', '../photo/endemic-birds-3.jpg']
-    },
+    }
   ];
+
+  // CONSERVATION — from your original file
+  window.CONSERVATION = [
+    {
+      name: 'Endemic bird habitat',
+      description: 'Mbololo is critical habitat for the Taita Thrush and Taita Apalis — two bird species found nowhere else on Earth, both flagship species for the Eastern Arc Mountains biodiversity hotspot.',
+      photos: []
+    },
+    {
+      name: 'Forest guard network',
+      description: 'Mbololo and Ronge are both staffed Kenya Forest Service stations, part of the coordinated patrol network protecting the Taita Hills\' remaining forest fragments.',
+      photos: []
+    }
+  ];
+
+  // FLORA & FAUNA — placeholder (your original didn't have this section)
+  window.FLORA_FAUNA = [
+    {
+      name: 'Species coming soon',
+      description: 'Information about the unique plants and animals of the Mbololo / Ronge region will appear here.',
+      photos: []
+    }
+  ];
+
+  // GASTRONOMY — placeholder (your original didn't have this section)
+  window.GASTRONOMY = [
+    {
+      name: 'Food experiences coming soon',
+      description: 'Information about local cuisine and food experiences in Mbololo / Ronge will appear here.',
+      photos: []
+    }
+  ];
+
+  // TRADITIONAL MEDICINE — placeholder (your original didn't have this section)
+  window.TRADITIONAL_MEDICINE = [
+    {
+      name: 'Healing practices coming soon',
+      description: 'Information about traditional medicine and healing practices in the Mbololo / Ronge region will appear here.',
+      photos: []
+    }
+  ];
+
+  // ==============================================
+  // RENDER SCRIPTS
+  // ==============================================
 </script>
+
 <script src="../assets/js/visit-sites.js"></script>
+<script src="../assets/js/site-grids.js"></script>
 
 <script>
   document.querySelectorAll('[data-ad-calc]').forEach(function(calc){
@@ -353,8 +424,10 @@
     });
   });
 </script>
-      <script>window.DONATE_SCOPE = document.title;</script>
+
+<script>window.DONATE_SCOPE = document.title;</script>
 <script src="../assets/js/donate.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const toggleBtn = document.getElementById('theme-toggle');
@@ -377,5 +450,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+
 </body>
 </html>
