@@ -4,9 +4,7 @@
  *
  * Properties are self-serve: a "host" account registers, then submits
  * one or more properties, each requiring approval (is_public) before
- * going live — same moderation pattern as sponsor/team logos, now
- * actually wired into admin/approve.php (see getPendingProperties()/
- * setPropertyPublic() below).
+ * going live — same moderation pattern as sponsor/team logos.
  *
  * Bookings: the guest pays the FULL nightly total to TTTT's own
  * paybill via STK push (Safaricom doesn't support paying a third
@@ -92,23 +90,6 @@ class Accommodation {
         $stmt->execute([$propertyId]);
         $property = $stmt->fetch();
         return $property ?: null;
-    }
-
-    /** Every property, regardless of approval status — for admin/approve.php. */
-    public function getAllPropertiesForReview(): array {
-        $stmt = $this->db->query("
-            SELECT p.id, p.name, p.region, p.category, p.price_per_night,
-                   p.capacity, p.is_public, p.logo_path, p.created_at,
-                   u.display_name AS host_name, u.email AS host_email
-            FROM properties p JOIN users u ON u.id = p.host_user_id
-            ORDER BY p.created_at DESC
-        ");
-        return $stmt->fetchAll();
-    }
-
-    public function setPropertyPublic(int $propertyId, bool $isPublic): void {
-        $stmt = $this->db->prepare("UPDATE properties SET is_public = ? WHERE id = ?");
-        $stmt->execute([$isPublic ? 1 : 0, $propertyId]);
     }
 
     // ---------------------------------------------------------------
