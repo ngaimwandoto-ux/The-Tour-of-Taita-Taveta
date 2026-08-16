@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List Your Property — Tour of Taita Taveta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <div class="brand"><img src="../logos/taita-taveta.png" alt="Tour of Taita Taveta Logo" class="main-logo"></div>
+    <nav class="links">
+      <a href="../index.html#home">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#" id="logout-link">Log Out</a>
+    </nav>
+  </div>
+</header>
+
+<section class="region-hero">
+  <h1>List Your Property</h1>
+  <div class="meta">Turn unused family real estate into homestay income</div>
+</section>
+
+<main>
+  <section id="not-host-notice" style="display:none;">
+    <div class="info-card" style="max-width:480px;">
+      <h3>Host account required</h3>
+      <p>Only accounts registered as "Host" can list a property. <a href="register.html" style="color:var(--accent-deep);">Create a host account</a> or log in with one.</p>
+    </div>
+  </section>
+
+  <section id="property-form-section" style="display:none;">
+    <div class="section-head">
+      <span class="eyebrow">New Listing</span>
+      <h2>Property details</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">
+        Every new listing is reviewed before it goes live — you'll see its status on your dashboard.
+        You keep 80% of every booking; TTTT's 20% platform fee is deducted, and your share is sent to you directly after each stay.
+      </p>
+    </div>
+    <div style="max-width:520px;">
+      <form id="property-form" novalidate>
+        <div class="field"><label for="prop-name">Property name</label><input type="text" id="prop-name" required></div>
+        <div class="field"><label for="prop-region">Region / area</label><input type="text" id="prop-region" placeholder="e.g. Sagalla, Wundanyi" required></div>
+        <div class="field">
+          <label for="prop-category">Type</label>
+          <select id="prop-category" required>
+            <option value="homestay">Homestay</option>
+            <option value="self-contained-unit">Self-contained unit</option>
+            <option value="campsite">Campsite</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="field"><label for="prop-description">Description</label><textarea id="prop-description" rows="3" style="width:100%;padding:0.7rem;border:1px solid var(--line);background:var(--paper);font-family:'Barlow',sans-serif;font-size:0.95rem;"></textarea></div>
+        <div class="field"><label for="prop-capacity">Sleeps how many guests</label><input type="number" id="prop-capacity" min="1" required></div>
+        <div class="field"><label for="prop-price">Price per night (KES)</label><input type="number" id="prop-price" min="0" required></div>
+        <div class="field"><label for="prop-amenities">Amenities (comma-separated)</label><input type="text" id="prop-amenities" placeholder="Water, Electricity, Furnished, Kitchen"></div>
+        <div class="field">
+          <label><input type="checkbox" id="prop-meals" style="width:auto;display:inline-block;margin-right:0.4rem;"> Meals included</label>
+        </div>
+        <div class="field"><label for="prop-contact">Contact phone number</label><input type="tel" id="prop-contact" placeholder="07XXXXXXXX" required></div>
+        <button type="submit" class="submit" id="property-submit-btn">Submit for Review</button>
+        <div class="status-msg" id="property-status-msg"></div>
+      </form>
+    </div>
+  </section>
+
+  <section id="my-properties-section">
+    <div class="section-head">
+      <span class="eyebrow">Your Listings</span>
+      <h2>Properties you've submitted</h2>
+    </div>
+    <div class="camp-grid" id="my-properties-grid">
+      <p style="color:rgba(20,20,20,0.5);">Loading…</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p><strong>Tour of Taita Taveta</strong> — Attitude meets Altitude.</p>
+  <p>&copy; 2026 Tour of Taita Taveta. All rights reserved.</p>
+</footer>
+
+<script src="../assets/js/account.js"></script>
+<script>
+  function showStatus(kind, text) {
+    const el = document.getElementById('property-status-msg');
+    el.className = 'status-msg show ' + kind;
+    el.textContent = text;
+  }
+
+  async function loadMyProperties() {
+    const res = await fetch('/api/index.php?endpoint=my-properties', { credentials: 'include' });
+    const data = await res.json();
+    const grid = document.getElementById('my-properties-grid');
+    if (!data.success || data.properties.length === 0) {
+      grid.innerHTML = '<p style="color:rgba(20,20,20,0.5);">No properties submitted yet.</p>';
+      return;
+    }
+    grid.innerHTML = data.properties.map(p => `
+      <div class="camp-card">
+        <h3>${p.name}</h3>
+        <p>${p.region} · KES ${Number(p.price_per_night).toLocaleString()}/night · Sleeps ${p.capacity}</p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;margin-top:0.4rem;">
+          ${p.is_public ? '✓ LIVE' : 'PENDING REVIEW'}
+        </p>
+      </div>
+    `).join('');
+  }
+
+  (async function () {
+    const user = await ttttAccount.checkAuth();
+    if (!user) { window.location.href = 'login.html'; return; }
+
+    if (user.account_type !== 'host') {
+      document.getElementById('not-host-notice').style.display = 'block';
+    } else {
+      document.getElementById('property-form-section').style.display = 'block';
+      loadMyProperties();
+    }
+
+    document.getElementById('logout-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      ttttAccount.logout();
+    });
+  })();
+
+  document.getElementById('property-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('property-submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    const payload = {
+      name: document.getElementById('prop-name').value.trim(),
+      region: document.getElementById('prop-region').value.trim(),
+      category: document.getElementById('prop-category').value,
+      description: document.getElementById('prop-description').value.trim(),
+      capacity: document.getElementById('prop-capacity').value,
+      price_per_night: document.getElementById('prop-price').value,
+      amenities: document.getElementById('prop-amenities').value.trim(),
+      meals_included: document.getElementById('prop-meals').checked,
+      contact_phone: document.getElementById('prop-contact').value.trim(),
+    };
+
+    const res = await fetch('/api/index.php?endpoint=register-property', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const result = await res.json();
+
+    if (result.success) {
+      showStatus('success', 'Submitted — awaiting review before it goes live.');
+      document.getElementById('property-form').reset();
+      loadMyProperties();
+    } else {
+      showStatus('error', result.error || 'Submission failed.');
+    }
+    btn.disabled = false;
+    btn.textContent = 'Submit for Review';
+  });
+</script>
+
+</body>
+</html>
