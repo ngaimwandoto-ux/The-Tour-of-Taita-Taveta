@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
     email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
     account_type TEXT NOT NULL CHECK(account_type IN
-        ('rider','team','sponsor','supporter','partner','volunteer','media','advertiser','admin')),
+        ('rider','team','sponsor','supporter','partner','volunteer','media','advertiser','host','admin')),
     display_name TEXT NOT NULL,
     location TEXT,
     logo_path TEXT,
@@ -76,6 +76,57 @@ CREATE TABLE IF NOT EXISTS advertiser_profiles (
     user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
     company_name TEXT NOT NULL
 );
+
+-- =============================================
+-- ACCOMMODATION TABLES
+-- =============================================
+
+CREATE TABLE IF NOT EXISTS host_profiles (
+    user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    mpesa_payout_number TEXT, -- where you manually send their 80% share
+    notes TEXT
+);
+
+CREATE TABLE IF NOT EXISTS properties (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    host_user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    name TEXT NOT NULL,
+    region TEXT NOT NULL, -- e.g. "Sagalla", "Wundanyi" — free text, not tied to the 6 legs
+    category TEXT NOT NULL CHECK(category IN ('homestay','self-contained-unit','campsite','other')),
+    description TEXT,
+    capacity INTEGER NOT NULL, -- max guests
+    price_per_night INTEGER NOT NULL,
+    amenities TEXT, -- comma-separated free text: "Water, Electricity, Furnished, Kitchen"
+    meals_included INTEGER NOT NULL DEFAULT 0,
+    contact_phone TEXT NOT NULL,
+    logo_path TEXT, -- reuses the same uploads/logos/ upload mechanism as sponsor/team logos
+    is_public INTEGER NOT NULL DEFAULT 0, -- must be manually approved before appearing live
+    is_active INTEGER NOT NULL DEFAULT 1, -- host can pause a listing without deleting it
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS bookings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    checkout_request_id TEXT UNIQUE,
+    property_id INTEGER NOT NULL REFERENCES properties(id) ON DELETE CASCADE,
+    guest_name TEXT NOT NULL,
+    guest_phone TEXT NOT NULL,
+    check_in TEXT NOT NULL,  -- ISO date, e.g. "2026-10-10"
+    check_out TEXT NOT NULL,
+    nights INTEGER NOT NULL,
+    total_amount INTEGER NOT NULL,      -- what the guest actually pays, in full
+    platform_fee INTEGER NOT NULL,      -- 20% of total_amount, TTTT's cut
+    host_payout_amount INTEGER NOT NULL, -- 80% of total_amount, owed to the host
+    status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','paid','failed')),
+    payout_status TEXT NOT NULL DEFAULT 'not_paid' CHECK(payout_status IN ('not_paid','paid_out')),
+    mpesa_receipt TEXT,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =============================================
+-- EXISTING TABLES (registrations, visits, donations, etc.)
+-- =============================================
 
 CREATE TABLE IF NOT EXISTS registrations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -152,6 +203,10 @@ CREATE TABLE IF NOT EXISTS messages (
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+-- =============================================
+-- INDEXES
+-- =============================================
+
 CREATE INDEX IF NOT EXISTS idx_reg_status ON registrations(status);
 CREATE INDEX IF NOT EXISTS idx_reg_leg ON registrations(leg);
 CREATE INDEX IF NOT EXISTS idx_visits_status ON visits(status);
@@ -165,3 +220,10 @@ CREATE INDEX IF NOT EXISTS idx_messages_unread ON messages(recipient_id, is_read
 CREATE INDEX IF NOT EXISTS idx_users_public ON users(account_type, is_public, is_active);
 CREATE INDEX IF NOT EXISTS idx_teams_public ON teams(is_public);
 CREATE INDEX IF NOT EXISTS idx_rider_team ON rider_profiles(team_id);
+
+-- Accommodation indexes
+CREATE INDEX IF NOT EXISTS idx_properties_public ON properties(is_public, is_active);
+CREATE INDEX IF NOT EXISTS idx_properties_host ON properties(host_user_id);
+CREATE INDEX IF NOT EXISTS idx_bookings_status ON bookings(status);
+CREATE INDEX IF NOT EXISTS idx_bookings_property ON bookings(property_id);
+CREATE INDEX IF NOT EXISTS idx_bookings_payout ON bookings(status, payout_status);
