@@ -22,7 +22,7 @@
 
 <section class="region-hero">
   <h1>Create an Account</h1>
-  <div class="meta">Riders, teams, sponsors, supporters, partners, media, and volunteers all start here</div>
+  <div class="meta">Riders, teams, sponsors, supporters, partners, media, hosts, and volunteers all start here</div>
 </section>
 
 <main>
@@ -39,6 +39,7 @@
           <option value="partner">Partner</option>
           <option value="media">Media</option>
           <option value="advertiser">Advertiser</option>
+          <option value="host">Host (list a property)</option>
         </select>
       </div>
 
@@ -51,7 +52,6 @@
         <label for="team-name">Team name</label>
         <input type="text" id="team-name">
       </div>
-
       <div class="field" id="rider-field" style="display:none;">
         <label for="category">Racing category</label>
         <select id="category">
@@ -60,14 +60,10 @@
           <option value="elite">Elite</option>
         </select>
       </div>
-
       <div class="field" id="rider-team-field" style="display:none;">
         <label for="rider-team">Join a team (optional)</label>
-        <select id="rider-team">
-          <option value="">No team — riding individually</option>
-        </select>
+        <select id="rider-team"><option value="">No team — riding individually</option></select>
       </div>
-
       <div class="field" id="volunteer-field" style="display:none;">
         <label for="primary-role">Primary role</label>
         <select id="primary-role">
@@ -79,17 +75,14 @@
           <option value="race_day_logistics">Race-Day Logistics</option>
         </select>
       </div>
-
       <div class="field" id="sponsor-field" style="display:none;">
         <label for="company-name">Company name</label>
         <input type="text" id="company-name">
       </div>
-
       <div class="field" id="partner-field" style="display:none;">
         <label for="business-name">Business name</label>
         <input type="text" id="business-name">
       </div>
-
       <div class="field" id="media-field" style="display:none;">
         <label for="brand-name">Brand / channel name</label>
         <input type="text" id="brand-name">
@@ -98,10 +91,13 @@
         <label for="platform">Main platform</label>
         <input type="text" id="platform" placeholder="e.g. YouTube, Instagram, Blog">
       </div>
-
       <div class="field" id="advertiser-field" style="display:none;">
         <label for="advertiser-company">Company name</label>
         <input type="text" id="advertiser-company">
+      </div>
+      <div class="field" id="host-payout-field" style="display:none;">
+        <label for="host-payout-number">M-Pesa number for payouts</label>
+        <input type="tel" id="host-payout-number" placeholder="07XXXXXXXX">
       </div>
 
       <button type="submit" class="submit" id="register-btn">Create Account</button>
@@ -129,6 +125,7 @@
     partner: ['partner-field'],
     media: ['media-field', 'media-platform-field'],
     advertiser: ['advertiser-field'],
+    host: ['host-payout-field'],
   };
 
   function updateFields() {
@@ -138,7 +135,6 @@
   typeSelect.addEventListener('change', updateFields);
   updateFields();
 
-  // Populate the team picker once, on load — it's public, no auth needed.
   (async function loadTeams() {
     const select = document.getElementById('rider-team');
     try {
@@ -152,9 +148,7 @@
           select.appendChild(opt);
         });
       }
-    } catch (e) {
-      // Backend not deployed yet — the "no team" option still works fine.
-    }
+    } catch (e) { /* backend not deployed yet */ }
   })();
 
   const form = document.getElementById('register-form');
@@ -185,6 +179,7 @@
       business_name: document.getElementById('business-name').value.trim(),
       brand_name: document.getElementById('brand-name').value.trim(),
       platform: document.getElementById('platform').value.trim(),
+      mpesa_payout_number: document.getElementById('host-payout-number').value.trim(),
     };
     if (typeSelect.value === 'advertiser') {
       data.company_name = document.getElementById('advertiser-company').value.trim();
@@ -192,7 +187,7 @@
 
     const result = await ttttAccount.register(data);
     if (result.success) {
-      window.location.href = 'dashboard.html';
+      window.location.href = typeSelect.value === 'host' ? 'list-property.html' : 'dashboard.html';
     } else {
       showStatus('error', result.error || 'Registration failed.');
       btn.disabled = false;
