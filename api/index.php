@@ -9,6 +9,7 @@ require_once __DIR__ . '/../includes/database.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/messaging.php';
 require_once __DIR__ . '/../includes/directory.php';
+require_once __DIR__ . '/../includes/accommodation.php';
 
 $allowedOrigins = array_filter(array_map('trim', explode(',', CORS_ALLOWED_ORIGINS)));
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
@@ -31,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $auth = new Auth();
 $messaging = new Messaging();
 $directory = new Directory();
+$accommodation = new Accommodation();
 $method = $_SERVER['REQUEST_METHOD'];
 $endpoint = $_GET['endpoint'] ?? '';
 $input = ($endpoint === 'upload-logo') ? [] : (json_decode(file_get_contents('php://input'), true) ?: []);
@@ -119,7 +121,6 @@ try {
         // ---------------- Teams ----------------
 
         case $endpoint === 'list-teams' && $method === 'GET':
-            // Public — used by the team picker at rider registration.
             echo json_encode(['success' => true, 'teams' => $directory->listTeams()]);
             break;
 
@@ -132,11 +133,32 @@ try {
             break;
 
         case $endpoint === 'team' && $method === 'GET':
-            // Public — powers Teams/team.html?slug=...
             $team = $directory->getTeamBySlugWithRoster($_GET['slug'] ?? '');
             echo json_encode($team
                 ? ['success' => true, 'team' => $team]
                 : ['success' => false, 'error' => 'Team not found.']);
+            break;
+
+        // ---------------- Accommodation ----------------
+
+        case $endpoint === 'properties' && $method === 'GET':
+            // Public — the accommodation page's real listings.
+            echo json_encode(['success' => true, 'properties' => $accommodation->getPublicListings()]);
+            break;
+
+        case $endpoint === 'register-property' && $method === 'POST':
+            if (!requireAuth($currentUserId)) break;
+            if ($currentUser['account_type'] !== 'host') {
+                http_response_code(403);
+                echo json_encode(['success' => false, 'error' => 'Only host accounts can register properties.']);
+                break;
+            }
+            echo json_encode($accommodation->registerProperty($currentUserId, $input));
+            break;
+
+        case $endpoint === 'my-properties' && $method === 'GET':
+            if (!requireAuth($currentUserId)) break;
+            echo json_encode(['success' => true, 'properties' => $accommodation->getMyProperties($currentUserId)]);
             break;
 
         default:
