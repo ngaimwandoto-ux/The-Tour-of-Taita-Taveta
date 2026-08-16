@@ -1,14 +1,10 @@
 <?php
 /**
  * callback.php
- * Safaricom posts the result of the STK push here (set as MPESA_CALLBACK_URL
- * in mpesa-config.php). This URL must be publicly reachable over HTTPS —
- * Safaricom's servers call it, not the browser.
- *
- * Looks up the matching "pending" row — checking registrations, then
- * visits, then donations — by CheckoutRequestID, and marks it "paid" or
- * "failed". Whichever table actually has that CheckoutRequestID is the
- * one that gets updated; the other two UPDATEs simply affect zero rows.
+ * Safaricom posts the result of the STK push here. Checks
+ * registrations, then visits, then donations, then bookings — by
+ * CheckoutRequestID — and marks whichever one matches "paid" or
+ * "failed".
  */
 
 header('Content-Type: application/json');
@@ -38,14 +34,14 @@ if ($checkoutRequestId !== null && $resultCode !== null) {
 
     $status = ((int) $resultCode === 0) ? 'paid' : 'failed';
 
-    $tables = ['registrations', 'visits', 'donations'];
+    $tables = ['registrations', 'visits', 'donations', 'bookings'];
     foreach ($tables as $table) {
         $stmt = $db->prepare("
             UPDATE $table SET status = ?, mpesa_receipt = ?, updated_at = CURRENT_TIMESTAMP
             WHERE checkout_request_id = ?
         ");
         $stmt->execute([$status, $mpesaReceipt, $checkoutRequestId]);
-        if ($stmt->rowCount() > 0) break; // found and updated the right table — stop here
+        if ($stmt->rowCount() > 0) break;
     }
 
     // TODO once you're sending confirmations: look up the row's name/
