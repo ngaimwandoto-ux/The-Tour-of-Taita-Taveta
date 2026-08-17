@@ -1,1 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Funju Leg — Tour of Taita Taveta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
 
+<header>
+  <div class="nav-inner">
+    <div class="brand"><img src="../logos/taita-taveta.png" alt="Tour of Taita Taveta Logo" class="main-logo"></div>
+    <nav class="links">
+      <a href="../index.html#home">Home</a>
+      <a href="../index.html#legs">Legs</a>
+      <a href="../index.html#tickets">Register</a>
+      <a href="../pages/login.html">Log In</a>
+      <!-- Dark Mode Toggle Button -->
+      <button id="theme-toggle" aria-label="Toggle dark mode" style="background:none;border:2px solid var(--olive-lt);color:var(--cream);cursor:pointer;font-size:1.1rem;padding:0.3rem 0.7rem;border-radius:4px;transition:all 0.2s ease;white-space:nowrap;">
+        🌙
+      </button>
+    </nav>
+  </div>
+</header>
+
+<section class="region-hero" style="--hero-photo:url('../photo/funju-hero.jpg');">
+  <a class="back" href="../index.html#legs">&larr; All six legs</a>
+  <img class="region-logo" src="../logos/funju.png" alt="Funju leg logo" onerror="this.style.display='none'">
+  <h1>Leg 02 · Funju</h1>
+  <div class="meta">Sat 17 – Mon 19 Oct 2026 &nbsp;·&nbsp; <span class="status confirmed" style="display:inline-block;padding:0.2rem 0.6rem;border-radius:2px;">Date confirmed</span></div>
+</section>
+
+<main>
+  <section id="route">
+    <div class="section-head">
+      <span class="eyebrow">The Route</span>
+      <h2>Course &amp; profile</h2>
+    </div>
+    <div class="route-strip" style="border:2px solid var(--ink);">
+      <svg class="elevation" viewBox="0 0 1000 70" preserveAspectRatio="none" aria-hidden="true">
+        <path class="fill"
+              d="M0 30
+                 L150 55
+                 L300 50
+                 L450 58
+                 L600 40
+                 L750 20
+                 L880 35
+                 L1000 45
+                 L1000 70
+                 L0 70 Z"/>
+        <path class="line"
+              d="M0 30
+                 L150 55
+                 L300 50
+                 L450 58
+                 L600 40
+                 L750 20
+                 L880 35
+                 L1000 45"/>
+        <circle cx="0" cy="30" r="4"/>
+        <circle cx="150" cy="55" r="4"/>
+        <circle cx="300" cy="50" r="4"/>
+        <circle cx="450" cy="58" r="4"/>
+        <circle cx="600" cy="40" r="4"/>
+        <circle cx="750" cy="20" r="4"/>
+        <circle cx="880" cy="35" r="4"/>
+        <circle cx="1000" cy="45" r="4"/>
+
+        <!-- START -->
+        <text x="0" y="62" font-size="6" fill="#F0DBB8">START</text>
+        <text x="0" y="69" font-size="5" fill="#F0DBB8">1500m</text>
+
+        <!-- FUNJU VILLAGE -->
+        <text x="130" y="62" font-size="6" fill="#F0DBB8">FUNJU VILLAGE</text>
+        <text x="130" y="69" font-size="5" fill="#F0DBB8">1400m</text>
+
+        <!-- CHILLI FARMS -->
+        <text x="270" y="62" font-size="6" fill="#F0DBB8">CHILLI FARMS</text>
+        <text x="270" y="69" font-size="5" fill="#F0DBB8">1350m</text>
+
+        <!-- VIEWPOINT -->
+        <text x="425" y="62" font-size="6" fill="#F0DBB8">VIEWPOINT</text>
+        <text x="425" y="69" font-size="5" fill="#F0DBB8">1450m</text>
+
+        <!-- CAVES -->
+        <text x="570" y="62" font-size="6" fill="#F0DBB8">CAVES</text>
+        <text x="570" y="69" font-size="5" fill="#F0DBB8">1300m</text>
+
+        <!-- TRADITIONAL HOUSES -->
+        <text x="730" y="15" font-size="6" fill="#F0DBB8">TRADITIONAL HOUSES</text>
+        <text x="730" y="22" font-size="5" fill="#F0DBB8">1520m</text>
+
+        <!-- FINISH -->
+        <text x="930" y="62" font-size="6" fill="#F0DBB8">FINISH</text>
+        <text x="930" y="69" font-size="5" fill="#F0DBB8">1400m</text>
+      </svg>
+    </div>
+    <div class="route-note">Funju's route winds through the Taita highlands, passing chilli farms, traditional Taita houses, and scenic viewpoints. The signature stretch includes the rocky terrain above Funju village with panoramic views across the county. Route maps for this leg are finalised and reconfirmed with the county and local communities before each edition — check back closer to race day for the exact GPX file and road closures.</div>
+  </section>
+
+  <!-- TOURISM & CULTURE -->
+  <section id="tourism">
+    <div class="section-head">
+      <span class="eyebrow">Tourism & Culture</span>
+      <h2>What there is to see</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Beyond the finish line, Funju has its own reasons to linger — from traditional Taita houses to a living agricultural community.</p>
+    </div>
+    <div class="info-grid" id="tourism-grid"></div>
+  </section>
+
+  <!-- CONSERVATION -->
+  <section id="conservation">
+    <div class="section-head">
+      <span class="eyebrow">Conservation</span>
+      <h2>Why the terrain is protected</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Funju's forests and highland ecosystems are part of the Taita Hills — a biodiversity hotspot recognised in county planning for ecotourism development.</p>
+    </div>
+    <div class="info-grid" id="conservation-grid"></div>
+  </section>
+
+  <!-- FLORA & FAUNA -->
+  <section id="flora-fauna">
+    <div class="section-head">
+      <span class="eyebrow">Flora &amp; Fauna</span>
+      <h2>Species and plants of note</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">The Funju highlands are home to diverse plant species, including those used in traditional medicine and agriculture.</p>
+    </div>
+    <div class="info-grid" id="flora-fauna-grid"></div>
+  </section>
+
+  <!-- GASTRONOMY -->
+  <section id="gastronomy">
+    <div class="section-head">
+      <span class="eyebrow">Gastronomy</span>
+      <h2>Food, drink &amp; culinary heritage</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">From chilli-based dishes to honey harvested from local apiaries — taste the flavours of Funju.</p>
+    </div>
+    <div class="info-grid" id="gastronomy-grid"></div>
+  </section>
+
+  <!-- TRADITIONAL MEDICINE -->
+  <section id="traditional-medicine">
+    <div class="section-head">
+      <span class="eyebrow">Traditional Medicine</span>
+      <h2>Healing plants &amp; indigenous knowledge</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Generations of Taita knowledge in plant-based remedies, passed down through community elders.</p>
+    </div>
+    <div class="info-grid" id="traditional-medicine-grid"></div>
+  </section>
+
+  <!-- VISIT & SUPPORT -->
+  <section id="visit">
+    <div class="section-head">
+      <span class="eyebrow">Visit &amp; Support</span>
+      <h2>Places to visit at Funju</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Entry fees support the local communities and conservancies that host this leg. Pick a place below, then pay by M-Pesa — the same STK push flow as race registration.</p>
+    </div>
+
+    <div id="visit-grid" class="site-grid"></div>
+
+    <div style="max-width:480px;margin-top:2rem;">
+      <form id="visit-form" novalidate>
+        <div class="field"><label for="vname">Full name</label><input type="text" id="vname" name="vname" required></div>
+        <div class="field"><label for="vphone">M-Pesa phone number</label><input type="tel" id="vphone" name="vphone" placeholder="07XXXXXXXX" pattern="^0[71][0-9]{8}$" required></div>
+        <div class="amount-line"><span>Site</span><span id="visit-site-echo">—</span></div>
+        <div class="amount-line"><span>Fee due</span><span id="visit-fee-echo">—</span></div>
+        <button type="submit" class="submit" id="visit-submit-btn">Pay visitation fee</button>
+        <div class="status-msg" id="visit-status-msg"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- CAMPS -->
+  <section id="camps">
+    <div class="section-head">
+      <span class="eyebrow">On the Ground</span>
+      <h2>Camps &amp; villages</h2>
+    </div>
+    <div class="camp-grid">
+      <div class="camp-card"><h3>Athletes' camp — Funju village</h3><p>Base camp for riders sits in Funju village, with access to the Wumingu Technical and Vocational College facilities.</p></div>
+      <div class="camp-card"><h3>Fan village — Funju trailhead</h3><p>Food stalls, sound system and big screens at the foot of the climb for supporters to watch riders summit.</p></div>
+    </div>
+  </section>
+
+  <!-- LEG ECOSYSTEM -->
+  <section id="leg-ecosystem">
+    <div class="section-head">
+      <span class="eyebrow">Back This Leg</span>
+      <h2>Support, sponsor, partner, or advertise with Funju</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Same three-way distinction as the Tour itself: sponsorship is commercial with deliverables, support is a donation with no conditions, and partnership is mutually beneficial. Advertising and media are separate again.</p>
+    </div>
+
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Support Funju</h3></div>
+      <p class="eco-group-note">No conditions — back this leg because you believe in it. Pick an amount below — your tier is set automatically. Amounts are placeholders pending final tier thresholds.</p>
+      <div id="donate-widget"></div>
+    </div>
+
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Sponsor Funju</h3></div>
+      <p class="eco-group-note">Commercial packages with deliverables, scoped to this leg — route, award, transport &amp; logistics, food, accommodation, technical, and media sponsorships.</p>
+      <div class="tile-grid">
+        <a class="tile add-tile" href="#">+ Sponsor this leg</a>
+      </div>
+    </div>
+
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Partner with Funju</h3></div>
+      <p class="eco-group-note">Mutually beneficial arrangements — local tourism operators, conservancies, and trail/activity businesses at this leg's location.</p>
+      <div class="tile-grid">
+        <a class="tile add-tile" href="#">+ Partner with this leg</a>
+      </div>
+    </div>
+
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Advertise at Funju</h3></div>
+      <p class="eco-group-note">Purely commercial inventory at this leg. Pick formats and quantities below — totals update as you go. Prices are placeholders pending final rates.</p>
+
+      <div class="ad-calc" data-ad-calc="Funju">
+        <div class="ad-row" data-price="150000">
+          <div class="ad-row-info">
+            <div class="ad-row-name">Large Format Billboard</div>
+            <div class="ad-row-desc">Standard large-format printed billboard at a high-visibility location on this leg.</div>
+          </div>
+          <div class="ad-row-price">KES 150,000 <span style="opacity:0.6;">/ install</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="220000">
+          <div class="ad-row-info">
+            <div class="ad-row-name">Green Billboard</div>
+            <div class="ad-row-desc">Minimal-plastic, low-paint alternative — woven natural fibres and artistry replace printed vinyl, roped between trees rather than a steel frame. Bespoke per brand.</div>
+          </div>
+          <div class="ad-row-price">KES 220,000 <span style="opacity:0.6;">/ install</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="800">
+          <div class="ad-row-info"><div class="ad-row-name">Flags</div></div>
+          <div class="ad-row-price">KES 800 <span style="opacity:0.6;">/ unit</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="3500">
+          <div class="ad-row-info"><div class="ad-row-name">Teardrop Banner — Small</div></div>
+          <div class="ad-row-price">KES 3,500 <span style="opacity:0.6;">/ unit</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="6000">
+          <div class="ad-row-info"><div class="ad-row-name">Teardrop Banner — Large</div></div>
+          <div class="ad-row-price">KES 6,000 <span style="opacity:0.6;">/ unit</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="4500">
+          <div class="ad-row-info"><div class="ad-row-name">Roadside Banner</div></div>
+          <div class="ad-row-price">KES 4,500 <span style="opacity:0.6;">/ unit</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="0">
+          <div class="ad-row-info">
+            <div class="ad-row-name">Other / Custom</div>
+            <div class="ad-row-desc">LED screens, media wall, start/finish banners, or a format not listed — priced on request.</div>
+          </div>
+          <div class="ad-row-price">Enquire</div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-calc-footer">
+          <div class="ad-calc-total">Total: <span data-ad-total>KES 0</span></div>
+          <button type="button" class="ad-enquire-btn" data-ad-enquire>Send enquiry</button>
+        </div>
+      </div>
+      <p class="ad-note">This calculator estimates cost — it doesn't take payment directly. "Send enquiry" prepares an email with your selections for our team to confirm availability and formalise the order.</p>
+    </div>
+
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Media covering Funju</h3></div>
+      <p class="eco-group-note">Local and personal digital media brands covering this leg specifically — bloggers, videographers, podcasters, social pages.</p>
+      <div class="tile-grid">
+        <a class="tile add-tile" href="#">+ Register as media</a>
+      </div>
+    </div>
+
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Volunteer at Funju</h3></div>
+      <p class="eco-group-note">Conservation, culture &amp; dance, local history, security, and race-day logistics — all needed on the ground for this specific leg.</p>
+      <div class="tile-grid">
+        <a class="tile add-tile" href="#">+ Sign up to volunteer</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEADERBOARD -->
+  <section id="leaderboard">
+    <div class="section-head">
+      <span class="eyebrow">Results</span>
+      <h2>Leaderboard</h2>
+    </div>
+    <table class="leaderboard">
+      <thead><tr><th>Pos</th><th>Rider</th><th>Team / Club</th><th>Time</th></tr></thead>
+      <tbody>
+        <tr><td class="pos">—</td><td>Results not yet published</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p class="leaderboard-note">Full standings go up here within 48 hours of race day.</p>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="section-head">
+      <span class="eyebrow">Gallery</span>
+      <h2>Race day &amp; awards</h2>
+    </div>
+    <div class="gallery-grid">
+      <figure><div class="ph"><span>image/funju-climb.jpg</span></div><figcaption>Riders on the Funju highlands</figcaption></figure>
+      <figure><div class="ph"><span>image/funju-viewpoint.jpg</span></div><figcaption>Panoramic view from Funju</figcaption></figure>
+      <figure><div class="ph"><span>image/funju-awards.jpg</span></div><figcaption>Awards ceremony</figcaption></figure>
+      <figure><div class="ph"><span>image/funju-fanvillage.jpg</span></div><figcaption>Fan village at the trailhead</figcaption></figure>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p><strong>Tour of Taita Taveta</strong> — Attitude meets Altitude.</p>
+  <p>&copy; 2026 Tour of Taita Taveta. All rights reserved.</p>
+</footer>
+
+<!-- ============================================= -->
+<!-- DATA DEFINITIONS — Funju Leg                  -->
+<!-- ============================================= -->
+<script>
+  // ==============================================
+  // TOURISM & CULTURE — Funju specific
+  // ==============================================
+  window.TOURISM = [
+    {
+      name: 'Taita Traditional Houses',
+      description: 'Authentic Taita traditional houses documented in county planning as tourism assets. The County has specifically proposed that Funju Taita Traditional Houses be renovated, operationalised and packaged as tourism centres.',
+      photos: ['../photo/funju-houses-1.jpg', '../photo/funju-houses-2.jpg', '../photo/funju-houses-3.jpg']
+    },
+    {
+      name: 'Funju Village Experience',
+      description: 'A living highland rural community where visitors can experience Taita culture, traditional architecture, local stories and daily community life.',
+      photos: ['../photo/funju-village-1.jpg', '../photo/funju-village-2.jpg', '../photo/funju-village-3.jpg']
+    },
+    {
+      name: 'Chilli Farms',
+      description: 'Local chilli cultivation is an important agricultural activity in Funju. Visitors can see chilli farming and learn about production and processing.',
+      photos: ['../photo/funju-chilli-1.jpg', '../photo/funju-chilli-2.jpg', '../photo/funju-chilli-3.jpg']
+    },
+    {
+      name: 'Apiaries & Beekeeping',
+      description: 'Traditional and modern beekeeping producing honey and beeswax. Part of Funju\'s agricultural livelihood context with potential for visitor experiences.',
+      photos: ['../photo/funju-honey-1.jpg', '../photo/funju-honey-2.jpg', '../photo/funju-honey-3.jpg']
+    },
+    {
+      name: 'Wumingu Technical and Vocational College',
+      description: 'An educational institution located on the slopes of Funju, offering training in hospitality, agriculture, technology and entrepreneurship.',
+      photos: ['../photo/funju-wumingu-1.jpg', '../photo/funju-wumingu-2.jpg', '../photo/funju-wumingu-3.jpg']
+    }
+  ];
+
+  // ==============================================
+  // PLACES TO VISIT — with payment (KES 200 each)
+  // ==============================================
+  window.VISIT_SITES = [
+    {
+      id: 'funju-traditional-houses',
+      name: 'Funju Taita Traditional Houses',
+      fee: 200,
+      description: 'Authentic Taita traditional houses documented in county planning. Experience traditional architecture, stories, food and culture. The County has proposed these be renovated and operationalised as tourism centres.',
+      photos: ['../photo/funju-houses-1.jpg', '../photo/funju-houses-2.jpg', '../photo/funju-houses-3.jpg']
+    },
+    {
+      id: 'funju-caves',
+      name: 'Funju Caves',
+      fee: 200,
+      description: 'Caves documented in Taita Taveta tourism materials among the county\'s nature-based attractions. Guided cultural and geological interpretation available.',
+      photos: ['../photo/funju-caves-1.jpg', '../photo/funju-caves-2.jpg', '../photo/funju-caves-3.jpg']
+    },
+    {
+      id: 'funju-viewpoint',
+      name: 'Funju Viewpoint',
+      fee: 200,
+      description: 'Panoramic views across the Taita highlands from the elevated Funju terrain. Perfect for sunrise/sunset viewing, photography and landscape interpretation.',
+      photos: ['../photo/funju-viewpoint-1.jpg', '../photo/funju-viewpoint-2.jpg', '../photo/funju-viewpoint-3.jpg']
+    },
+    {
+      id: 'funju-nature-walk',
+      name: 'Funju Nature Walk',
+      fee: 200,
+      description: 'Guided nature walks through the Funju landscape — village, farms, traditional houses, forest, vegetation, rocks, caves and viewpoints. The County has proposed restoring nature walks in Funju.',
+      photos: ['../photo/funju-nature-1.jpg', '../photo/funju-nature-2.jpg', '../photo/funju-nature-3.jpg']
+    },
+    {
+      id: 'funju-rock-formations',
+      name: 'Funju Rock Formations',
+      fee: 200,
+      description: 'Documented rocky landscape with large rock formations and steep terrain. Offers hiking, photography, scenic viewing and geological interpretation.',
+      photos: ['../photo/funju-rocks-1.jpg', '../photo/funju-rocks-2.jpg', '../photo/funju-rocks-3.jpg']
+    },
+    {
+      id: 'funju-chilli-farm',
+      name: 'Funju Chilli Farm Visit',
+      fee: 200,
+      description: 'Visit local chilli farms to see cultivation, harvesting, drying and processing. Learn about chilli varieties and value addition.',
+      photos: ['../photo/funju-chilli-1.jpg', '../photo/funju-chilli-2.jpg', '../photo/funju-chilli-3.jpg']
+    },
+    {
+      id: 'funju-apiary',
+      name: 'Funju Apiary & Honey Experience',
+      fee: 200,
+      description: 'Visit local apiaries, learn about traditional and modern beekeeping, observe honey harvesting and taste fresh honey and beeswax products.',
+      photos: ['../photo/funju-honey-1.jpg', '../photo/funju-honey-2.jpg', '../photo/funju-honey-3.jpg']
+    },
+    {
+      id: 'funju-forest',
+      name: 'Funju Forest Walk',
+      fee: 200,
+      description: 'Part of the Taita Hills forests identified in county planning for ecotourism development. Forest walks with birdwatching and biodiversity interpretation.',
+      photos: ['../photo/funju-forest-1.jpg', '../photo/funju-forest-2.jpg', '../photo/funju-forest-3.jpg']
+    },
+    {
+      id: 'funju-farm-experience',
+      name: 'Funju Farm-to-Table Experience',
+      fee: 200,
+      description: 'Learn traditional farming practices, harvest fresh produce, and enjoy a meal made with locally grown ingredients — chilli, vegetables and honey.',
+      photos: ['../photo/funju-farm-1.jpg', '../photo/funju-farm-2.jpg', '../photo/funju-farm-3.jpg']
+    }
+  ];
+
+  // ==============================================
+  // CONSERVATION — informational only
+  // ==============================================
+  window.CONSERVATION = [
+    {
+      name: 'Funju Forest Reserve',
+      description: 'Part of the Taita Hills forest patches identified in county planning for ecotourism development. Provides water catchment and supports biodiversity.',
+      photos: ['../photo/funju-forest-1.jpg', '../photo/funju-forest-2.jpg', '../photo/funju-forest-3.jpg']
+    },
+    {
+      name: 'Taita Hills Biodiversity',
+      description: 'Funju is part of the Eastern Arc Mountains biodiversity hotspot, home to endemic plant and bird species found nowhere else in the world.',
+      photos: ['../photo/taita-biodiversity-1.jpg', '../photo/taita-biodiversity-2.jpg', '../photo/taita-biodiversity-3.jpg']
+    },
+    {
+      name: 'Rocky Highland Ecosystem',
+      description: 'Funju\'s steep, rocky highland terrain supports unique vegetation communities and provides important wildlife corridors.',
+      photos: ['../photo/funju-ecosystem-1.jpg', '../photo/funju-ecosystem-2.jpg', '../photo/funju-ecosystem-3.jpg']
+    },
+    {
+      name: 'Community Conservation',
+      description: 'Local communities are custodians of traditional knowledge about the land, forests and water resources. Conservation is integrated with agriculture and cultural practices.',
+      photos: ['../photo/funju-community-1.jpg', '../photo/funju-community-2.jpg', '../photo/funju-community-3.jpg']
+    },
+    {
+      name: 'Water Catchment Area',
+      description: 'The Funju highlands contribute to water catchment for surrounding communities and agricultural areas. Protecting vegetation is essential for water security.',
+      photos: ['../photo/funju-water-1.jpg', '../photo/funju-water-2.jpg', '../photo/funju-water-3.jpg']
+    }
+  ];
+
+  // ==============================================
+  // FLORA & FAUNA — informational only
+  // ==============================================
+  window.FLORA_FAUNA = [
+    {
+      name: 'Taita Hills Endemic Birds',
+      description: 'The Taita Thrush, Taita Apalis, and Taita White-eye are endemic to the Taita Hills — found nowhere else on Earth. These species can be observed in Funju\'s forest patches.',
+      photos: ['../photo/taita-birds-1.jpg', '../photo/taita-birds-2.jpg', '../photo/taita-birds-3.jpg']
+    },
+    {
+      name: 'Indigenous Trees of Funju',
+      description: 'The Funju landscape includes indigenous tree species that are part of the Eastern Arc biodiversity hotspot, providing habitat for endemic wildlife.',
+      photos: ['../photo/funju-trees-1.jpg', '../photo/funju-trees-2.jpg', '../photo/funju-trees-3.jpg']
+    },
+    {
+      name: 'Highland Flora',
+      description: 'The elevation and rainfall patterns in Funju support diverse highland plant communities, including ferns, orchids and medicinal plants.',
+      photos: ['../photo/funju-flora-1.jpg', '../photo/funju-flora-2.jpg', '../photo/funju-flora-3.jpg']
+    },
+    {
+      name: 'Agricultural Biodiversity',
+      description: 'Traditional farming practices in Funju preserve crop diversity, including indigenous chilli varieties and other locally adapted food plants.',
+      photos: ['../photo/funju-agriculture-1.jpg', '../photo/funju-agriculture-2.jpg', '../photo/funju-agriculture-3.jpg']
+    }
+  ];
+
+  // ==============================================
+  // GASTRONOMY — showcase only
+  // ==============================================
+  window.GASTRONOMY = [
+    {
+      name: 'Funju Chilli Cuisine',
+      description: 'Traditional dishes using locally grown chilli varieties, prepared using methods passed down through generations.',
+      photos: ['../photo/funju-chilli-food-1.jpg', '../photo/funju-chilli-food-2.jpg', '../photo/funju-chilli-food-3.jpg']
+    },
+    {
+      name: 'Local Honey from Funju Apiaries',
+      description: 'Honey harvested from traditional and modern hives in the Funju highlands, valued for its unique flavour from indigenous flowering plants.',
+      photos: ['../photo/funju-honey-food-1.jpg', '../photo/funju-honey-food-2.jpg', '../photo/funju-honey-food-3.jpg']
+    },
+    {
+      name: 'Traditional Taita Dishes',
+      description: 'Authentic Taita cuisine prepared by community members, using local ingredients and traditional cooking methods.',
+      photos: ['../photo/funju-traditional-food-1.jpg', '../photo/funju-traditional-food-2.jpg', '../photo/funju-traditional-food-3.jpg']
+    },
+    {
+      name: 'Chilli Processing Products',
+      description: 'Value-added chilli products including dried chillies, chilli powder, chilli sauces and pickles produced locally.',
+      photos: ['../photo/funju-chilli-products-1.jpg', '../photo/funju-chilli-products-2.jpg', '../photo/funju-chilli-products-3.jpg']
+    },
+    {
+      name: 'Farm-to-Table Experiences',
+      description: 'Visit local farms and learn traditional Funju farming practices before a meal made with fresh, locally grown ingredients.',
+      photos: ['../photo/funju-farm-table-1.jpg', '../photo/funju-farm-table-2.jpg', '../photo/funju-farm-table-3.jpg']
+    }
+  ];
+
+  // ==============================================
+  // TRADITIONAL MEDICINE — showcase only
+  // ==============================================
+  window.TRADITIONAL_MEDICINE = [
+    {
+      name: 'Traditional Healing Practices of Funju',
+      description: 'Indigenous knowledge of medicinal plants and healing rituals, passed down through generations of Taita elders.',
+      photos: ['../photo/funju-healing-1.jpg', '../photo/funju-healing-2.jpg', '../photo/funju-healing-3.jpg']
+    },
+    {
+      name: 'Herbal Remedies from the Highlands',
+      description: 'Medicinal plants found in the Funju forests and highlands, used in traditional remedies for various ailments.',
+      photos: ['../photo/funju-herbs-1.jpg', '../photo/funju-herbs-2.jpg', '../photo/funju-herbs-3.jpg']
+    },
+    {
+      name: 'Taita Plant Knowledge',
+      description: 'Generations of accumulated knowledge about the properties and uses of indigenous plants, preserved through oral tradition.',
+      photos: ['../photo/funju-knowledge-1.jpg', '../photo/funju-knowledge-2.jpg', '../photo/funju-knowledge-3.jpg']
+    },
+    {
+      name: 'Natural Remedies from the Landscape',
+      description: 'The Funju landscape provides a range of natural remedies, from tree bark to roots and leaves, used in traditional medicine.',
+      photos: ['../photo/funju-remedies-1.jpg', '../photo/funju-remedies-2.jpg', '../photo/funju-remedies-3.jpg']
+    }
+  ];
+</script>
+
+<!-- ============================================= -->
+<!-- RENDER SCRIPTS                                -->
+<!-- ============================================= -->
+<script src="../assets/js/visit-sites.js"></script>
+<script src="../assets/js/site-grids.js"></script>
+
+<!-- ============================================= -->
+<!-- ADVERTISING CALCULATOR                        -->
+<!-- ============================================= -->
+<script>
+  document.querySelectorAll('[data-ad-calc]').forEach(function(calc){
+    const scopeName = calc.dataset.adCalc;
+    const rows = calc.querySelectorAll('.ad-row');
+    const totalEl = calc.querySelector('[data-ad-total]');
+    const enquireBtn = calc.querySelector('[data-ad-enquire]');
+
+    function recalc(){
+      let grand = 0;
+      const lines = [];
+      rows.forEach(function(row){
+        const price = Number(row.dataset.price || 0);
+        const qty = Number(row.querySelector('.ad-qty').value || 0);
+        const lineTotal = price * qty;
+        const lineEl = row.querySelector('.ad-row-line');
+        if (qty > 0) {
+          row.classList.add('has-qty');
+          lineEl.textContent = price > 0 ? ('KES ' + lineTotal.toLocaleString()) : 'Priced on request';
+          const name = row.querySelector('.ad-row-name').textContent;
+          lines.push(name + ' × ' + qty + (price > 0 ? (' = KES ' + lineTotal.toLocaleString()) : ' (enquire for price)'));
+        } else {
+          row.classList.remove('has-qty');
+        }
+        grand += lineTotal;
+      });
+      totalEl.textContent = 'KES ' + grand.toLocaleString();
+      calc.dataset.lines = JSON.stringify(lines);
+    }
+
+    rows.forEach(function(row){
+      row.querySelector('.ad-qty').addEventListener('input', recalc);
+    });
+
+    enquireBtn.addEventListener('click', function(){
+      const lines = JSON.parse(calc.dataset.lines || '[]');
+      if (lines.length === 0) {
+        alert('Set a quantity for at least one format before sending an enquiry.');
+        return;
+      }
+      const subject = encodeURIComponent('Advertising enquiry — ' + scopeName);
+      const body = encodeURIComponent(
+        'Advertising enquiry for: ' + scopeName + '\n\n' +
+        lines.join('\n') + '\n\n' +
+        'Estimated total: ' + totalEl.textContent + '\n\n' +
+        '(This is an estimate only — please confirm availability and final pricing.)'
+      );
+      window.location.href = 'mailto:sponsorship@touroftaitataveta.co.ke?subject=' + subject + '&body=' + body;
+    });
+  });
+</script>
+
+<!-- ============================================= -->
+<!-- DONATION WIDGET                               -->
+<!-- ============================================= -->
+<script>window.DONATE_SCOPE = document.title;</script>
+<script src="../assets/js/donate.js"></script>
+
+<!-- ============================================= -->
+<!-- DARK MODE TOGGLE                              -->
+<!-- ============================================= -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const toggleBtn = document.getElementById('theme-toggle');
+  const currentTheme = localStorage.getItem('theme') || 'light';
+  if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    toggleBtn.textContent = '☀️';
+  }
+  toggleBtn.addEventListener('click', function() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    if (theme === 'dark') {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      toggleBtn.textContent = '🌙';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      toggleBtn.textContent = '☀️';
+    }
+  });
+});
+</script>
+
+</body>
+</html>
