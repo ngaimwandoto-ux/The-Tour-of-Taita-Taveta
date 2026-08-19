@@ -101,6 +101,29 @@
   <div class="route-note">Sagalla's climb runs the ridge road above Voi town, with a panoramic overlook of Tsavo East as the signature stretch. Route maps for this leg are finalised and reconfirmed with the county and local conservancies before each edition — check back closer to race day for the exact GPX file and road closures.</div>
   </section>
 
+  <!-- ============================================ -->
+  <!-- LEG PRIZE POOL SECTION                       -->
+  <!-- ============================================ -->
+  <section id="leg-prize" style="margin:1.5rem 0;padding:1rem;border:2px solid var(--accent);background:rgba(242,140,15,0.06);">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+      <div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;text-transform:uppercase;color:rgba(20,20,20,0.5);">This Leg</span>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.8rem;color:var(--accent-deep);" id="leg-prize-total">KES 0</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:rgba(20,20,20,0.5);">Total Prize Pool</div>
+      </div>
+      <div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;text-transform:uppercase;color:rgba(20,20,20,0.5);">Elite</span>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.2rem;color:var(--accent-deep);" id="leg-elite-pool">KES 0</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:rgba(20,20,20,0.5);"><span id="leg-elite-count">0</span> riders</div>
+      </div>
+      <div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;text-transform:uppercase;color:rgba(20,20,20,0.5);">Amateur</span>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.2rem;color:var(--accent-deep);" id="leg-amateur-pool">KES 0</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:rgba(20,20,20,0.5);"><span id="leg-amateur-count">0</span> riders</div>
+      </div>
+    </div>
+  </section>
+
   <section id="conservation">
     <div class="section-head">
       <span class="eyebrow">Conservation</span>
@@ -607,6 +630,44 @@
 <script>window.DONATE_SCOPE = document.title;</script>
 <script src="../assets/js/donate.js"></script>
 
+<!-- Leg Prize Pool Script -->
+<script>
+// Fetch and display leg-specific prize pool
+async function fetchLegStats() {
+    try {
+        const res = await fetch('/stats.php');
+        const data = await res.json();
+        
+        if (!data.success) return;
+        
+        // Get current leg name from the page
+        const legName = 'Sagalla';
+        
+        // Find this leg in the per-leg data
+        const legData = data.per_leg.find(l => l.leg === legName);
+        
+        if (legData) {
+            const totalEl = document.getElementById('leg-prize-total');
+            const elitePoolEl = document.getElementById('leg-elite-pool');
+            const amateurPoolEl = document.getElementById('leg-amateur-pool');
+            const eliteCountEl = document.getElementById('leg-elite-count');
+            const amateurCountEl = document.getElementById('leg-amateur-count');
+            
+            if (totalEl) totalEl.textContent = 'KES ' + Number(legData.leg_prize_pool).toLocaleString();
+            if (elitePoolEl) elitePoolEl.textContent = 'KES ' + Number(legData.elite_pool).toLocaleString();
+            if (amateurPoolEl) amateurPoolEl.textContent = 'KES ' + Number(legData.amateur_pool).toLocaleString();
+            if (eliteCountEl) eliteCountEl.textContent = legData.elite_count;
+            if (amateurCountEl) amateurCountEl.textContent = legData.amateur_count;
+        }
+    } catch (err) {
+        console.error('Failed to fetch leg stats:', err);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', fetchLegStats);
+</script>
+
+<!-- Theme toggle script -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const toggleBtn = document.getElementById('theme-toggle');
@@ -629,6 +690,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+
 <!-- ============================================ -->
 <!-- ACCOMMODATION CTA                            -->
 <!-- ============================================ -->
