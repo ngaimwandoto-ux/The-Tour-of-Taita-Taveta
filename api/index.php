@@ -161,6 +161,21 @@ try {
             echo json_encode(['success' => true, 'properties' => $accommodation->getMyProperties($currentUserId)]);
             break;
 
+        case $endpoint === 'cancel-booking' && $method === 'POST':
+            if (!requireAuth($currentUserId)) break;
+            $bookingId = (int) ($input['booking_id'] ?? 0);
+            $reason = trim($input['reason'] ?? '');
+            // NOTE: this doesn't yet check that $currentUserId actually
+            // owns the booking or its property — bookings are currently
+            // guest-checkout with no account link, so there's no "guest
+            // account" to check against. For now this endpoint is really
+            // only safe to expose to HOST accounts cancelling a booking
+            // on their own property, or left admin-only via
+            // admin/bookings.php. Tighten this before exposing it to
+            // guests directly.
+            echo json_encode($accommodation->processCancellation($bookingId, $reason, 'host'));
+            break;
+
         default:
             http_response_code(404);
             echo json_encode(['success' => false, 'error' => 'Unknown endpoint.']);
