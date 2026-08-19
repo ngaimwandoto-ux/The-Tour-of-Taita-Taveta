@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sagalla Leg — Tour of Taita Taveta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <div class="brand"><img src="../logos/taita-taveta.png" alt="Tour of Taita Taveta Logo" class="main-logo"></div>
+    <nav class="links">
+      <a href="../index.html#home">Home</a>
+      <a href="../index.html#legs">Legs</a>
+      <a href="../index.html#tickets">Register</a>
+      <a href="../pages/login.html">Log In</a>
+      <!-- Dark Mode Toggle Button -->
+<button id="theme-toggle" aria-label="Toggle dark mode" style="background:none;border:2px solid var(--olive-lt);color:var(--cream);cursor:pointer;font-size:1.1rem;padding:0.3rem 0.7rem;border-radius:4px;transition:all 0.2s ease;white-space:nowrap;">
+  🌙
+</button>
+    </nav>
+  </div>
+</header>
+
+<section class="region-hero" style="--hero-photo:url('../photo/sagalla-hero.jpg');">
+  <a class="back" href="../index.html#legs">&larr; All seven legs</a>
+  <img class="region-logo" src="../logos/sagalla.png" alt="Sagalla leg logo" onerror="this.style.display='none'">
+  <h1>Leg 01 · Sagalla</h1>
+  <div class="meta">Sat 10 – Mon 12 Oct 2026 &nbsp;·&nbsp; <span class="status confirmed" style="display:inline-block;padding:0.2rem 0.6rem;border-radius:2px;">Date confirmed</span></div>
+</section>
+
+<main>
+  <section id="route">
+  <div class="section-head">
+    <span class="eyebrow">The Route</span>
+    <h2>Course &amp; profile</h2>
+  </div>
+  <div class="route-strip" style="border:2px solid var(--ink);">
+    <svg class="elevation" viewBox="0 0 1000 70" preserveAspectRatio="none" aria-hidden="true">
+      <path class="fill"
+            d="M0 24
+               L200 54
+               L350 54
+               L550 52
+               L700 8
+               L820 24
+               L900 50
+               L1000 48
+               L1000 70
+               L0 70 Z"/>
+      <path class="line"
+            d="M0 24
+               L200 54
+               L350 54
+               L550 52
+               L700 8
+               L820 24
+               L900 50
+               L1000 48"/>
+      <circle cx="0" cy="24" r="4"/>
+      <circle cx="200" cy="54" r="4"/>
+      <circle cx="550" cy="52" r="4"/>
+      <circle cx="700" cy="8" r="4"/>
+      <circle cx="820" cy="24" r="4"/>
+      <circle cx="1000" cy="48" r="4"/>  
+
+      <!-- START -->
+<text x="0" y="62" font-size="6" fill="#F0DBB8">START</text>
+<text x="0" y="69" font-size="5" fill="#F0DBB8">1340m</text>
+
+<!-- KANYANGA -->
+<text x="170" y="62" font-size="6" fill="#F0DBB8">KANYANGA</text>
+<text x="170" y="69" font-size="5" fill="#F0DBB8">1150m</text>
+
+<!-- MWALANGI -->
+<text x="500" y="62" font-size="6" fill="#F0DBB8">MWALANGI</text>
+<text x="500" y="69" font-size="5" fill="#F0DBB8">1200m</text>
+
+<!-- NDARA -->
+<text x="675" y="15" font-size="6" fill="#F0DBB8">NDARA</text>
+<text x="675" y="22" font-size="5" fill="#F0DBB8">1523m</text>
+
+<!-- SAGALLA -->
+<text x="785" y="15" font-size="6" fill="#F0DBB8">SAGALLA</text>
+<text x="785" y="22" font-size="5" fill="#F0DBB8">1340m</text>
+
+<!-- FINISH -->
+<text x="930" y="62" font-size="6" fill="#F0DBB8">FINISH</text>
+<text x="930" y="69" font-size="5" fill="#F0DBB8">1200m</text>
+
+
+    </svg>
+  </div>
+  </section>
+  
+  </div>
+  <div class="route-note">Sagalla's climb runs the ridge road above Voi town, with a panoramic overlook of Tsavo East as the signature stretch. Route maps for this leg are finalised and reconfirmed with the county and local conservancies before each edition — check back closer to race day for the exact GPX file and road closures.</div>
+  </section>
+
+  <section id="conservation">
+    <div class="section-head">
+      <span class="eyebrow">Conservation</span>
+      <h2>Why the terrain is protected</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Every leg of the tour runs through land under active conservation — here's what that looks like locally.</p>
+    </div>
+    <div class="info-grid" id="conservation-grid"></div>
+  </section>
+
+  <section id="flora-fauna">
+    <div class="section-head">
+      <span class="eyebrow">Flora &amp; Fauna</span>
+      <h2>Species and plants of note</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">What grows and lives in the Sagalla Hills — from a critically endangered amphibian to plants still used in traditional medicine.</p>
+    </div>
+    <div class="info-grid" id="flora-fauna-grid"></div>
+  </section>
+
+  <!-- GASTRONOMY -->
+  <section id="gastronomy">
+    <div class="section-head">
+      <span class="eyebrow">Gastronomy</span>
+      <h2>Food, drink &amp; culinary heritage</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">From traditional dishes to honey harvesting and brewing — taste the flavours of Sagalla.</p>
+    </div>
+    <div class="info-grid" id="gastronomy-grid"></div>
+  </section>
+
+  <!-- TRADITIONAL MEDICINE -->
+  <section id="traditional-medicine">
+    <div class="section-head">
+      <span class="eyebrow">Traditional Medicine</span>
+      <h2>Healing plants &amp; indigenous knowledge</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Generations of wisdom in plant-based remedies passed down through Wakishamba elders.</p>
+    </div>
+    <div class="info-grid" id="traditional-medicine-grid"></div>
+  </section>
+
+  <section id="visit">
+    <div class="section-head">
+      <span class="eyebrow">Visit &amp; Support</span>
+      <h2>Places to visit at Sagalla</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Entry fees support the local conservancies and community sites that host this leg. Pick a place below, then pay by M-Pesa — the same STK push flow as race registration.</p>
+    </div>
+
+    <div id="visit-grid" class="site-grid"></div>
+
+    <div style="max-width:480px;margin-top:2rem;">
+      <form id="visit-form" novalidate>
+        <div class="field"><label for="vname">Full name</label><input type="text" id="vname" name="vname" required></div>
+        <div class="field"><label for="vphone">M-Pesa phone number</label><input type="tel" id="vphone" name="vphone" placeholder="07XXXXXXXX" pattern="^0[71][0-9]{8}$" required></div>
+        <div class="amount-line"><span>Site</span><span id="visit-site-echo">—</span></div>
+        <div class="amount-line"><span>Fee due</span><span id="visit-fee-echo">—</span></div>
+        <button type="submit" class="submit" id="visit-submit-btn">Pay visitation fee</button>
+        <div class="status-msg" id="visit-status-msg"></div>
+      </form>
+    </div>
+  </section>
+
+  <section id="camps">
+    <div class="section-head">
+      <span class="eyebrow">On the Ground</span>
+      <h2>Camps &amp; villages</h2>
+    </div>
+    <div class="camp-grid">
+      <div class="camp-card"><h3>Athletes' camp — Voi</h3><p>Base camp for riders sits on the edge of Voi town, the closest major centre with rail and highway access.</p></div>
+      <div class="camp-card"><h3>Fan village — Sagalla trailhead</h3><p>Food stalls, sound system and big screens at the foot of the climb for supporters to watch riders summit.</p></div>
+    </div>
+  </section>
+
+  <section id="leg-ecosystem">
+    <div class="section-head">
+      <span class="eyebrow">Back This Leg</span>
+      <h2>Support, sponsor, partner, or advertise with Sagalla</h2>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Same three-way distinction as the Tour itself: sponsorship is commercial with deliverables, support is a donation with no conditions, and partnership is mutually beneficial. Advertising and media are separate again.</p>
+    </div>
+
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Support Sagalla</h3></div>
+      <p class="eco-group-note">No conditions — back this leg because you believe in it. Pick an amount below — your tier is set automatically. Amounts are placeholders pending final tier thresholds.</p>
+      <div id="donate-widget"></div>
+    </div>
+
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Sponsor Sagalla</h3></div>
+      <p class="eco-group-note">Commercial packages with deliverables, scoped to this leg — route, award, transport &amp; logistics, food, accommodation, technical, and media sponsorships.</p>
+      <div class="tile-grid">
+        <a class="tile add-tile" href="#">+ Sponsor this leg</a>
+      </div>
+    </div>
+
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Partner with Sagalla</h3></div>
+      <p class="eco-group-note">Mutually beneficial arrangements — local tourism operators, conservancies, and trail/activity businesses at this leg's location.</p>
+      <div class="tile-grid">
+        <a class="tile add-tile" href="#">+ Partner with this leg</a>
+      </div>
+    </div>
+
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Advertise at Sagalla</h3></div>
+      <p class="eco-group-note">Purely commercial inventory at this leg. Pick formats and quantities below — totals update as you go. Prices are placeholders pending final rates.</p>
+
+      <div class="ad-calc" data-ad-calc="Sagalla">
+        <div class="ad-row" data-price="150000">
+          <div class="ad-row-info">
+            <div class="ad-row-name">Large Format Billboard</div>
+            <div class="ad-row-desc">Standard large-format printed billboard at a high-visibility location on this leg.</div>
+          </div>
+          <div class="ad-row-price">KES 150,000 <span style="opacity:0.6;">/ install</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="220000">
+          <div class="ad-row-info">
+            <div class="ad-row-name">Green Billboard</div>
+            <div class="ad-row-desc">Minimal-plastic, low-paint alternative — woven natural fibres and artistry replace printed vinyl, roped between trees rather than a steel frame. Bespoke per brand.</div>
+          </div>
+          <div class="ad-row-price">KES 220,000 <span style="opacity:0.6;">/ install</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="800">
+          <div class="ad-row-info"><div class="ad-row-name">Flags</div></div>
+          <div class="ad-row-price">KES 800 <span style="opacity:0.6;">/ unit</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="3500">
+          <div class="ad-row-info"><div class="ad-row-name">Teardrop Banner — Small</div></div>
+          <div class="ad-row-price">KES 3,500 <span style="opacity:0.6;">/ unit</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="6000">
+          <div class="ad-row-info"><div class="ad-row-name">Teardrop Banner — Large</div></div>
+          <div class="ad-row-price">KES 6,000 <span style="opacity:0.6;">/ unit</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="4500">
+          <div class="ad-row-info"><div class="ad-row-name">Roadside Banner</div></div>
+          <div class="ad-row-price">KES 4,500 <span style="opacity:0.6;">/ unit</span></div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-row" data-price="0">
+          <div class="ad-row-info">
+            <div class="ad-row-name">Other / Custom</div>
+            <div class="ad-row-desc">LED screens, media wall, start/finish banners, or a format not listed — priced on request.</div>
+          </div>
+          <div class="ad-row-price">Enquire</div>
+          <input type="number" class="ad-qty" min="0" value="0" aria-label="Quantity">
+          <div class="ad-row-line">KES 0</div>
+        </div>
+
+        <div class="ad-calc-footer">
+          <div class="ad-calc-total">Total: <span data-ad-total>KES 0</span></div>
+          <button type="button" class="ad-enquire-btn" data-ad-enquire>Send enquiry</button>
+        </div>
+      </div>
+      <p class="ad-note">This calculator estimates cost — it doesn't take payment directly. "Send enquiry" prepares an email with your selections for our team to confirm availability and formalise the order.</p>
+    </div>
+
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Media covering Sagalla</h3></div>
+      <p class="eco-group-note">Local and personal digital media brands covering this leg specifically — bloggers, videographers, podcasters, social pages.</p>
+      <div class="tile-grid">
+        <a class="tile add-tile" href="#">+ Register as media</a>
+      </div>
+    </div>
+
+    <div class="eco-group">
+      <div class="eco-group-head"><h3>Volunteer at Sagalla</h3></div>
+      <p class="eco-group-note">Conservation, culture &amp; dance, local history, security, and race-day logistics — all needed on the ground for this specific leg.</p>
+      <div class="tile-grid">
+        <a class="tile add-tile" href="#">+ Sign up to volunteer</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="leaderboard">
+    <div class="section-head">
+      <span class="eyebrow">Results</span>
+      <h2>Leaderboard</h2>
+    </div>
+    <table class="leaderboard">
+      <thead><tr><th>Pos</th><th>Rider</th><th>Team / Club</th><th>Time</th></tr></thead>
+      <tbody>
+        <tr><td class="pos">—</td><td>Results not yet published</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p class="leaderboard-note">Full standings go up here within 48 hours of race day.</p>
+  </section>
+
+  <section id="gallery">
+    <div class="section-head">
+      <span class="eyebrow">Gallery</span>
+      <h2>Race day &amp; awards</h2>
+    </div>
+    <div class="gallery-grid">
+      <figure><div class="ph"><span>image/sagalla-climb.jpg</span></div><figcaption>Riders on the Sagalla climb</figcaption></figure>
+      <figure><div class="ph"><span>image/sagalla-summit.jpg</span></div><figcaption>Summit overlook of Tsavo</figcaption></figure>
+      <figure><div class="ph"><span>image/sagalla-awards.jpg</span></div><figcaption>Awards ceremony</figcaption></figure>
+      <figure><div class="ph"><span>image/sagalla-fanvillage.jpg</span></div><figcaption>Fan village at the trailhead</figcaption></figure>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p><strong>Tour of Taita Taveta</strong> — Attitude meets Altitude.</p>
+  <p>&copy; 2026 Tour of Taita Taveta. All rights reserved.</p>
+</footer>
+
+<script>
+  // ==============================================
+  // DATA DEFINITIONS — Sagalla Leg
+  // ==============================================
+
+  // PLACES TO VISIT — with payment
+  window.VISIT_SITES = [
+    {
+      id: 'sagalla-hills-viewpoint',
+      name: 'Sagalla Hills viewpoint entry',
+      fee: 200,
+      description: 'A steep rise straight out of the Voi plains with panoramic views over Tsavo National Park.',
+      photos: ['../photo/sagalla-viewpoint-1.jpg', '../photo/sagalla-viewpoint-2.jpg', '../photo/sagalla-viewpoint-3.jpg']
+    },
+    {
+      id: 'sagalla-ranch-conservancy',
+      name: 'Sagalla Ranch conservancy access',
+      fee: 500,
+      description: 'A ~25,000-acre member conservancy and wildlife dispersal corridor around Tsavo.',
+      photos: ['../photo/sagalla-ranch-1.jpg', '../photo/sagalla-ranch-2.jpg', '../photo/sagalla-ranch-3.jpg']
+    },
+    {
+      id: 'wray-memorial-museum',
+      name: 'Wray Memorial Museum',
+      fee: 200,
+      description: 'Built in 1888 as the first inland church by Rev. Joseph Wray of the Church Missionary Society. Now a community museum featuring the first Sagalla Bible and dictionary. Located in Teri, Sagalla Ward. A 40x60ft iron-and-wood structure.',
+      photos: ['../photo/wray-museum-1.jpg', '../photo/wray-museum-2.jpg', '../photo/wray-museum-3.jpg']
+    },
+    {
+      id: 'iboyeni-german-view-point',
+      name: 'Iboyeni-German View Point',
+      fee: 200,
+      description: 'The highest point in Sagalla Hills, offering panoramic views across the lowlands — used as a German observation post during World War I. Dense forest with birdwatching opportunities.',
+      photos: ['../photo/iboyeni-1.jpg', '../photo/iboyeni-2.jpg', '../photo/iboyeni-3.jpg']
+    },
+    {
+      id: 'mwanakaviri-caves-campsite',
+      name: 'Mwanakaviri Caves & Campsite',
+      fee: 300,
+      description: 'Three rock shelters used as a hideout during World War II. Now a community campsite with nature trails and picnic sites. Marapu, Teri Sub Location.',
+      photos: ['../photo/mwanakaviri-1.jpg', '../photo/mwanakaviri-2.jpg', '../photo/mwanakaviri-3.jpg']
+    },
+    {
+      id: 'goe-rock',
+      name: 'Goe Rock',
+      fee: 300,
+      description: 'A sacred shrine and traditional court with 8,000-year-old kettle holes. Used by elders for rituals and justice — with a cast grave for offenders. Talio sub-location.',
+      photos: ['../photo/goe-rock-1.jpg', '../photo/goe-rock-2.jpg', '../photo/goe-rock-3.jpg']
+    },
+    {
+      id: 'mwakaleto-rock',
+      name: 'Mwakaleto Rock',
+      fee: 200,
+      description: 'A massive rock with caves at its base, historically used for executing individuals accused of witchcraft. Offers scenic views. Kishamba village, Mbale.',
+      photos: ['../photo/mwakaleto-1.jpg', '../photo/mwakaleto-2.jpg', '../photo/mwakaleto-3.jpg']
+    },
+    {
+      id: 'skull-caves-kizembe-ngomeni',
+      name: 'Skull Caves (Kizembe & Ngomeni)',
+      fee: 300,
+      description: 'Historical caves where community elders\' skulls were placed to honour ancestors. The practice ceased with the arrival of Christianity. Teri sub-location. Sacred and culturally significant.',
+      photos: ['../photo/skull-caves-1.jpg', '../photo/skull-caves-2.jpg', '../photo/skull-caves-3.jpg']
+    },
+    {
+      id: 'mbagamboi-cave',
+      name: 'Mbagamboi Cave',
+      fee: 200,
+      description: 'A ritual cave near Latta Dam, surrounded by shrubs and indigenous trees. The site was traditionally used for ceremonial purposes. Accessible via nature trail.',
+      photos: ['../photo/mbagamboi-1.jpg', '../photo/mbagamboi-2.jpg', '../photo/mbagamboi-3.jpg']
+    },
+    {
+      id: 'mwalembe-shrine-complex',
+      name: 'Mwalembe Shrine Complex',
+      fee: 300,
+      description: 'The most sacred cultural landscape in Sagalla — a complex of caves, ritual sites, and the Zome reasoning room. Custodians from seven clans. Includes Mbanga ya Mali (refuge cave) and Miruma ya Ware (Python\'s Cave).',
+      photos: ['../photo/mwalembe-1.jpg', '../photo/mwalembe-2.jpg', '../photo/mwalembe-3.jpg']
+    },
+    {
+      id: 'mlilo-ngoma-cultural-dancers',
+      name: 'Mlilo Ngoma Cultural Dancers',
+      fee: 999,
+      description: 'A women\'s cultural group preserving Kirindi dance, traditional beadwork, basket weaving, leather making, and Sagalla cuisine. Established 2009.',
+      photos: ['../photo/mlilo-ngoma-1.jpg', '../photo/mlilo-ngoma-2.jpg', '../photo/mlilo-ngoma-3.jpg']
+    },
+    {
+      id: 'sagalla-nature-trails',
+      name: 'Sagalla Nature Trails',
+      fee: 200,
+      description: 'Network of scenic trails through mist forests, linking villages and viewpoints — used by both community members and visitors. Includes trails to German View Point, Mwanakaviri Caves, and Mountain Gethsemane Cottages.',
+      photos: ['../photo/nature-trails-1.jpg', '../photo/nature-trails-2.jpg', '../photo/nature-trails-3.jpg']
+    },
+    {
+      id: 'sagalla-ranch-conservancy-visit',
+      name: 'Sagalla Ranch Conservancy',
+      fee: 600,
+      description: 'A ~25,000-acre conservancy and member of the Taita Taveta Wildlife Conservancies Association. Part of the critical wildlife dispersal corridor around Tsavo. Formerly known as Izera Ranch. Includes the Kasigau wildlife corridor.',
+      photos: ['../photo/sagalla-ranch-1.jpg', '../photo/sagalla-ranch-2.jpg', '../photo/sagalla-ranch-3.jpg']
+    },
+    {
+      id: 'sagalla-forest-reserve',
+      name: 'Sagalla Forest Reserve',
+      fee: 300,
+      description: 'One of the hilltop forest patches of the Taita Hills — part of the Eastern Arc Mountains biodiversity hotspot. Home to endemic flora and fauna. Provides water catchment and supports traditional agroforestry.',
+      photos: ['../photo/sagalla-forest-1.jpg', '../photo/sagalla-forest-2.jpg', '../photo/sagalla-forest-3.jpg']
+    },
+    {
+      id: 'marungu-hill-conservancy',
+      name: 'Marungu Hill Conservancy',
+      fee: 700,
+      description: 'A community conservancy protecting the ancestral lands and sacred shrines of the WaSagalla people, including Garawa Hill. Offers hiking, cultural tours, and water catchment education.',
+      photos: ['../photo/marungu-1.jpg', '../photo/marungu-2.jpg', '../photo/marungu-3.jpg']
+    },
+    {
+      id: 'lata-dam-conservation-area',
+      name: 'Lata Dam Conservation Area',
+      fee: 400,
+      description: 'A key water source for the Sagalla community, livestock, and wildlife. Constructed in 1968 with improvements in 2006. Supports agricultural activities and is part of local environmental stewardship.',
+      photos: ['../photo/lata-dam-1.jpg', '../photo/lata-dam-2.jpg', '../photo/lata-dam-3.jpg']
+    }
+  ];
+
+  // CONSERVATION — informational only
+  window.CONSERVATION = [
+    {
+      name: 'Sagalla Hills Geology',
+      description: 'Formed from ancient metamorphic rock roughly 600 million years ago, under extreme heat and pressure, during the Pan-African orogeny.',
+      photos: []
+    },
+    {
+      name: 'Sagalla Forest Reserve',
+      description: 'One of the hilltop forest patches of the Taita Hills — part of the Eastern Arc Mountains biodiversity hotspot, providing water catchment and supporting traditional agroforestry.',
+      photos: []
+    },
+    {
+      name: 'Marungu Hill Conservancy',
+      description: 'Protects the Wasagalla people\'s ancestral lands and sacred shrines, including Garawa Hill, with community-led water catchment education.',
+      photos: []
+    },
+    {
+      name: 'Lata Dam',
+      description: 'Supplies water for domestic use, livestock, and wildlife, and supports local environmental stewardship along its banks.',
+      photos: []
+    },
+    {
+      name: 'Sagalla Ranch Conservancy',
+      description: 'A wildlife dispersal corridor around Tsavo, part of the Kasigau wildlife corridor network.',
+      photos: []
+    }
+  ];
+
+  // FLORA & FAUNA — informational only
+  window.FLORA_FAUNA = [
+    {
+      name: 'Sagalla Caecilian (Boulengerula niedeni)',
+      description: 'A critically endangered, limbless amphibian found exclusively in the Sagalla Hills — endemic to the region, found nowhere else on Earth.',
+      photos: ['../photo/caecilian-1.jpg', '../photo/caecilian-2.jpg', '../photo/caecilian-3.jpg']
+    },
+    {
+      name: 'Taita Hills Forest Diversity',
+      description: 'Part of the Eastern Arc Mountains — home to rare plants including African violets, and endemic birds found only here: the Taita Thrush, Taita Apalis, and Taita White-eye.',
+      photos: ['../photo/taita-forest-1.jpg', '../photo/taita-forest-2.jpg', '../photo/taita-forest-3.jpg']
+    },
+    {
+      name: 'Sagalla Agroforestry System',
+      description: 'Traditional multi-story farming that selectively preserves useful indigenous plants while maintaining forest cover — a Wakishamba practice adapted over generations.',
+      photos: ['../photo/agroforestry-1.jpg', '../photo/agroforestry-2.jpg', '../photo/agroforestry-3.jpg']
+    }
+  ];
+
+  // GASTRONOMY — showcase only
+  window.GASTRONOMY = [
+    {
+      name: 'Traditional Sagalla Cuisine',
+      description: 'Authentic dishes prepared using traditional methods and locally sourced ingredients — available from community eateries on site.',
+      photos: []
+    },
+    {
+      name: 'Stingless Bee Honey Harvesting',
+      description: 'Traditional beekeeping producing unique honey from stingless bees native to the Sagalla region.',
+      photos: []
+    },
+    {
+      name: 'Mlilo Ngoma Cultural Cuisine',
+      description: 'Traditional meals prepared by the Mlilo Ngoma women\'s group, featuring indigenous recipes passed down through generations.',
+      photos: []
+    },
+    {
+      name: 'Traditional Brewing (Mbangara)',
+      description: 'A traditional brew made from indigenous grains and fermentation techniques, used in Ngasu ritual ceremonies and community gatherings.',
+      photos: []
+    },
+    {
+      name: 'Local Herbal Teas',
+      description: 'Herbal teas brewed from indigenous Sagalla Hills plants, valued for both refreshment and traditional medicinal use.',
+      photos: []
+    },
+    {
+      name: 'Farm-to-Table Experiences',
+      description: 'Visit local farms and learn traditional Sagalla farming practices before a meal made with fresh, locally grown ingredients.',
+      photos: []
+    }
+  ];
+
+  // TRADITIONAL MEDICINE — showcase only
+  window.TRADITIONAL_MEDICINE = [
+    {
+      name: 'Kidongachakuro (Snake Antidote)',
+      description: 'A native plant used as an antidote for snake venom — the stem is cut, powder extracted, and applied at the bite site. Found beside the Mwanakaviri campsite.',
+      photos: ['../photo/kidongachakuro-1.jpg', '../photo/kidongachakuro-2.jpg', '../photo/kidongachakuro-3.jpg']
+    },
+    {
+      name: 'Mshigha (Cough Remedy)',
+      description: 'Roots boiled into a traditional cough syrup, found close to the Mwanakaviri campsite.',
+      photos: ['../photo/mshigha-1.jpg', '../photo/mshigha-2.jpg', '../photo/mshigha-3.jpg']
+    },
+    {
+      name: 'Traditional Healing Practices',
+      description: 'Indigenous knowledge of medicinal plants and healing rituals, passed down through generations of Wakishamba elders.',
+      photos: []
+    }
+  ];
+
+  // ==============================================
+  // RENDER SCRIPTS
+  // ==============================================
+</script>
+
+<script src="../assets/js/visit-sites.js"></script>
+<script src="../assets/js/site-grids.js"></script>
+
+<script>
+  // Advertising order calculator — unchanged from before
+  document.querySelectorAll('[data-ad-calc]').forEach(function(calc){
+    const scopeName = calc.dataset.adCalc;
+    const rows = calc.querySelectorAll('.ad-row');
+    const totalEl = calc.querySelector('[data-ad-total]');
+    const enquireBtn = calc.querySelector('[data-ad-enquire]');
+
+    function recalc(){
+      let grand = 0;
+      const lines = [];
+      rows.forEach(function(row){
+        const price = Number(row.dataset.price || 0);
+        const qty = Number(row.querySelector('.ad-qty').value || 0);
+        const lineTotal = price * qty;
+        const lineEl = row.querySelector('.ad-row-line');
+        if (qty > 0) {
+          row.classList.add('has-qty');
+          lineEl.textContent = price > 0 ? ('KES ' + lineTotal.toLocaleString()) : 'Priced on request';
+          const name = row.querySelector('.ad-row-name').textContent;
+          lines.push(name + ' × ' + qty + (price > 0 ? (' = KES ' + lineTotal.toLocaleString()) : ' (enquire for price)'));
+        } else {
+          row.classList.remove('has-qty');
+        }
+        grand += lineTotal;
+      });
+      totalEl.textContent = 'KES ' + grand.toLocaleString();
+      calc.dataset.lines = JSON.stringify(lines);
+    }
+
+    rows.forEach(function(row){
+      row.querySelector('.ad-qty').addEventListener('input', recalc);
+    });
+
+    enquireBtn.addEventListener('click', function(){
+      const lines = JSON.parse(calc.dataset.lines || '[]');
+      if (lines.length === 0) {
+        alert('Set a quantity for at least one format before sending an enquiry.');
+        return;
+      }
+      const subject = encodeURIComponent('Advertising enquiry — ' + scopeName);
+      const body = encodeURIComponent(
+        'Advertising enquiry for: ' + scopeName + '\n\n' +
+        lines.join('\n') + '\n\n' +
+        'Estimated total: ' + totalEl.textContent + '\n\n' +
+        '(This is an estimate only — please confirm availability and final pricing.)'
+      );
+      window.location.href = 'mailto:sponsorship@touroftaitataveta.co.ke?subject=' + subject + '&body=' + body;
+    });
+  });
+</script>
+
+<script>window.DONATE_SCOPE = document.title;</script>
+<script src="../assets/js/donate.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const toggleBtn = document.getElementById('theme-toggle');
+  const currentTheme = localStorage.getItem('theme') || 'light';
+  if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    toggleBtn.textContent = '☀️';
+  }
+  toggleBtn.addEventListener('click', function() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    if (theme === 'dark') {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      toggleBtn.textContent = '🌙';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      toggleBtn.textContent = '☀️';
+    }
+  });
+});
+</script>
+<!-- ============================================ -->
+<!-- ACCOMMODATION CTA                            -->
+<!-- ============================================ -->
+<section id="accommodation-cta" style="padding:3rem 1.5rem;border-top:1px solid var(--line);text-align:center;">
+    <div style="max-width:1180px;margin:0 auto;">
+        <span class="eyebrow">Stay</span>
+        <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:0.01em;font-size:clamp(2rem,4.5vw,3.2rem);margin:0 0 0.2rem 0;">Hotels, Lodges, Camps &amp; Homestays</h2>
+        <p style="font-family:'Barlow',sans-serif;font-size:1rem;color:rgba(20,20,20,0.82);margin:0 0 1.5rem 0;">Stay where the race runs — accommodation across all six legs.</p>
+        <a href="../pages/accommodation.html?region=sagalla" class="btn-primary" style="display:inline-block;padding:0.6rem 1.5rem;background:var(--accent);color:var(--deep);text-decoration:none;border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:0.04em;cursor:pointer;transition:background 0.12s ease;">Browse accommodation →</a>
+    </div>
+</section>
+</body>
+</html>
