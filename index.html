@@ -892,5 +892,94 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+  <!-- Stats Integration -->
+<script>
+// Fetch and display real-time stats
+async function fetchStats() {
+    try {
+        const res = await fetch('/stats.php');
+        const data = await res.json();
+        
+        if (!data.success) {
+            console.error('Stats error:', data.error);
+            return;
+        }
+        
+        // Update total riders in stat bar
+        const ridersStat = document.getElementById('riders-stat');
+        if (ridersStat) {
+            ridersStat.textContent = data.total_riders;
+        }
+        
+        // Update ticket counter
+        const ticketCounter = document.getElementById('ticket-counter');
+        if (ticketCounter) {
+            ticketCounter.textContent = data.total_riders;
+        }
+        
+        // Update Elite pool
+        const elitePoolEl = document.getElementById('elite-pool-total');
+        const eliteCountEl = document.getElementById('elite-count');
+        if (elitePoolEl) {
+            elitePoolEl.textContent = 'KES ' + data.elite_pool.toLocaleString();
+        }
+        if (eliteCountEl) {
+            eliteCountEl.textContent = data.elite_count;
+        }
+        
+        // Update Amateur pool
+        const amateurPoolEl = document.getElementById('amateur-pool-total');
+        const amateurCountEl = document.getElementById('amateur-count');
+        if (amateurPoolEl) {
+            amateurPoolEl.textContent = 'KES ' + data.amateur_pool.toLocaleString();
+        }
+        if (amateurCountEl) {
+            amateurCountEl.textContent = data.amateur_count;
+        }
+        
+        // Update Open count
+        const openCountEl = document.getElementById('open-count');
+        if (openCountEl) {
+            openCountEl.textContent = data.open_count;
+        }
+        
+        // Render per-leg prizes with separate Elite and Amateur columns
+        const container = document.getElementById('per-leg-prizes');
+        if (container && data.per_leg.length > 0) {
+            container.innerHTML = data.per_leg.map(leg => `
+                <div style="border:1px solid var(--line);padding:0.6rem 0.8rem;background:var(--paper);">
+                    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;font-size:0.85rem;">${leg.leg}</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.3rem;font-size:0.7rem;font-family:'IBM Plex Mono',monospace;margin-top:0.2rem;">
+                        <div>
+                            <span style="color:rgba(20,20,20,0.5);">Elite:</span>
+                            <span style="color:var(--accent-deep);">${leg.elite_count}</span>
+                            <span style="color:rgba(20,20,20,0.3);">·</span>
+                            <span style="color:var(--accent-deep);">KES ${Number(leg.elite_pool).toLocaleString()}</span>
+                        </div>
+                        <div>
+                            <span style="color:rgba(20,20,20,0.5);">Amateur:</span>
+                            <span style="color:var(--accent-deep);">${leg.amateur_count}</span>
+                            <span style="color:rgba(20,20,20,0.3);">·</span>
+                            <span style="color:var(--accent-deep);">KES ${Number(leg.amateur_pool).toLocaleString()}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        } else if (container) {
+            container.innerHTML = '<p style="font-size:0.85rem;color:rgba(20,20,20,0.5);">No paid entries yet.</p>';
+        }
+        
+    } catch (err) {
+        console.error('Failed to fetch stats:', err);
+    }
+}
+
+// Load stats on page load and refresh every 30 seconds
+document.addEventListener('DOMContentLoaded', function() {
+    fetchStats();
+    setInterval(fetchStats, 30000);
+});
+</script>
+  
 </body>
 </html>
