@@ -8,46 +8,262 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../style.css">
 <style>
+  /* Page-specific refinements that stay within the existing design system */
+  .package-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  @media (max-width: 900px) {
+    .package-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .package-grid { grid-template-columns: 1fr; }
+  }
+
   .package-card {
     border: 2px solid var(--ink);
     background: #fff;
-    padding: 1.5rem;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    padding: 1.4rem 1.3rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
   }
   .package-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+    box-shadow: -3px 3px 0 var(--accent);
   }
-  .package-card .icon { font-size: 2.2rem; display: block; margin-bottom: 0.4rem; }
-  .package-card h3 { font-size: 1.2rem; margin-bottom: 0.2rem; }
-  .package-card .sub { font-size: 0.78rem; color: var(--accent-deep); font-family: 'IBM Plex Mono', monospace; }
-  .package-card p { font-size: 0.9rem; color: rgba(20,20,20,0.75); margin: 0.5rem 0; }
-  .package-card .features { font-size: 0.82rem; color: rgba(20,20,20,0.6); margin: 0.5rem 0; padding-left: 1.2rem; }
-  .package-card .features li { margin-bottom: 0.2rem; }
-  .package-card .cta-link { display: inline-block; margin-top: 0.6rem; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--accent-deep); text-decoration: none; }
-  .package-card .cta-link:hover { color: var(--deep); }
-  .package-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-  @media (max-width: 900px) { .package-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 600px) { .package-grid { grid-template-columns: 1fr; } }
-  .featured { border-color: var(--accent); background: rgba(242,140,15,0.04); }
+  .package-card.featured {
+    border-color: var(--accent);
+    background: rgba(242, 140, 15, 0.05);
+  }
+  .package-card .sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-deep);
+    margin-bottom: 0.55rem;
+  }
+  .package-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    margin: 0 0 0.35rem;
+    line-height: 1.05;
+  }
+  .package-card p {
+    font-size: 0.9rem;
+    color: rgba(20, 20, 20, 0.78);
+    margin: 0 0 0.7rem;
+    flex: 1;
+  }
+  .package-card .features {
+    font-size: 0.82rem;
+    color: rgba(20, 20, 20, 0.65);
+    margin: 0 0 1rem;
+    padding-left: 1.1rem;
+  }
+  .package-card .features li {
+    margin-bottom: 0.25rem;
+  }
+  .package-card .cta-link {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.95rem;
+    color: var(--accent-deep);
+    text-decoration: none;
+    margin-top: auto;
+  }
+  .package-card .cta-link:hover {
+    color: var(--deep);
+  }
+
+  .package-card.wide {
+    grid-column: 1 / -1;
+    border-color: var(--accent);
+    background: rgba(242, 140, 15, 0.06);
+  }
+
+  .signature-block {
+    background: var(--deep);
+    color: var(--cream);
+    padding: 3.2rem 1.5rem;
+    border-top: 4px solid var(--accent);
+    margin-top: 1rem;
+  }
+  .signature-block .eyebrow {
+    color: var(--accent);
+  }
+  .signature-block h2 {
+    color: var(--cream);
+  }
+  .signature-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    margin-top: 1.8rem;
+    text-align: left;
+  }
+  @media (max-width: 760px) {
+    .signature-steps { grid-template-columns: 1fr; }
+  }
+  .signature-step {
+    background: rgba(255, 255, 255, 0.06);
+    padding: 1.2rem;
+    border-left: 3px solid var(--accent);
+  }
+  .signature-step .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+  }
+  .signature-step h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: uppercase;
+    font-size: 1.05rem;
+    color: var(--cream);
+    margin: 0 0 0.35rem;
+  }
+  .signature-step p {
+    font-size: 0.85rem;
+    color: rgba(240, 219, 184, 0.72);
+    margin: 0;
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  @media (max-width: 760px) {
+    .why-grid { grid-template-columns: 1fr; }
+  }
+  .why-card {
+    border: 2px solid var(--ink);
+    background: #fff;
+    padding: 1.3rem 1.2rem;
+  }
+  .why-card h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    margin: 0 0 0.4rem;
+  }
+  .why-card p {
+    font-size: 0.88rem;
+    color: rgba(20, 20, 20, 0.72);
+    margin: 0;
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    text-align: center;
+  }
+  @media (max-width: 760px) {
+    .process-grid { grid-template-columns: 1fr; }
+  }
+  .process-step .num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-style: italic;
+    font-size: 2.4rem;
+    color: var(--accent-deep);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+  .process-step h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    margin: 0 0 0.4rem;
+  }
+  .process-step p {
+    font-size: 0.88rem;
+    color: rgba(20, 20, 20, 0.65);
+    margin: 0;
+  }
+
+  .cta-section {
+    text-align: center;
+    padding: 3.5rem 1.5rem;
+    border-top: 4px solid var(--accent);
+  }
+  .cta-section p.lead {
+    color: rgba(20, 20, 20, 0.7);
+    margin-bottom: 1.4rem;
+    max-width: 42ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cta-section .email {
+    font-size: 0.8rem;
+    color: rgba(20, 20, 20, 0.45);
+    margin-top: 0.9rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
 </style>
 </head>
 <body>
 
 <header>
   <div class="nav-inner">
-    <div class="brand"><img src="../logos/taita-taveta.png" alt="Tour of Taita Taveta Logo" class="main-logo"></div>
+    <div class="brand">
+      <img src="../logos/taita-taveta.png" alt="Tour of Taita Taveta Logo" class="main-logo">
+      <span>Tour of Taita&nbsp;Taveta</span>
+    </div>
     <nav class="links">
       <a href="../index.html#home">Home</a>
+      <a href="../index.html#about">About</a>
       <a href="../index.html#legs">Legs</a>
+      <div class="nav-dropdown">
+        <button type="button" class="nav-dropdown-trigger" onclick="this.parentElement.classList.toggle('open')" aria-expanded="false">Directory</button>
+        <div class="nav-dropdown-menu">
+          <a href="../index.html#ecosystem">Tour Events</a>
+          <a href="../index.html#ecosystem">Teams</a>
+          <a href="../index.html#ecosystem">Sponsors</a>
+          <a href="../index.html#ecosystem">Supporters</a>
+          <a href="../index.html#ecosystem">Partners</a>
+          <a href="../index.html#ecosystem">Advertisers</a>
+          <a href="../index.html#ecosystem">Media</a>
+          <a href="../index.html#ecosystem">Volunteers</a>
+          <a href="../info/organizers.html">Organizers</a>
+          <a href="corporate.html">Corporate Experiences</a>
+          <a href="../info/downloads.html">Downloads</a>
+          <a href="../info/rules.html">Rules & Regulations</a>
+          <a href="../info/magazine.html">Magazine</a>
+          <a href="../info/photo-album.html">Photo Album</a>
+          <a href="../info/videos.html">Video Gallery</a>
+        </div>
+      </div>
       <a href="../index.html#tickets">Register</a>
-      <a href="../pages/login.html">Log In</a>
-      <button id="theme-toggle" aria-label="Toggle dark mode" style="background:none;border:2px solid var(--olive-lt);color:var(--cream);cursor:pointer;font-size:1.1rem;padding:0.3rem 0.7rem;border-radius:4px;transition:all 0.2s ease;white-space:nowrap;">🌙</button>
+      <a href="corporate.html">Corporate</a>
+      <a href="../index.html#shop">Shop</a>
+      <a href="../index.html#gallery">Gallery</a>
+      <a href="login.html">Log In</a>
+      <button id="theme-toggle" aria-label="Toggle dark mode" style="background:none;border:2px solid var(--olive-lt);color:var(--cream);cursor:pointer;font-size:1.1rem;padding:0.3rem 0.7rem;border-radius:4px;transition:all 0.2s ease;white-space:nowrap;">
+        🌙
+      </button>
     </nav>
   </div>
 </header>
 
 <section class="region-hero" style="--hero-photo:url('../photo/corporate-hero.jpg');">
+  <a href="../index.html" class="back">← Back to Tour</a>
   <h1>Corporate Experiences</h1>
   <div class="meta">Take your team beyond the boardroom</div>
 </section>
@@ -56,12 +272,12 @@
 
   <!-- INTRO -->
   <section id="intro">
-    <div class="section-head" style="max-width:100%;">
+    <div class="section-head">
       <span class="eyebrow">The Tour of Taita Taveta</span>
       <h2>Sport. Tourism. Corporate.</h2>
-      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;max-width:62ch;">
-        The Tour remains a competitive cycling event at its core. Corporate Experiences extend 
-        the Tour beyond race day — allowing your team to experience the same landscapes, routes 
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">
+        The Tour remains a competitive cycling event at its core. Corporate Experiences extend
+        the Tour beyond race day — allowing your team to experience the same landscapes, routes
         and communities that make the competition unique.
       </p>
     </div>
@@ -72,16 +288,16 @@
     <div class="section-head">
       <span class="eyebrow">What We Offer</span>
       <h2>Choose Your Package</h2>
-      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">Each experience is custom-built for your team. Pick a starting point, and we'll design the rest.</p>
+      <p style="color:rgba(20,20,20,0.82);font-family:'Barlow',sans-serif;text-transform:none;font-weight:400;">
+        Each experience is custom-built for your team. Pick a starting point, and we'll design the rest.
+      </p>
     </div>
 
     <div class="package-grid">
 
-      <!-- 1. Corporate Cycling -->
       <div class="package-card featured">
-        <span class="icon"></span>
-        <h3>Corporate Cycling</h3>
         <div class="sub">Signature Experience</div>
+        <h3>Corporate Cycling</h3>
         <p>Experience the Tour from the saddle. A shorter, guided version of the actual race route.</p>
         <ul class="features">
           <li>Guided ride on Tour terrain</li>
@@ -93,11 +309,9 @@
         <a href="#contact" class="cta-link">Enquire →</a>
       </div>
 
-      <!-- 2. Team Building -->
       <div class="package-card">
-        <span class="icon"></span>
-        <h3>Team Building</h3>
         <div class="sub">Outdoor Challenges</div>
+        <h3>Team Building</h3>
         <p>Challenges designed around Taita Taveta's terrain — cycling, hiking, navigation and adventure.</p>
         <ul class="features">
           <li>Cycling challenges</li>
@@ -109,11 +323,9 @@
         <a href="#contact" class="cta-link">Enquire →</a>
       </div>
 
-      <!-- 3. Corporate Retreats -->
       <div class="package-card">
-        <span class="icon"></span>
-        <h3>Corporate Retreats</h3>
         <div class="sub">2–3 Day Packages</div>
+        <h3>Corporate Retreats</h3>
         <p>Accommodation, activities, tourism and team experiences combined into one package.</p>
         <ul class="features">
           <li>Accommodation coordination</li>
@@ -125,11 +337,9 @@
         <a href="#contact" class="cta-link">Enquire →</a>
       </div>
 
-      <!-- 4. Executive Experiences -->
       <div class="package-card">
-        <span class="icon"></span>
-        <h3>Executive Experiences</h3>
         <div class="sub">Premium</div>
+        <h3>Executive Experiences</h3>
         <p>Premium experiences for leadership teams, boards and VIP corporate guests.</p>
         <ul class="features">
           <li>Private transport &amp; guide</li>
@@ -141,11 +351,9 @@
         <a href="#contact" class="cta-link">Enquire →</a>
       </div>
 
-      <!-- 5. Strategy Retreats -->
       <div class="package-card">
-        <span class="icon"></span>
-        <h3>Strategy Retreats</h3>
         <div class="sub">Boardroom &amp; Beyond</div>
+        <h3>Strategy Retreats</h3>
         <p>Get your team out of the boardroom and into a destination built for perspective.</p>
         <ul class="features">
           <li>Strategy &amp; planning sessions</li>
@@ -157,11 +365,9 @@
         <a href="#contact" class="cta-link">Enquire →</a>
       </div>
 
-      <!-- 6. CSR & Conservation -->
       <div class="package-card">
-        <span class="icon"></span>
-        <h3>CSR &amp; Conservation</h3>
         <div class="sub">Community Impact</div>
+        <h3>CSR &amp; Conservation</h3>
         <p>Combine corporate travel with meaningful community and environmental engagement.</p>
         <ul class="features">
           <li>Tree planting &amp; restoration</li>
@@ -173,11 +379,9 @@
         <a href="#contact" class="cta-link">Enquire →</a>
       </div>
 
-      <!-- 7. Custom -->
-      <div class="package-card" style="border-color:var(--accent);background:rgba(242,140,15,0.06);grid-column:span 3;">
-        <span class="icon"></span>
-        <h3>Custom Experience</h3>
+      <div class="package-card wide">
         <div class="sub">Designed for You</div>
+        <h3>Custom Experience</h3>
         <p>None of these quite fit? Tell us what you want. We'll build a package around your team's specific needs.</p>
         <ul class="features">
           <li>Any combination of cycling, tourism, culture, adventure, retreat, CSR or hospitality</li>
@@ -191,33 +395,33 @@
   </section>
 
   <!-- THE TOUR WITHIN THE TOUR -->
-  <section id="tour-within-tour" style="background:var(--deep);color:var(--cream);padding:3rem 1.5rem;border-top:4px solid var(--accent);margin-top:2rem;">
+  <div class="signature-block">
     <div style="max-width:1180px;margin:0 auto;text-align:center;">
-      <span class="eyebrow" style="color:var(--accent);">Signature</span>
-      <h2 style="color:var(--cream);">The Tour Within the Tour</h2>
-      <p style="color:rgba(240,219,184,0.82);max-width:56ch;margin:0 auto 1.5rem;">
-        The annual Tour is the competitive flagship. Our Corporate Challenge lets your team 
+      <span class="eyebrow">Signature</span>
+      <h2>The Tour Within the Tour</h2>
+      <p style="color:rgba(240,219,184,0.82);max-width:56ch;margin:0 auto;">
+        The annual Tour is the competitive flagship. Our Corporate Challenge lets your team
         experience <strong>the Tour — without competing in the Tour.</strong>
       </p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;text-align:left;">
-        <div style="background:rgba(255,255,255,0.06);padding:1.2rem;border-left:3px solid var(--accent);">
-          <div style="font-size:0.7rem;color:var(--accent);font-family:'IBM Plex Mono',monospace;">01</div>
-          <h4 style="color:var(--cream);font-size:1rem;margin:0.3rem 0;">Form Your Team</h4>
-          <p style="font-size:0.85rem;color:rgba(240,219,184,0.7);">Employees form teams. They receive jerseys, numbers and a route briefing.</p>
+      <div class="signature-steps">
+        <div class="signature-step">
+          <div class="num">01</div>
+          <h4>Form Your Team</h4>
+          <p>Employees form teams. They receive jerseys, numbers and a route briefing.</p>
         </div>
-        <div style="background:rgba(255,255,255,0.06);padding:1.2rem;border-left:3px solid var(--accent);">
-          <div style="font-size:0.7rem;color:var(--accent);font-family:'IBM Plex Mono',monospace;">02</div>
-          <h4 style="color:var(--cream);font-size:1rem;margin:0.3rem 0;">Ride the Route</h4>
-          <p style="font-size:0.85rem;color:rgba(240,219,184,0.7);">A shorter, specially designed version of the actual Tour route.</p>
+        <div class="signature-step">
+          <div class="num">02</div>
+          <h4>Ride the Route</h4>
+          <p>A shorter, specially designed version of the actual Tour route.</p>
         </div>
-        <div style="background:rgba(255,255,255,0.06);padding:1.2rem;border-left:3px solid var(--accent);">
-          <div style="font-size:0.7rem;color:var(--accent);font-family:'IBM Plex Mono',monospace;">03</div>
-          <h4 style="color:var(--cream);font-size:1rem;margin:0.3rem 0;">Finish Like a Pro</h4>
-          <p style="font-size:0.85rem;color:rgba(240,219,184,0.7);">Timing, team classifications, challenges and a finish-line experience.</p>
+        <div class="signature-step">
+          <div class="num">03</div>
+          <h4>Finish Like a Pro</h4>
+          <p>Timing, team classifications, challenges and a finish-line experience.</p>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- WHY COMPANIES CHOOSE US -->
   <section id="why">
@@ -225,61 +429,54 @@
       <span class="eyebrow">Why Companies Choose Us</span>
       <h2>Not Generic Team Building</h2>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;">
-      <div style="border:2px solid var(--ink);padding:1.2rem;background:#fff;">
-        <div style="font-size:2rem;"></div>
-        <h4 style="font-size:1rem;margin:0.3rem 0;">Authentic</h4>
-        <p style="font-size:0.85rem;color:rgba(20,20,20,0.7);">You're not in a conference room. You're on the actual Tour terrain.</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <h4>Authentic</h4>
+        <p>You're not in a conference room. You're on the actual Tour terrain.</p>
       </div>
-      <div style="border:2px solid var(--ink);padding:1.2rem;background:#fff;">
-        <div style="font-size:2rem;"></div>
-        <h4 style="font-size:1rem;margin:0.3rem 0;">Cycling DNA</h4>
-        <p style="font-size:0.85rem;color:rgba(20,20,20,0.7);">The corporate product is visibly connected to the actual Tour.</p>
+      <div class="why-card">
+        <h4>Cycling DNA</h4>
+        <p>The corporate product is visibly connected to the actual Tour.</p>
       </div>
-      <div style="border:2px solid var(--ink);padding:1.2rem;background:#fff;">
-        <div style="font-size:2rem;"></div>
-        <h4 style="font-size:1rem;margin:0.3rem 0;">End-to-End</h4>
-        <p style="font-size:0.85rem;color:rgba(20,20,20,0.7);">One contact point. We coordinate everything — transport, accommodation, activities.</p>
+      <div class="why-card">
+        <h4>End-to-End</h4>
+        <p>One contact point. We coordinate everything — transport, accommodation, activities.</p>
       </div>
     </div>
   </section>
 
   <!-- HOW IT WORKS -->
-  <section id="how-it-works" style="background:var(--paper);padding:3rem 1.5rem;border-top:2px solid var(--line);">
-    <div style="max-width:1180px;margin:0 auto;">
-      <div class="section-head">
-        <span class="eyebrow">Simple Process</span>
-        <h2>How It Works</h2>
+  <section id="how-it-works" style="background:var(--paper);border-top:1px solid var(--line);">
+    <div class="section-head">
+      <span class="eyebrow">Simple Process</span>
+      <h2>How It Works</h2>
+    </div>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="num">1</div>
+        <h4>Tell Us What You Want</h4>
+        <p>Call, email or fill out the form. Share your team size, objectives and preferred dates.</p>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;text-align:center;">
-        <div>
-          <div style="font-size:2.5rem;font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--accent-deep);">1</div>
-          <h4 style="font-size:1rem;margin:0.3rem 0;">Tell Us What You Want</h4>
-          <p style="font-size:0.85rem;color:rgba(20,20,20,0.6);">Call, email or fill out the form. Share your team size, objectives and preferred dates.</p>
-        </div>
-        <div>
-          <div style="font-size:2.5rem;font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--accent-deep);">2</div>
-          <h4 style="font-size:1rem;margin:0.3rem 0;">We Build Your Package</h4>
-          <p style="font-size:0.85rem;color:rgba(20,20,20,0.6);">We coordinate accommodation, transport, guides, activities and meals — all in one package.</p>
-        </div>
-        <div>
-          <div style="font-size:2.5rem;font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--accent-deep);">3</div>
-          <h4 style="font-size:1rem;margin:0.3rem 0;">Experience Taita Taveta</h4>
-          <p style="font-size:0.85rem;color:rgba(20,20,20,0.6);">Your team arrives. We handle the rest. You focus on your people and the experience.</p>
-        </div>
+      <div class="process-step">
+        <div class="num">2</div>
+        <h4>We Build Your Package</h4>
+        <p>We coordinate accommodation, transport, guides, activities and meals — all in one package.</p>
+      </div>
+      <div class="process-step">
+        <div class="num">3</div>
+        <h4>Experience Taita Taveta</h4>
+        <p>Your team arrives. We handle the rest. You focus on your people and the experience.</p>
       </div>
     </div>
   </section>
 
   <!-- CTA -->
-  <section id="contact" style="text-align:center;padding:3rem 1.5rem;border-top:4px solid var(--accent);">
-    <div style="max-width:580px;margin:0 auto;">
-      <span class="eyebrow">Get Started</span>
-      <h2>Design Your Corporate Experience</h2>
-      <p style="color:rgba(20,20,20,0.7);margin-bottom:1.5rem;">Tell us what you want. We'll build it.</p>
-      <a href="#" class="btn-primary" style="display:inline-block;padding:0.8rem 2.5rem;background:var(--accent);color:var(--deep);text-decoration:none;border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;text-transform:uppercase;letter-spacing:0.04em;cursor:pointer;transition:background 0.12s ease;">Contact Us →</a>
-      <p style="font-size:0.8rem;color:rgba(20,20,20,0.4);margin-top:0.8rem;">corporate@touroftaitataveta.co.ke</p>
-    </div>
+  <section id="contact" class="cta-section">
+    <span class="eyebrow">Get Started</span>
+    <h2>Design Your Corporate Experience</h2>
+    <p class="lead">Tell us what you want. We'll build it.</p>
+    <a href="mailto:corporate@touroftaitataveta.co.ke" class="btn btn-primary">Contact Us →</a>
+    <p class="email">corporate@touroftaitataveta.co.ke</p>
   </section>
 
 </main>
@@ -290,27 +487,27 @@
 </footer>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const toggleBtn = document.getElementById('theme-toggle');
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    if (currentTheme === 'dark') {
+document.addEventListener('DOMContentLoaded', function() {
+  const toggleBtn = document.getElementById('theme-toggle');
+  const currentTheme = localStorage.getItem('theme') || 'light';
+  if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    toggleBtn.textContent = '☀️';
+  }
+  toggleBtn.addEventListener('click', function() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    if (theme === 'dark') {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      toggleBtn.textContent = '🌙';
+    } else {
       document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
       toggleBtn.textContent = '☀️';
     }
-    toggleBtn.addEventListener('click', function() {
-      const theme = document.documentElement.getAttribute('data-theme');
-      if (theme === 'dark') {
-        document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
-        toggleBtn.textContent = '🌙';
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-        toggleBtn.textContent = '☀️';
-      }
-    });
   });
+});
 </script>
 
 </body>
-          </html>
+</html>
