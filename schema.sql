@@ -105,6 +105,10 @@ CREATE TABLE IF NOT EXISTS properties (
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+-- =============================================
+-- BOOKINGS TABLE (UPDATED WITH CANCELLATION/REFUND SUPPORT)
+-- =============================================
+
 CREATE TABLE IF NOT EXISTS bookings (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     checkout_request_id TEXT UNIQUE,
@@ -117,11 +121,30 @@ CREATE TABLE IF NOT EXISTS bookings (
     total_amount INTEGER NOT NULL,      -- what the guest actually pays, in full
     platform_fee INTEGER NOT NULL,      -- 20% of total_amount, TTTT's cut
     host_payout_amount INTEGER NOT NULL, -- 80% of total_amount, owed to the host
-    status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','paid','failed')),
+    status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','paid','failed','cancelled','refunded')),
     payout_status TEXT NOT NULL DEFAULT 'not_paid' CHECK(payout_status IN ('not_paid','paid_out')),
+    -- New: refund tracking, same manual-confirmation pattern as payout_status.
+    -- "owed" means the guest is due money back but it hasn't been sent yet —
+    -- there's no automated M-Pesa reversal here, someone has to actually
+    -- send it and then mark it "sent".
+    refund_amount INTEGER NOT NULL DEFAULT 0,
+    refund_status TEXT NOT NULL DEFAULT 'not_applicable' CHECK(refund_status IN ('not_applicable','owed','sent')),
     mpesa_receipt TEXT,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- New: a simple audit trail — who cancelled what, when, and why.
+-- Read-only history, nothing in the app depends on this table beyond
+-- logging to it.
+CREATE TABLE IF NOT EXISTS booking_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    booking_id INTEGER NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
+    event_type TEXT NOT NULL CHECK(event_type IN ('cancellation', 'refund_sent', 'payout_sent')),
+    amount INTEGER NOT NULL DEFAULT 0,
+    reason TEXT,
+    initiated_by TEXT, -- 'guest', 'host', 'admin' — always a person, never 'cron' or 'system'
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- =============================================
@@ -227,3 +250,7 @@ CREATE INDEX IF NOT EXISTS idx_properties_host ON properties(host_user_id);
 CREATE INDEX IF NOT EXISTS idx_bookings_status ON bookings(status);
 CREATE INDEX IF NOT EXISTS idx_bookings_property ON bookings(property_id);
 CREATE INDEX IF NOT EXISTS idx_bookings_payout ON bookings(status, payout_status);
+
+-- New cancellation/refund indexes
+CREATE INDEX IF NOT EXISTS idx_bookings_refund ON bookings(status, refund_status);
+CREATE INDEX IF NOT EXISTS idx_booking_events_booking ON booking_events(booking_id);
