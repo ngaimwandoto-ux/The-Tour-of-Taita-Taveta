@@ -24,4 +24,13 @@ define('MPESA_PASSKEY',   'REPLACE_WITH_YOUR_PASSKEY');
 // Must be a publicly reachable HTTPS URL once deployed.
 define('MPESA_CALLBACK_URL', 'https://yourdomain.co.ke/callback.php');
 
-define('MPESA_ACCOUNT_REFERENCE', 'TourTaveta');
+// Account references shown on the customer's STK PIN prompt and on your
+// paybill statement — Safaricom caps AccountReference at 12 characters.
+// These do NOT create separate Safaricom sub-accounts (it's still one
+// paybill balance) — they're just labels. The real per-category totals
+// come from the registrations / visits / donations / bookings tables,
+// each tracked independently in the database regardless of this value.
+define('MPESA_ACCOUNT_REF_REGISTRATION', 'TTTT-REG');
+define('MPESA_ACCOUNT_REF_VISITATION',   'TTTT-VISIT');
+define('MPESA_ACCOUNT_REF_BOOKING',      'TTTT-STAY');
+define('MPESA_ACCOUNT_REF_DONATION',     'TTTT-DONATE');

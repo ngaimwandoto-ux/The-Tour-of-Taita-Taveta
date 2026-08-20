@@ -53,7 +53,7 @@ try {
     $result = mpesaStkPush(
         $msisdn,
         $amount,
-        MPESA_ACCOUNT_REFERENCE,
+        MPESA_ACCOUNT_REF_REGISTRATION,
         'Tour of Taita Taveta - ' . $leg . ' - ' . $ticket . ' (' . $gender . ')'
     );
 
