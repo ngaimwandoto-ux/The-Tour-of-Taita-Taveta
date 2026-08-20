@@ -28,8 +28,8 @@
 </header>
 
 <section class="region-hero">
-  <h1>Accommodation</h1>
-  <div class="meta">Local homestays and self-contained units, for race weekends and beyond</div>
+  <h1 id="accommodation-title">Accommodation</h1>
+  <div class="meta" id="accommodation-meta">Local homestays and self-contained units, for race weekends and beyond</div>
 </section>
 
 <main>
@@ -72,17 +72,65 @@
 <script>
   let selectedProperty = null;
 
+  // Region is free text a host types in (see schema: "Sagalla", "Wundanyi", etc.
+  // — not locked to the 6/7 leg names), so the ?region= slug from a leg page's
+  // CTA is matched loosely against keywords rather than compared for equality.
+  // This also covers the case where a host lists their property under the
+  // nearest town (e.g. "Wundanyi") instead of the leg name ("Mbale").
+  const LEG_FILTERS = {
+    'sagalla':       { label: 'Sagalla',        keywords: ['sagalla'] },
+    'vuria-wusi':    { label: 'Vuria / Wusi',    keywords: ['vuria', 'wusi'] },
+    'bura':          { label: 'Bura',            keywords: ['bura'] },
+    'kasighau':      { label: 'Kasighau',        keywords: ['kasighau', 'kasigau'] },
+    'mbololo-ronge': { label: 'Mbololo / Ronge', keywords: ['mbololo', 'ronge'] },
+    'mbale':         { label: 'Mbale',           keywords: ['mbale', 'wundanyi', 'wesu'] },
+    'funju':         { label: 'Funju',           keywords: ['funju'] },
+  };
+
+  function getActiveRegionFilter() {
+    const slug = new URLSearchParams(window.location.search).get('region');
+    return slug && LEG_FILTERS[slug] ? { slug, ...LEG_FILTERS[slug] } : null;
+  }
+
+  function propertyMatchesFilter(property, filter) {
+    const region = (property.region || '').toLowerCase();
+    return filter.keywords.some(k => region.includes(k));
+  }
+
+  function applyRegionHeader(filter, matchCount) {
+    if (!filter) return;
+    const titleEl = document.getElementById('accommodation-title');
+    const metaEl = document.getElementById('accommodation-meta');
+    titleEl.textContent = `Accommodation — ${filter.label}`;
+    metaEl.innerHTML = matchCount > 0
+      ? `Showing places near the ${filter.label} leg. <a href="accommodation.html">View all properties</a>`
+      : `No listed properties near ${filter.label} yet. <a href="accommodation.html">View all properties</a> instead.`;
+  }
+
   async function loadProperties() {
     const res = await fetch('/api/index.php?endpoint=properties');
     const data = await res.json();
     const list = document.getElementById('properties-list');
+    const filter = getActiveRegionFilter();
 
     if (!data.success || data.properties.length === 0) {
-      list.innerHTML = '<p style="color:rgba(20,20,20,0.5);">No properties listed yet — check back soon, or <a href="pages/list-property.html">list your own</a>.</p>';
+      applyRegionHeader(filter, 0);
+      list.innerHTML = '<p style="color:rgba(20,20,20,0.5);">No properties listed yet — check back soon, or <a href="list-property.html">list your own</a>.</p>';
       return;
     }
 
-    list.innerHTML = data.properties.map(p => `
+    const properties = filter
+      ? data.properties.filter(p => propertyMatchesFilter(p, filter))
+      : data.properties;
+
+    applyRegionHeader(filter, properties.length);
+
+    if (properties.length === 0) {
+      list.innerHTML = '<p style="color:rgba(20,20,20,0.5);">No properties listed for this leg yet — check back soon, or <a href="list-property.html">list your own</a>.</p>';
+      return;
+    }
+
+    list.innerHTML = properties.map(p => `
       <div class="prop-card">
         <h3>${p.name}</h3>
         <div class="prop-meta">${p.region} · KES ${Number(p.price_per_night).toLocaleString()}/night · Sleeps ${p.capacity}${p.meals_included ? ' · Meals included' : ''}</div>
