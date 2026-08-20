@@ -55,6 +55,29 @@
     <div class="route-note">This leg tops out near Vuria Peak, the county's highest point at 2,228m, reached via Wundanyi and Mwanda. Route maps for this leg are finalised and reconfirmed with the county and local conservancies before each edition — check back closer to race day for the exact GPX file and road closures.</div>
   </section>
 
+  <!-- ============================================ -->
+  <!-- LEG PRIZE POOL SECTION                       -->
+  <!-- ============================================ -->
+  <section id="leg-prize" style="margin:1.5rem 0;padding:1rem;border:2px solid var(--accent);background:rgba(242,140,15,0.06);">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+      <div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;text-transform:uppercase;color:rgba(20,20,20,0.5);">This Leg</span>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.8rem;color:var(--accent-deep);" id="leg-prize-total">KES 0</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:rgba(20,20,20,0.5);">Total Prize Pool</div>
+      </div>
+      <div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;text-transform:uppercase;color:rgba(20,20,20,0.5);">Elite</span>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.2rem;color:var(--accent-deep);" id="leg-elite-pool">KES 0</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:rgba(20,20,20,0.5);"><span id="leg-elite-count">0</span> riders</div>
+      </div>
+      <div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;text-transform:uppercase;color:rgba(20,20,20,0.5);">Amateur</span>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.2rem;color:var(--accent-deep);" id="leg-amateur-pool">KES 0</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:rgba(20,20,20,0.5);"><span id="leg-amateur-count">0</span> riders</div>
+      </div>
+    </div>
+  </section>
+
   <section id="conservation">
     <div class="section-head">
       <span class="eyebrow">Conservation</span>
@@ -455,6 +478,46 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+<!-- Leg Prize Pool Script -->
+<script>
+// Fetch and display leg-specific prize pool
+async function fetchLegStats() {
+    try {
+        const res = await fetch('/stats.php');
+        const data = await res.json();
+        
+        if (!data.success || !Array.isArray(data.per_leg)) {
+            console.error('Stats API returned an unexpected shape:', data);
+            return;
+        }
+        
+        // Get current leg name from the page
+        const legName = 'Vuria/Wusi';
+        
+        // Find this leg in the per-leg data
+        const legData = data.per_leg.find(l => l.leg === legName);
+        
+        if (legData) {
+            const totalEl = document.getElementById('leg-prize-total');
+            const elitePoolEl = document.getElementById('leg-elite-pool');
+            const amateurPoolEl = document.getElementById('leg-amateur-pool');
+            const eliteCountEl = document.getElementById('leg-elite-count');
+            const amateurCountEl = document.getElementById('leg-amateur-count');
+            
+            if (totalEl) totalEl.textContent = 'KES ' + Number(legData.leg_prize_pool).toLocaleString();
+            if (elitePoolEl) elitePoolEl.textContent = 'KES ' + Number(legData.elite_pool).toLocaleString();
+            if (amateurPoolEl) amateurPoolEl.textContent = 'KES ' + Number(legData.amateur_pool).toLocaleString();
+            if (eliteCountEl) eliteCountEl.textContent = legData.elite_count;
+            if (amateurCountEl) amateurCountEl.textContent = legData.amateur_count;
+        }
+    } catch (err) {
+        console.error('Failed to fetch leg stats:', err);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', fetchLegStats);
+</script>
+
 <!-- ============================================ -->
 <!-- ACCOMMODATION CTA                            -->
 <!-- ============================================ -->
@@ -462,7 +525,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div style="max-width:1180px;margin:0 auto;">
         <span class="eyebrow">Stay</span>
         <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:0.01em;font-size:clamp(2rem,4.5vw,3.2rem);margin:0 0 0.2rem 0;">Hotels, Lodges, Camps &amp; Homestays</h2>
-        <p style="font-family:'Barlow',sans-serif;font-size:1rem;color:rgba(20,20,20,0.82);margin:0 0 1.5rem 0;">Stay where the race runs — accommodation across all six legs.</p>
+        <p style="font-family:'Barlow',sans-serif;font-size:1rem;color:rgba(20,20,20,0.82);margin:0 0 1.5rem 0;">Stay where the race runs — accommodation across all seven legs.</p>
         <a href="../pages/accommodation.html?region=vuria-wusi" class="btn-primary" style="display:inline-block;padding:0.6rem 1.5rem;background:var(--accent);color:var(--deep);text-decoration:none;border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:0.04em;cursor:pointer;transition:background 0.12s ease;">Browse accommodation →</a>
     </div>
 </section>
