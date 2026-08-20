@@ -69,7 +69,7 @@ try {
     $result = mpesaStkPush(
         $msisdn,
         $amount,
-        MPESA_ACCOUNT_REFERENCE,
+        MPESA_ACCOUNT_REF_DONATION,
         'Support donation - ' . $scope . ' (' . $tier . ')'
     );
 

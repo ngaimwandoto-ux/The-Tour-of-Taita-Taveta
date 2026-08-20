@@ -64,7 +64,7 @@ try {
     $result = mpesaStkPush(
         $msisdn,
         $totalAmount,
-        MPESA_ACCOUNT_REFERENCE,
+        MPESA_ACCOUNT_REF_BOOKING,
         'Booking - ' . $property['name'] . ' (' . $nights . ' nights)'
     );
 
