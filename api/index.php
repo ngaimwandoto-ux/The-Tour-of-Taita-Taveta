@@ -1,7 +1,9 @@
 <?php
 /**
  * api/index.php
+ *
  * Single entry point: /api/index.php?endpoint=login etc.
+ * Point your web server at this file, or route /api/* to it.
  */
 
 require_once __DIR__ . '/../config.php';
@@ -9,8 +11,8 @@ require_once __DIR__ . '/../includes/database.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/messaging.php';
 require_once __DIR__ . '/../includes/directory.php';
-require_once __DIR__ . '/../includes/accommodation.php';
 
+// ---- CORS: locked to real origins, never a wildcard ----
 $allowedOrigins = array_filter(array_map('trim', explode(',', CORS_ALLOWED_ORIGINS)));
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 if (in_array($origin, $allowedOrigins, true)) {
@@ -32,9 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $auth = new Auth();
 $messaging = new Messaging();
 $directory = new Directory();
-$accommodation = new Accommodation();
 $method = $_SERVER['REQUEST_METHOD'];
 $endpoint = $_GET['endpoint'] ?? '';
+// Logo upload is multipart/form-data, not JSON — don't try to parse the
+// body as JSON for that endpoint (php://input is empty for file uploads
+// anyway; the file lives in $_FILES).
 $input = ($endpoint === 'upload-logo') ? [] : (json_decode(file_get_contents('php://input'), true) ?: []);
 $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 
@@ -72,7 +76,7 @@ try {
             echo json_encode(['success' => true, 'user' => $currentUser]);
             break;
 
-        // ---------------- Messaging (auth required) ----------------
+        // ---------------- Messaging (all require auth) ----------------
 
         case $endpoint === 'find-user' && $method === 'GET':
             if (!requireAuth($currentUserId)) break;
@@ -110,70 +114,14 @@ try {
         // ---------------- Directory ----------------
 
         case $endpoint === 'directory' && $method === 'GET':
+            // Public — no auth. Only returns already-approved entries.
             echo json_encode(['success' => true, 'listings' => $directory->getAllPublicListings()]);
             break;
 
         case $endpoint === 'upload-logo' && $method === 'POST':
             if (!requireAuth($currentUserId)) break;
-            echo json_encode($directory->uploadLogo($currentUserId, $currentUser['account_type'], $_FILES['logo'] ?? []));
-            break;
-
-        // ---------------- Teams ----------------
-
-        case $endpoint === 'list-teams' && $method === 'GET':
-            echo json_encode(['success' => true, 'teams' => $directory->listTeams()]);
-            break;
-
-        case $endpoint === 'my-team' && $method === 'GET':
-            if (!requireAuth($currentUserId)) break;
-            $team = $directory->getTeamByCaptain($currentUserId);
-            echo json_encode($team
-                ? ['success' => true, 'team' => $team]
-                : ['success' => false, 'error' => 'No team found for this account.']);
-            break;
-
-        case $endpoint === 'team' && $method === 'GET':
-            $team = $directory->getTeamBySlugWithRoster($_GET['slug'] ?? '');
-            echo json_encode($team
-                ? ['success' => true, 'team' => $team]
-                : ['success' => false, 'error' => 'Team not found.']);
-            break;
-
-        // ---------------- Accommodation ----------------
-
-        case $endpoint === 'properties' && $method === 'GET':
-            // Public — the accommodation page's real listings.
-            echo json_encode(['success' => true, 'properties' => $accommodation->getPublicListings()]);
-            break;
-
-        case $endpoint === 'register-property' && $method === 'POST':
-            if (!requireAuth($currentUserId)) break;
-            if ($currentUser['account_type'] !== 'host') {
-                http_response_code(403);
-                echo json_encode(['success' => false, 'error' => 'Only host accounts can register properties.']);
-                break;
-            }
-            echo json_encode($accommodation->registerProperty($currentUserId, $input));
-            break;
-
-        case $endpoint === 'my-properties' && $method === 'GET':
-            if (!requireAuth($currentUserId)) break;
-            echo json_encode(['success' => true, 'properties' => $accommodation->getMyProperties($currentUserId)]);
-            break;
-
-        case $endpoint === 'cancel-booking' && $method === 'POST':
-            if (!requireAuth($currentUserId)) break;
-            $bookingId = (int) ($input['booking_id'] ?? 0);
-            $reason = trim($input['reason'] ?? '');
-            // NOTE: this doesn't yet check that $currentUserId actually
-            // owns the booking or its property — bookings are currently
-            // guest-checkout with no account link, so there's no "guest
-            // account" to check against. For now this endpoint is really
-            // only safe to expose to HOST accounts cancelling a booking
-            // on their own property, or left admin-only via
-            // admin/bookings.php. Tighten this before exposing it to
-            // guests directly.
-            echo json_encode($accommodation->processCancellation($bookingId, $reason, 'host'));
+            $result = $directory->uploadLogo($currentUserId, $currentUser['account_type'], $_FILES['logo'] ?? []);
+            echo json_encode($result);
             break;
 
         default:
