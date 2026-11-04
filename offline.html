@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#F28C0F">
+<title>Offline — Tour of Taita Taveta</title>
+<style>
+  /* Fully self-contained: this page must render with no network at all. */
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;
+       background:#13100C;color:#F0DBB8;font-family:'Barlow',system-ui,-apple-system,'Segoe UI',sans-serif;text-align:center}
+  main{max-width:420px}
+  img{width:96px;height:96px;margin:0 auto 1.2rem;display:block}
+  h1{font-family:'Barlow Condensed','Arial Narrow',Impact,sans-serif;font-style:italic;text-transform:uppercase;
+     font-size:2.4rem;line-height:.95;margin:0 0 .8rem}
+  h1 span{color:#F28C0F}
+  p{margin:.5rem 0;color:rgba(240,219,184,.82);line-height:1.5}
+  .note{font-size:.85rem;color:rgba(240,219,184,.6);margin-top:1.2rem}
+  button{margin-top:1.4rem;background:#F28C0F;color:#13100C;border:0;padding:.85rem 1.7rem;
+         font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:.95rem;cursor:pointer;font-family:inherit}
+</style>
+</head>
+<body>
+<main>
+  <img src="icons/icon-192.png" alt="Tour of Taita Taveta logo">
+  <h1>You're <span>off the grid</span></h1>
+  <p>No signal here — the hills of Taita Taveta will do that. Pages you've already opened are still available; this one needs a connection.</p>
+  <p class="note">Registration, M-Pesa payments, bookings and messages need a live connection, so they won't work until you're back online.</p>
+  <button onclick="location.reload()">Try again</button>
+</main>
+<script>
+  window.addEventListener('online', function(){ location.reload(); });
+</script>
+</body>
+</html>

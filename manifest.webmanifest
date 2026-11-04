@@ -1,0 +1,24 @@
+{
+  "id": "./",
+  "name": "Tour of Taita Taveta",
+  "short_name": "TTTT",
+  "description": "Attitude Meets Altitude — the mountain-biking tour of Taita Taveta County, Kenya. Legs, registration, visit sites and stays.",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#13100C",
+  "theme_color": "#F28C0F",
+  "lang": "en",
+  "categories": ["sports", "travel"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Register to Ride", "short_name": "Register", "url": "index.html#tickets", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "The Six Legs", "short_name": "Legs", "url": "index.html#legs", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Log In", "short_name": "Log In", "url": "pages/login.html", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
