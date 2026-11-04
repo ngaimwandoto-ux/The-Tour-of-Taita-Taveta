@@ -6,7 +6,7 @@
  * and the account pages (/pages/). That keeps M-Pesa, login, messaging,
  * bookings and admin always live — a stale copy of those would be wrong
  * or unsafe. */
-const VERSION = 'tttt-v1';
+const VERSION = 'tttt-v2';
 const SHELL_CACHE = VERSION + '-shell';
 const RUNTIME_CACHE = VERSION + '-runtime';
 const MAX_RUNTIME_ENTRIES = 80;
