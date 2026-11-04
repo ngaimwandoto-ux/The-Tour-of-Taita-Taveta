@@ -5,9 +5,11 @@
  * STK Push. Requires mpesa-config.php (copy mpesa-config.example.php first
  * and fill in your real credentials — see that file for instructions).
  *
- * UPDATED: once Safaricom returns a CheckoutRequestID, this now saves the
- * registration as "pending" in the database. callback.php marks it "paid"
- * once Safaricom confirms the payment went through.
+ * Once Safaricom returns a CheckoutRequestID, the registration is saved as
+ * "pending". callback.php marks it "paid" once Safaricom confirms payment.
+ *
+ * UPDATED: College & University tier, optional team_id, server-side
+ * check of the entry fee.
  */
 
 header('Content-Type: application/json');
@@ -24,29 +26,55 @@ if (!file_exists($configPath)) {
 require $configPath;
 require __DIR__ . '/mpesa-common.php';
 require __DIR__ . '/includes/database.php';
+require __DIR__ . '/includes/registration-columns.php';
+
+// ---- Entry fees ----
+// The ONE place the server checks the amount. Keep in step with the
+// data-price on each tier in index.html (the page only displays them; this
+// is what is actually charged, so nobody can pay less by editing the page,
+// and the public prize-pool totals can't be skewed).
+$ENTRY_FEES = [
+    'elite'   => 3000,
+    'amateur' => 1500,
+    'open'    => 500,
+    'college' => 1000,   // College & University tier — PLACEHOLDER, set the real fee
+];
 
 // ---- Read + validate input ----
-$input = json_decode(file_get_contents('php://input'), true);
+$input = json_decode(file_get_contents('php://input'), true) ?: [];
 
-$name   = trim($input['name']   ?? '');
-$email  = trim($input['email']  ?? '');
-$phone  = trim($input['phone']  ?? '');
-$ticket = trim($input['ticket'] ?? '');
-$leg    = trim($input['leg']    ?? '');
-$gender = trim($input['gender'] ?? '');
-$amount = (int)($input['amount'] ?? 0);
+$name        = trim($input['name']   ?? '');
+$email       = trim($input['email']  ?? '');
+$phone       = trim($input['phone']  ?? '');
+$ticket      = strtolower(trim($input['ticket'] ?? ''));
+$leg         = trim($input['leg']    ?? '');
+$gender      = trim($input['gender'] ?? '');
+$amount      = (int)($input['amount'] ?? 0);
+$teamId      = (isset($input['team_id']) && $input['team_id'] !== '' && $input['team_id'] !== null) ? (int)$input['team_id'] : null;
+$institution = mb_substr(trim($input['institution'] ?? ''), 0, 120);
+
+function regFail(string $msg): void {
+    http_response_code(400);
+    echo json_encode(['ResponseCode' => '1', 'ResponseDescription' => $msg]);
+    exit;
+}
 
 if ($name === '' || $email === '' || $amount <= 0) {
-    http_response_code(400);
-    echo json_encode(['ResponseCode' => '1', 'ResponseDescription' => 'Missing required registration fields.']);
-    exit;
+    regFail('Missing required registration fields.');
+}
+if (!isset($ENTRY_FEES[$ticket])) {
+    regFail('Unknown registration category.');
+}
+if ($amount !== $ENTRY_FEES[$ticket]) {
+    regFail('The entry fee has changed — please refresh the page and try again.');
+}
+if ($ticket === 'college' && $institution === '') {
+    regFail('Enter your college or university name.');
 }
 
 $msisdn = mpesaNormalisePhone($phone);
 if ($msisdn === null) {
-    http_response_code(400);
-    echo json_encode(['ResponseCode' => '1', 'ResponseDescription' => 'Invalid phone number format.']);
-    exit;
+    regFail('Invalid phone number format.');
 }
 
 try {
@@ -62,11 +90,23 @@ try {
     $checkoutRequestId = $result['CheckoutRequestID'] ?? null;
     if ($checkoutRequestId) {
         $db = Database::getInstance()->getConnection();
+        ensureRegistrationColumns($db);
+
+        // Optional team: keep it only if it is a real, approved team.
+        if ($teamId !== null) {
+            $t = $db->prepare("SELECT id FROM teams WHERE id = ? AND is_public = 1");
+            $t->execute([$teamId]);
+            if (!$t->fetch()) { $teamId = null; }
+        }
+
         $stmt = $db->prepare("
-            INSERT INTO registrations (checkout_request_id, name, email, phone, ticket, leg, gender, amount, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+            INSERT INTO registrations (checkout_request_id, name, email, phone, ticket, leg, gender, amount, status, team_id, institution)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)
         ");
-        $stmt->execute([$checkoutRequestId, $name, $email, $msisdn, $ticket, $leg, $gender, $amount]);
+        $stmt->execute([
+            $checkoutRequestId, $name, $email, $msisdn, $ticket, $leg, $gender, $amount,
+            $teamId, ($ticket === 'college' ? $institution : null),
+        ]);
     }
 
     echo json_encode($result);
