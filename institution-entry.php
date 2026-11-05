@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require __DIR__ . '/includes/database.php';
 require __DIR__ . '/includes/institutions.php';
 require __DIR__ . '/includes/leg-schedule.php';
+require __DIR__ . '/includes/mailer.php';
 
 function instFail(string $msg, int $code = 400): void {
     http_response_code($code);
@@ -79,12 +80,20 @@ try {
     $st->execute([$institution, $teamName, $contact, $email, $phone, $riders, $leg, $assumed, $ip]);
     $id = (int) $db->lastInsertId();
 
-    echo json_encode([
+    $reply = json_encode([
         'success' => true,
         'reference' => 'INST-' . str_pad((string) $id, 4, '0', STR_PAD_LEFT),
         'leg' => $leg,
         'leg_assumed' => $assumed === 1,
     ]);
+
+    // Reply to the visitor first, then send the emails (they never wait on the mail server).
+    $row = ['id' => $id, 'institution' => $institution, 'team_name' => $teamName, 'contact_name' => $contact,
+            'email' => $email, 'phone' => $phone, 'riders' => $riders, 'leg' => $leg, 'leg_assumed' => $assumed];
+    respondThenRun($reply, function () use ($row) {
+        mailInstitutionReceived($row);
+        mailAdminInstitutionEntry($row);
+    });
 } catch (Throwable $e) {
     error_log('institution-entry: ' . $e->getMessage());
     instFail('Could not save your entry right now — please try again.', 500);
