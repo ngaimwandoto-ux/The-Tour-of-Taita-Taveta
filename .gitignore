@@ -2,3 +2,5 @@ config.php
 data/*.sqlite
 data/*.sqlite-journal
 mpesa-callback.log
+data/mail-outbox.log
+mail-config.php
