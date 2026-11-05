@@ -255,11 +255,11 @@
           <div class="jersey"></div>
           <div class="body"><div><div class="name">Open</div><div class="desc">Any bike, any local rider — just show up and ride</div></div><div class="price">KES 500</div></div>
         </div>
-        <div class="tier" data-value="college" data-price="1000" data-label="College &amp; University">
+        <div class="tier" data-value="college" data-label="College &amp; University">
           <div class="jersey"></div>
-          <div class="body"><div><div class="name">College &amp; University</div><div class="desc">Currently enrolled students of any college or university</div></div><div class="price">KES 1,000</div></div>
+          <div class="body"><div><div class="name">College &amp; University</div><div class="desc">Team entry per institution — registered here, paid by invoice</div></div><div class="price">Per team</div></div>
         </div>
-        <p class="fine-print">Entry fees for Elite and Amateur feed the Tour's prize pool for that category. Open and College &amp; University entries fund local participation, not the prize pool — <a href="#" id="kids-toggle" style="color:var(--accent-deep);text-decoration:underline;">registering a child instead? Kids' races are free →</a></p>
+        <p class="fine-print">Entry fees for Elite and Amateur feed the Tour's prize pool for that category. College &amp; University teams have their own prize pool. Open entries fund local participation, not the prize pool — <a href="#" id="kids-toggle" style="color:var(--accent-deep);text-decoration:underline;">registering a child instead? Kids' races are free →</a></p>
       </div>
 
       <form id="registration-form" novalidate>
@@ -289,11 +289,7 @@
             <option value="Funju">Leg 07 · Funju · date TBD</option>
           </select>
         </div>
-        <div class="field" id="institution-field" style="display:none;">
-          <label for="institution">College / University</label>
-          <input type="text" id="institution" name="institution" maxlength="120" placeholder="e.g. Taita Taveta University">
-        </div>
-        <div class="field">
+                <div class="field">
           <label for="team">Riding for a team? <span style="opacity:.6;font-weight:400;">(optional)</span></label>
           <select id="team" name="team_id"><option value="">No team — riding independently</option></select>
         </div>
@@ -302,6 +298,20 @@
         <div class="amount-line"><span>Amount due</span><span id="amount-echo">KES 3,000</span></div>
         <button type="submit" class="submit" id="submit-btn">Pay via M-Pesa</button>
         <div class="status-msg" id="status-msg"></div>
+      </form>
+      <form id="institution-form" novalidate style="display:none;">
+        <h3 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-style:italic;text-transform:uppercase;margin:0 0 0.4rem;">Register your institution's team</h3>
+        <p style="font-size:0.85rem;color:rgba(20,20,20,0.7);margin:0 0 1rem;">One entry per college or university team, for one leg. Nothing is charged online — we email an invoice with payment details, and your team is confirmed once payment is received.</p>
+        <div class="field"><label for="inst-name">College / University</label><input type="text" id="inst-name" maxlength="120" placeholder="e.g. Taita Taveta University" required></div>
+        <div class="field"><label for="inst-team">Team name <span style="opacity:.6;font-weight:400;">(optional)</span></label><input type="text" id="inst-team" maxlength="120" placeholder="Defaults to the institution's name"></div>
+        <div class="field"><label for="inst-contact">Contact person</label><input type="text" id="inst-contact" maxlength="100" required></div>
+        <div class="field"><label for="inst-email">Email for the invoice</label><input type="email" id="inst-email" required></div>
+        <div class="field"><label for="inst-phone">Phone</label><input type="tel" id="inst-phone" placeholder="+254 7XX XXX XXX" required></div>
+        <div class="field"><label for="inst-riders">Riders in the team</label><input type="number" id="inst-riders" min="1" max="100" required></div>
+        <div class="field"><label for="inst-leg">Which leg?</label><select id="inst-leg"><option value="">Next upcoming leg</option></select></div>
+        <div style="position:absolute;left:-9999px;" aria-hidden="true"><label>Leave this empty<input type="text" id="inst-website" tabindex="-1" autocomplete="off"></label></div>
+        <button type="submit" class="submit" id="institution-submit">Submit team entry</button>
+        <div class="status-msg" id="institution-status"></div>
       </form>
     </div>
 
@@ -321,6 +331,11 @@
           <div style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;text-transform:uppercase;color:rgba(20,20,20,0.5);">Amateur Prize Pool</div>
           <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.4rem;color:var(--accent-deep);" id="amateur-pool-total">KES 0</div>
           <div style="font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:rgba(20,20,20,0.5);"><span id="amateur-count">0</span> riders</div>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;text-transform:uppercase;color:rgba(20,20,20,0.5);">College &amp; University Pool</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.4rem;color:var(--accent-deep);" id="college-pool-total">KES 0</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:rgba(20,20,20,0.5);"><span id="college-count">0</span> team(s)</div>
         </div>
         <div>
           <div style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;text-transform:uppercase;color:rgba(20,20,20,0.5);">Open (excluded)</div>
@@ -842,6 +857,16 @@ async function fetchStats() {
             amateurCountEl.textContent = data.amateur_count;
         }
         
+        // Update College & University pool (teams)
+        const collegePoolEl = document.getElementById('college-pool-total');
+        const collegeCountEl = document.getElementById('college-count');
+        if (collegePoolEl) {
+            collegePoolEl.textContent = 'KES ' + Number(data.college_pool || 0).toLocaleString();
+        }
+        if (collegeCountEl) {
+            collegeCountEl.textContent = data.college_count || 0;
+        }
+
         // Update Open count
         const openCountEl = document.getElementById('open-count');
         if (openCountEl) {
@@ -866,6 +891,12 @@ async function fetchStats() {
                             <span style="color:var(--accent-deep);">${leg.amateur_count}</span>
                             <span style="color:rgba(20,20,20,0.3);">·</span>
                             <span style="color:var(--accent-deep);">KES ${Number(leg.amateur_pool).toLocaleString()}</span>
+                        </div>
+                        <div style="grid-column:1/-1;">
+                            <span style="color:rgba(20,20,20,0.5);">College &amp; Univ:</span>
+                            <span style="color:var(--accent-deep);">${leg.college_count || 0} team(s)</span>
+                            <span style="color:rgba(20,20,20,0.3);">·</span>
+                            <span style="color:var(--accent-deep);">KES ${Number(leg.college_pool || 0).toLocaleString()}</span>
                         </div>
                     </div>
                 </div>

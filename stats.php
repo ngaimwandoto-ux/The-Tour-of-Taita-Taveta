@@ -6,9 +6,11 @@
  *   - Homepage: total riders paid + the Elite / Amateur prize pools across ALL legs
  *   - Each leg page: that leg's paid-rider count + that leg's Elite / Amateur pools
  *
+ * College & University teams (paid by invoice, confirmed in admin/institutions.php)
+ * have their OWN pool, counted in teams.
  * Only status = 'paid' rows count. Pending / failed never show.
- * Elite and Amateur each have their OWN pool. Open and College & University entries
- * are counted as riders but are NOT part of any prize pool.
+ * Elite and Amateur each have their OWN pool. Open entries are counted as riders but
+ * are NOT part of any prize pool.
  */
 
 header('Content-Type: application/json');
@@ -16,6 +18,7 @@ header('Access-Control-Allow-Origin: *'); // no auth, no personal data — aggre
 header('Cache-Control: public, max-age=60');
 
 require __DIR__ . '/includes/database.php';
+require __DIR__ . '/includes/institutions.php';
 
 // Share of each paid Elite/Amateur entry fee that goes into the pool.
 // 1.0 = 100%. Change this ONE number if a cut comes off (e.g. 0.9 = 90%).
@@ -42,8 +45,8 @@ try {
         return [
             'leg' => $name,
             'paid_count' => 0,
-            'elite_count' => 0, 'amateur_count' => 0, 'open_count' => 0, 'college_count' => 0, 'other_count' => 0,
-            'elite_pool' => 0, 'amateur_pool' => 0, 'leg_prize_pool' => 0,
+            'elite_count' => 0, 'amateur_count' => 0, 'open_count' => 0, 'college_count' => 0, 'college_riders' => 0, 'other_count' => 0,
+            'elite_pool' => 0, 'amateur_pool' => 0, 'college_pool' => 0, 'leg_prize_pool' => 0,
         ];
     };
 
@@ -65,17 +68,30 @@ try {
             $perLeg[$key]['amateur_pool']  += (int) round($sum * POOL_SHARE);
         } elseif ($r['ticket'] === 'open') {
             $perLeg[$key]['open_count'] += $n;        // counted as a rider, never in the pool
-        } elseif ($r['ticket'] === 'college') {
-            $perLeg[$key]['college_count'] += $n;     // counted as a rider, never in the pool
         } else {
             $perLeg[$key]['other_count'] += $n;
         }
     }
 
+    // College & University teams: own pool, counted in TEAMS (riders shown separately)
+    ensureInstitutionTable($db);
+    $inst = $db->query("
+        SELECT LOWER(TRIM(leg)) AS leg, COUNT(*) AS teams, COALESCE(SUM(riders),0) AS riders, COALESCE(SUM(amount),0) AS s
+        FROM institution_entries WHERE status = 'paid'
+        GROUP BY LOWER(TRIM(leg))
+    ")->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($inst as $r) {
+        $key = $r['leg'];
+        if (!isset($perLeg[$key])) { $perLeg[$key] = $blank($r['leg']); }
+        $perLeg[$key]['college_count']  += (int) $r['teams'];
+        $perLeg[$key]['college_riders'] += (int) $r['riders'];
+        $perLeg[$key]['college_pool']   += (int) round(((int) $r['s']) * POOL_SHARE);
+    }
+
     $totals = $blank('All legs');
     foreach ($perLeg as $k => &$l) {
-        $l['leg_prize_pool'] = $l['elite_pool'] + $l['amateur_pool'];
-        foreach (['paid_count','elite_count','amateur_count','open_count','college_count','other_count','elite_pool','amateur_pool','leg_prize_pool'] as $f) {
+        $l['leg_prize_pool'] = $l['elite_pool'] + $l['amateur_pool'] + $l['college_pool'];
+        foreach (['paid_count','elite_count','amateur_count','open_count','college_count','college_riders','other_count','elite_pool','amateur_pool','college_pool','leg_prize_pool'] as $f) {
             $totals[$f] += $l[$f];
         }
     }
@@ -92,7 +108,10 @@ try {
         'amateur_count'  => $totals['amateur_count'],
         'amateur_pool'   => $totals['amateur_pool'],
         'open_count'     => $totals['open_count'],
-        'college_count'  => $totals['college_count'],
+        'college_count'  => $totals['college_count'],     // teams
+        'college_riders' => $totals['college_riders'],
+        'college_pool'   => $totals['college_pool'],
+        'prize_pool'     => $totals['leg_prize_pool'],
         'totals'         => $totals,
         'per_leg'        => array_values($perLeg),
         'generated_at'   => date('c'),

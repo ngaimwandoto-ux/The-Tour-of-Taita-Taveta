@@ -8,8 +8,9 @@
  * Once Safaricom returns a CheckoutRequestID, the registration is saved as
  * "pending". callback.php marks it "paid" once Safaricom confirms payment.
  *
- * UPDATED: College & University tier, optional team_id, server-side
- * check of the entry fee.
+ * UPDATED: optional team_id, server-side check of the entry fee.
+ * (College & University teams do NOT pay here — they register through
+ * institution-entry.php and pay by invoice / bank transfer.)
  */
 
 header('Content-Type: application/json');
@@ -37,7 +38,6 @@ $ENTRY_FEES = [
     'elite'   => 3000,
     'amateur' => 1500,
     'open'    => 500,
-    'college' => 1000,   // College & University tier — PLACEHOLDER, set the real fee
 ];
 
 // ---- Read + validate input ----
@@ -51,7 +51,6 @@ $leg         = trim($input['leg']    ?? '');
 $gender      = trim($input['gender'] ?? '');
 $amount      = (int)($input['amount'] ?? 0);
 $teamId      = (isset($input['team_id']) && $input['team_id'] !== '' && $input['team_id'] !== null) ? (int)$input['team_id'] : null;
-$institution = mb_substr(trim($input['institution'] ?? ''), 0, 120);
 
 function regFail(string $msg): void {
     http_response_code(400);
@@ -67,9 +66,6 @@ if (!isset($ENTRY_FEES[$ticket])) {
 }
 if ($amount !== $ENTRY_FEES[$ticket]) {
     regFail('The entry fee has changed — please refresh the page and try again.');
-}
-if ($ticket === 'college' && $institution === '') {
-    regFail('Enter your college or university name.');
 }
 
 $msisdn = mpesaNormalisePhone($phone);
@@ -100,12 +96,12 @@ try {
         }
 
         $stmt = $db->prepare("
-            INSERT INTO registrations (checkout_request_id, name, email, phone, ticket, leg, gender, amount, status, team_id, institution)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)
+            INSERT INTO registrations (checkout_request_id, name, email, phone, ticket, leg, gender, amount, status, team_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)
         ");
         $stmt->execute([
             $checkoutRequestId, $name, $email, $msisdn, $ticket, $leg, $gender, $amount,
-            $teamId, ($ticket === 'college' ? $institution : null),
+            $teamId,
         ]);
     }
 
