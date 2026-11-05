@@ -64,7 +64,7 @@
   <!-- LEG PRIZE POOL SECTION                       -->
   <!-- ============================================ -->
   <section id="leg-prize" style="margin:1.5rem 0;padding:1rem;border:2px solid var(--accent);background:rgba(242,140,15,0.06);">
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem;">
       <div>
         <span style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;text-transform:uppercase;color:rgba(20,20,20,0.5);">This Leg</span>
         <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.8rem;color:var(--accent-deep);" id="leg-prize-total">KES 0</div>
@@ -79,6 +79,11 @@
         <span style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;text-transform:uppercase;color:rgba(20,20,20,0.5);">Amateur</span>
         <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.2rem;color:var(--accent-deep);" id="leg-amateur-pool">KES 0</div>
         <div style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:rgba(20,20,20,0.5);"><span id="leg-amateur-count">0</span> riders</div>
+      </div>
+      <div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;text-transform:uppercase;color:rgba(20,20,20,0.5);">College &amp; University</span>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.2rem;color:var(--accent-deep);" id="leg-college-pool">KES 0</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:rgba(20,20,20,0.5);"><span id="leg-college-count">0</span> team(s)</div>
       </div>
     </div>
   </section>
@@ -483,46 +488,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
-<!-- Leg Prize Pool Script -->
-<script>
-// Fetch and display leg-specific prize pool
-async function fetchLegStats() {
-    try {
-        const res = await fetch('/stats.php');
-        const data = await res.json();
-        
-        if (!data.success || !Array.isArray(data.per_leg)) {
-            console.error('Stats API returned an unexpected shape:', data);
-            return;
-        }
-        
-        // Get current leg name from the page
-        const legName = 'Vuria/Wusi';
-        
-        // Find this leg in the per-leg data
-        const legData = data.per_leg.find(l => l.leg === legName);
-        
-        if (legData) {
-            const totalEl = document.getElementById('leg-prize-total');
-            const elitePoolEl = document.getElementById('leg-elite-pool');
-            const amateurPoolEl = document.getElementById('leg-amateur-pool');
-            const eliteCountEl = document.getElementById('leg-elite-count');
-            const amateurCountEl = document.getElementById('leg-amateur-count');
-            
-            if (totalEl) totalEl.textContent = 'KES ' + Number(legData.leg_prize_pool).toLocaleString();
-            if (elitePoolEl) elitePoolEl.textContent = 'KES ' + Number(legData.elite_pool).toLocaleString();
-            if (amateurPoolEl) amateurPoolEl.textContent = 'KES ' + Number(legData.amateur_pool).toLocaleString();
-            if (eliteCountEl) eliteCountEl.textContent = legData.elite_count;
-            if (amateurCountEl) amateurCountEl.textContent = legData.amateur_count;
-        }
-    } catch (err) {
-        console.error('Failed to fetch leg stats:', err);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', fetchLegStats);
-</script>
-
 <!-- ============================================ -->
 <!-- ACCOMMODATION CTA                            -->
 <!-- ============================================ -->
