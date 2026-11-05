@@ -1,12 +1,11 @@
 <?php
 /**
  * includes/registration-columns.php
- * Adds the two new registration columns to an EXISTING database without
+ * Adds the new registration column to an EXISTING database without
  * you running any migration by hand. Safe to call on every request:
  * it only alters the table if a column is missing.
  *
  *   team_id     — optional: which team the rider is racing for
- *   institution — College & University tier: the rider's institution
  */
 function ensureRegistrationColumns(PDO $db): void {
     $have = [];
@@ -15,8 +14,5 @@ function ensureRegistrationColumns(PDO $db): void {
     }
     if (empty($have['team_id'])) {
         $db->exec("ALTER TABLE registrations ADD COLUMN team_id INTEGER REFERENCES teams(id) ON DELETE SET NULL");
-    }
-    if (empty($have['institution'])) {
-        $db->exec("ALTER TABLE registrations ADD COLUMN institution TEXT");
     }
 }
