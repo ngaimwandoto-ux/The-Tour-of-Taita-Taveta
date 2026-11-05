@@ -2,7 +2,9 @@
  * assets/js/leg-stats.js
  * Fills the "This Leg / Elite / Amateur" prize section already on every
  * leg page (#leg-prize-total, #leg-elite-pool, #leg-elite-count,
- * #leg-amateur-pool, #leg-amateur-count) with live numbers from stats.php.
+ * #leg-amateur-pool, #leg-amateur-count, #leg-college-pool, #leg-college-count)
+ * with live numbers from stats.php. (Only needed on pages that do not already have
+ * their own stats script — in practice sagalla.html.)
  *
  * Nothing to configure: the leg is worked out from the page's file name
  * (Regions/sagalla.html -> Sagalla, vuria-wusi.html -> Vuria/Wusi, ...).
@@ -36,6 +38,8 @@
         set('leg-elite-count', l.elite_count);
         set('leg-amateur-pool', kes(l.amateur_pool));
         set('leg-amateur-count', l.amateur_count);
+        set('leg-college-pool', kes(l.college_pool));
+        set('leg-college-count', l.college_count);
       })
       .catch(function () { /* leave the page's own KES 0 in place */ });
   }
