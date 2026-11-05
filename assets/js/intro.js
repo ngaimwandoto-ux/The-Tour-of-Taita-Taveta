@@ -14,7 +14,7 @@
   var SPONSOR_PREFIX = 'Powered by';
   var SPONSOR_NAME   = 'XYZ Bank PLC';          // <- the sponsor's name
   var SPONSOR_LOGO   = 'logos/sponsors/xyz-bank.png';                      // <- optional, e.g. 'logos/sponsors/xyz-bank.png' (shown instead of the name)
-  var SHOW_MS        = 7000;                    // how long it stays up (2000–3000 feels right)
+  var SHOW_MS        = 9000;                    // how long it stays up (2000–3000 feels right)
   var MAX_WAIT_MS    = 6000;                    // never longer than this, even on a slow connection
   // =====================================================
 
