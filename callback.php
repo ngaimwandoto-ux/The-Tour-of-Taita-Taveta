@@ -36,33 +36,60 @@ if ($checkoutRequestId !== null && $resultCode !== null) {
 
     $notify = null;   // emails to send AFTER we've answered Safaricom
     $tables = ['registrations', 'visits', 'donations', 'bookings'];
-    foreach ($tables as $table) {
-        // Remember the row as it was, so a retried callback never sends a second email.
-        $before = $db->prepare("SELECT * FROM $table WHERE checkout_request_id = ?");
-        $before->execute([$checkoutRequestId]);
-        $row = $before->fetch(PDO::FETCH_ASSOC);
 
-        $stmt = $db->prepare("
-            UPDATE $table SET status = ?, mpesa_receipt = ?, updated_at = CURRENT_TIMESTAMP
-            WHERE checkout_request_id = ?
-        ");
-        $stmt->execute([$status, $mpesaReceipt, $checkoutRequestId]);
-        if ($stmt->rowCount() > 0) {
-            if ($row && $row['status'] !== 'paid' && $status === 'paid') {
-                $row['mpesa_receipt'] = $mpesaReceipt;
-                if ($table === 'registrations') {
-                    $notify = function () use ($row) { mailRegistrationReceipt($row); };
-                } elseif ($table === 'bookings') {
-                    $notify = function () use ($row) { mailAdminBookingPaid($row); };
-                }
+    // On a busy moment SQLite can answer "database is locked" for a split second.
+    // Try again a few times instead of giving up; if it still fails the raw message is
+    // already in mpesa-callback.log and reconcile.php will recover the payment.
+    $retry = function (callable $fn) {
+        for ($i = 1; ; $i++) {
+            try { return $fn(); }
+            catch (PDOException $e) {
+                $busy = stripos($e->getMessage(), 'locked') !== false || stripos($e->getMessage(), 'busy') !== false;
+                if (!$busy || $i >= 8) throw $e;
+                usleep(random_int(40000, 160000));
             }
-            break;
         }
+    };
+
+    try {
+        foreach ($tables as $table) {
+            // Remember the row as it was, so a retried callback never sends a second email.
+            $row = $retry(function () use ($db, $table, $checkoutRequestId) {
+                $before = $db->prepare("SELECT * FROM $table WHERE checkout_request_id = ?");
+                $before->execute([$checkoutRequestId]);
+                $found = $before->fetch(PDO::FETCH_ASSOC);
+                $before->closeCursor();   // finish the read BEFORE we write (an open read blocks the write)
+                return $found;
+            });
+
+            $changed = $retry(function () use ($db, $table, $status, $mpesaReceipt, $checkoutRequestId) {
+                $stmt = $db->prepare("
+                    UPDATE $table SET status = ?, mpesa_receipt = ?, updated_at = CURRENT_TIMESTAMP
+                    WHERE checkout_request_id = ?
+                ");
+                $stmt->execute([$status, $mpesaReceipt, $checkoutRequestId]);
+                return $stmt->rowCount();
+            });
+
+            if ($changed > 0) {
+                if ($row && $row['status'] !== 'paid' && $status === 'paid') {
+                    $row['mpesa_receipt'] = $mpesaReceipt;
+                    if ($table === 'registrations') {
+                        $notify = function () use ($row) { if (function_exists('mailRegistrationReceipt')) mailRegistrationReceipt($row); };
+                    } elseif ($table === 'bookings') {
+                        $notify = function () use ($row) { if (function_exists('mailAdminBookingPaid')) mailAdminBookingPaid($row); };
+                    }
+                }
+                break;
+            }
+        }
+    } catch (Throwable $e) {
+        error_log('callback: could not save ' . $checkoutRequestId . ': ' . $e->getMessage());
     }
 }
 
 $reply = json_encode(['ResultCode' => 0, 'ResultDesc' => 'Callback received']);
-if (!empty($notify)) {
+if (!empty($notify) && is_file(__DIR__ . '/includes/mailer.php')) {
     require __DIR__ . '/includes/mailer.php';
     respondThenRun($reply, $notify);
 } else {

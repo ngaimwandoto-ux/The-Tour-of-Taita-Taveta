@@ -92,17 +92,34 @@ try {
         if ($teamId !== null) {
             $t = $db->prepare("SELECT id FROM teams WHERE id = ? AND is_public = 1");
             $t->execute([$teamId]);
-            if (!$t->fetch()) { $teamId = null; }
+            $teamRow = $t->fetch();
+            $t->closeCursor();   // finish this read before the write below (an open read can block the write)
+            if (!$teamRow) { $teamId = null; }
         }
 
-        $stmt = $db->prepare("
-            INSERT INTO registrations (checkout_request_id, name, email, phone, ticket, leg, gender, amount, status, team_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)
-        ");
-        $stmt->execute([
-            $checkoutRequestId, $name, $email, $msisdn, $ticket, $leg, $gender, $amount,
-            $teamId,
-        ]);
+        $row = [$checkoutRequestId, $name, $email, $msisdn, $ticket, $leg, $gender, $amount, $teamId];
+        try {
+            // A busy moment can make SQLite say "locked" for a split second: wait and retry.
+            for ($try = 1; ; $try++) {
+                try {
+                    $stmt = $db->prepare("
+                        INSERT INTO registrations (checkout_request_id, name, email, phone, ticket, leg, gender, amount, status, team_id)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)
+                    ");
+                    $stmt->execute($row);
+                    break;
+                } catch (PDOException $e) {
+                    $busy = stripos($e->getMessage(), 'locked') !== false || stripos($e->getMessage(), 'busy') !== false;
+                    if (!$busy || $try >= 8) throw $e;
+                    usleep(random_int(40000, 160000));
+                }
+            }
+        } catch (Throwable $e) {
+            // The prompt is already on the rider's phone. Never lose who they are: keep the
+            // details in a log file you can read, and still answer normally.
+            error_log('mpesa-stk: could not save registration ' . $checkoutRequestId . ': ' . $e->getMessage());
+            @file_put_contents(dirname(DB_PATH) . '/unsaved-registrations.log', date('c') . ' ' . json_encode($row) . PHP_EOL, FILE_APPEND | LOCK_EX);
+        }
     }
 
     echo json_encode($result);

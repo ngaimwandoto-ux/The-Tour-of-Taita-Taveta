@@ -71,7 +71,9 @@ try {
     $ip = $_SERVER['REMOTE_ADDR'] ?? '';
     $recent = $db->prepare("SELECT COUNT(*) c FROM institution_entries WHERE ip = ? AND created_at > datetime('now','-1 hour')");
     $recent->execute([$ip]);
-    if ((int) $recent->fetch()['c'] >= 5) instFail('Too many entries from this connection — please try again later.', 429);
+    $recentCount = (int) $recent->fetch()['c'];
+    $recent->closeCursor();   // finish the read before writing below
+    if ($recentCount >= 5) instFail('Too many entries from this connection — please try again later.', 429);
 
     $st = $db->prepare("
         INSERT INTO institution_entries (institution, team_name, contact_name, email, phone, riders, leg, leg_assumed, ip)
