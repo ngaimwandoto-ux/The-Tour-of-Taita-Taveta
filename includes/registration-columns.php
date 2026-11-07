@@ -13,6 +13,12 @@ function ensureRegistrationColumns(PDO $db): void {
         $have[$col['name']] = true;
     }
     if (empty($have['team_id'])) {
-        $db->exec("ALTER TABLE registrations ADD COLUMN team_id INTEGER REFERENCES teams(id) ON DELETE SET NULL");
+        try {
+            $db->exec("ALTER TABLE registrations ADD COLUMN team_id INTEGER REFERENCES teams(id) ON DELETE SET NULL");
+        } catch (PDOException $e) {
+            // Two first-ever requests can reach this line together; the loser gets
+            // "duplicate column" (or a split-second lock). The column exists either way.
+            if (stripos($e->getMessage(), 'duplicate column') === false && stripos($e->getMessage(), 'locked') === false) throw $e;
+        }
     }
 }
